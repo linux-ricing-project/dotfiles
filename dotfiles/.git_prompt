@@ -1,0 +1,103 @@
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#       								~/.git_prompt de Frank
+# 			       					Welcome and don't Panic =D
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# [Descrição]:
+#
+# Arquivo onde fica toda a configuração do prompt
+# Deve ser carregado no ~/.bash_aliases
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+# Variaveis do prompt
+#-------------------------------------------------------------------------------
+	RESET="\[\\033[0m\]"
+	AZUL="\[\\033[0;30;34m\]"
+	AMARELO="\[\\033[0;30;33m\]"
+	VERDE="\[\\033[0;30;32m\]"
+	VERMELHO="\[\\033[0;30;31m\]"
+	AMARELO_NEGRITO="\[\\033[1;30;33m\]"
+
+#  Configuração do Git Prompt
+	GIT_PS1_SHOWDIRTYSTATE=1 # unstaged (*) and staged (+) changes
+	GIT_PS1_SHOWSTASHSTATE=1 # stashed ($)
+	GIT_PS1_SHOWUNTRACKEDFILES=1 # untracked (%)
+	GIT_PS1_SHOWUPSTREAM="auto" # behind (<), ahead (>), equal (=), diverged (<>)
+  GIT_PS1_SHOWCOLORHINTS=1
+
+# alias do Git
+#-------------------------------------------------------------------------------
+# olhe: http://opensource.apple.com/source/Git/Git-19/src/git-htmldocs/pretty-formats.txt
+
+  # <hash> <date> <user name> <commit message>
+  alias gl='git log -n 20 --oneline --reverse --date=short --pretty=format:"%Cgreen%h%Creset %Cred%ad%Creset %Cblue% %aN%Creset %s"'
+
+  # <hash> <date> <user email> <commit message>
+  alias gle='git log -n 20 --oneline --reverse --date=short --pretty=format:"%Cgreen%h%Creset %Cred%ad%Creset %Cblue% %ae%Creset %s"'
+
+  # pega o nome do repositório do git
+	alias git_repository_name="git config --get --local remote.origin.url"
+
+	# Deleta todas as branches locais, deixando só a current branch
+	alias git_clean_branches="git branch | grep -v \"\*\" | xargs -n 1 git branch -D"
+
+  # troca a branch salvando no stash temporariamente
+  function trocar_de_branch(){
+    local branch=$1
+    if [ ! -z "$branch" ];then
+      git stash save && git pull && git checkout "$branch" && git stash apply && git stash clear
+    else
+      echo "passe o nome da branch por parametro"
+      return 1
+    fi
+  }
+
+# Funções do Prompt
+#------------------------------------------------------------------------------
+
+	# localização desse script nativo do git --> /usr/lib/git-core/git-sh-prompt
+	# Script + documentação --> https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
+	function git_prompt {
+		echo $(__git_ps1)
+ 	}
+
+	# funcao pra saber se tem alguma modificacao a ser comitada ou nao
+	function parse_git_status {
+		# se nao tiver modificação, deixe amarelo
+		if [ $(git status 2> /dev/null | tail -1 | grep "nothing to commit" | wc -l) -eq 1 ];then
+			BRANCH="$AMARELO$(git_prompt)$RESET"
+		# ...se não, deixe amarelo negrito
+		else
+			BRANCH="$AMARELO_NEGRITO$(git_prompt)$RESET"
+		fi
+		echo "$BRANCH"
+	}
+
+	# Pinta de AZUL se o comando anterior rodou com sucesso
+	function parse_erro {
+		if [[ $? = "0" ]]; then
+			echo "$AZUL"
+		# ... se não, pinta de vermelho
+		else
+			echo "$VERMELHO"
+		fi
+	}
+
+	# coloca um separador no final do comando
+	function separador() {
+		string='-'
+		repeticoes=$(tput cols)
+		valor=$(printf "%-${repeticoes}s" "$string")
+		echo "${valor// /-}\n"
+	}
+
+# Prompt's
+#---------------------------------------------------------------------------------------
+# Prompt de Frank
+	PROMPT_COMMAND='PS1="$(parse_erro)$(separador)[\W]:$AMARELO$(parse_git_status)$RESET\n\$ "'
+
+# Prompt de Aurélio Jargas
+# PROMPT_COMMAND='__git_ps1 "\033[42;30m\u@\h:\w\033[m" "\n\\\$ "'
+
+# Prompt de Well
+	#PROMPT_COMMAND='PS1="\[\033[0;33m\][\!]\`if [[ \$? = "0" ]]; then echo "\\[\\033[32m\\]"; else echo "\\[\\033[31m\\]"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 18 ]]; then echo "\\W"; else echo "\\w"; fi\`]\$\[\033[0m\] "; echo -ne "\033]0;`hostname -s`:`pwd`\007"'

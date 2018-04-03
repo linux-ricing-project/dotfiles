@@ -1,0 +1,71 @@
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#       								~/.gitconfig de Frank
+# 			       					Welcome and don't Panic =D
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# [Descrição]:
+#   Arquivo onde fica as configurações globais do git
+#
+# Links úteis:
+#   Documentação [https://git-scm.com/docs/git-config]
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Credenciais
+# --------------------------------------------
+[include]
+    # Use arquivos separados para username, credentials, etc
+    path = ~/.gitconfig.local
+
+
+# editor
+# --------------------------------------------
+[core]
+	editor = atom
+
+
+# Cores
+# --------------------------------------------
+[color "branch"]
+	current = blue
+
+[color "decorate"]
+	HEAD = reverse
+
+
+# Merge
+# --------------------------------------------
+[merge]
+    tool = meld
+
+[mergetool "meld"]
+    cmd = meld --auto-merge "\"$LOCAL\" \"$BASE\" \"$REMOTE\" --output \"$MERGED\" --label \"MERGE (REMOTE BASE MY)\""
+    trustExitCode = false
+
+[mergetool]
+    # don't ask if we want to skip merge
+    prompt = false
+
+    # don't create backup *.orig files
+    keepBackup = false
+
+
+# Diff
+# --------------------------------------------
+[diff]
+	external = ~/.git_diff_meld.py
+
+[difftool "meld"]
+    cmd = meld "\"$LOCAL\" \"$REMOTE\" --label \"DIFF (ORIGINAL MY)\""
+
+
+# Outras configurações
+# --------------------------------------------
+[push]
+	# http://git-scm.com/docs/git-config.html, search push.default
+	# default = current  # Git 1.x
+	default = simple  # Git 2.x
+
+[http]
+	sslVerify = false
+
+[credential]
+	helper = cache

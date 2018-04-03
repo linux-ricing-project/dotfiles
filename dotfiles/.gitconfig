@@ -19,7 +19,7 @@
 # editor
 # --------------------------------------------
 [core]
-	editor = atom
+	editor = vim
 
 
 # Cores

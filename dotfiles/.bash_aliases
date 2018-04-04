@@ -58,6 +58,27 @@
   	printf "${vermelho}[ERROR] $1${reset}\n"
   }
 
+  # Syntax-highlight JSON strings or files
+  # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
+  function json() {
+    if dpkg -s python-pygments > /dev/null 2>&1;then
+    	if [ -t 0 ]; then # argument
+    		python -mjson.tool <<< "$*" | pygmentize -l javascript;
+    	else # pipe
+    		python -mjson.tool | pygmentize -l javascript;
+    	fi;
+    else
+      echo "instalando python-pygments..."
+      sudo apt-get install python-pygments
+      echo "execute o comando novamente"
+    fi
+
+}
+
+  # alias de navegação
+  alias ..="cd .."
+  alias back="cd -"
+
   # lista os alias de forma mais amigável
   alias aliases="alias | sed 's/=.*//'"
 

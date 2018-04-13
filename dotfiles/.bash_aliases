@@ -77,6 +77,7 @@
 
   # alias de navegação
   alias ..="cd .."
+  alias cd..="cd .."
   alias back="cd -"
 
   # lista os alias de forma mais amigável

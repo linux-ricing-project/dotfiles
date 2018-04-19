@@ -13,6 +13,11 @@
 # seta o teclado pra pt-br
   setxkbmap -layout br
 
+  # carregando as cores
+  if [ -L ~/.colors.sh ]; then
+      . ~/.colors.sh
+  fi
+
 # Alias Padrões
 #-------------------------------------------------------------------------------
 	# pra Linux
@@ -36,26 +41,17 @@
 
   # Função pra imprimir informação
   function print_info(){
-  	local amarelo="\033[33m"
-  	local reset="\033[m"
-
-  	printf "${amarelo}$1${reset}\n"
+  	printf "${text_yellow}$1${textreset}\n"
   }
 
   # Função pra imprimir mensagem de sucesso
   function print_success(){
-  	local verde="\033[32m"
-  	local reset="\033[m"
-
-  	printf "${verde}$1${reset}\n"
+  	printf "${text_green}$1${textreset}\n"
   }
 
   # Função pra imprimir erros
   function print_error(){
-  	local vermelho="\033[31m"
-  	local reset="\033[m"
-
-  	printf "${vermelho}[ERROR] $1${reset}\n"
+  	printf "${text_red}[ERROR] $1${textreset}\n"
   }
 
   # Syntax-highlight JSON strings or files

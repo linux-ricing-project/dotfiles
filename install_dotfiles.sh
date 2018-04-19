@@ -58,3 +58,5 @@ if [ -f "$wallpaper" ];then
     gsettings set org.gnome.desktop.background picture-uri file://${wallpaper_picture}
   fi
 fi
+
+echo "dotfiles instalados =D"

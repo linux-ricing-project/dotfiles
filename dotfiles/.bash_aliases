@@ -41,17 +41,17 @@
 
   # Função pra imprimir informação
   function print_info(){
-  	printf "${text_yellow}$1${textreset}\n"
+  	printf "${text_yellow}$1${text_reset}\n"
   }
 
   # Função pra imprimir mensagem de sucesso
   function print_success(){
-  	printf "${text_green}$1${textreset}\n"
+  	printf "${text_green}$1${text_reset}\n"
   }
 
   # Função pra imprimir erros
   function print_error(){
-  	printf "${text_red}[ERROR] $1${textreset}\n"
+  	printf "${text_red}[ERROR] $1${text_reset}\n"
   }
 
   # Syntax-highlight JSON strings or files

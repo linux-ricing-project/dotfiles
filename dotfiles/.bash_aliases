@@ -143,12 +143,12 @@
 	# lá de '/var/cache/apt/archives/'
 	function atualizar_computador(){
 		print_info "======= Update ======="
-		sudo apt-get update
+		sudo apt update
 		print_info "======= Upgrade ======="
-		sudo apt-get upgrade -y
-		sudo apt-get dist-upgrade -y
+		sudo apt upgrade -y
+		sudo apt dist-upgrade -y
 		print_info "======= Limpando as dependencias ======="
-		sudo apt-get -f -y install # resolvendo pacotes quebrados
+		sudo apt -f -y install # resolvendo pacotes quebrados
 		sudo apt-get autoremove -y
 		sudo apt-get clean -y
 	}

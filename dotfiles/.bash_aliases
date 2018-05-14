@@ -135,7 +135,7 @@
 	# limpa a lixeira
 	function limpar_lixeira(){
 		print_info "Limpando lixeira...."
-		rm -rf  ~/.local/share/Trash/*
+		rm -rfv  ~/.local/share/Trash/*
 		print_info "Lixeira vazia!"
 	}
 

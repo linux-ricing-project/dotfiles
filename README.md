@@ -1,4 +1,7 @@
 # dotfiles
+
+![dependence](https://img.shields.io/badge/linux-ubuntu_18.04-212121.svg?style=true)
+
 Meus arquivos de configuração.
 O script `install_dotfiles.sh` cria links simbólicos no $HOME com os arquivos.
 Depois de rodar o script é s abrir um novo terminal e todas as modificaçes serão feitas

@@ -35,6 +35,38 @@
 		alias ls="ls -G"
 	fi
 
+# Git Alias
+#-------------------------------------------------------------------------------
+# olhe: http://opensource.apple.com/source/Git/Git-19/src/git-htmldocs/pretty-formats.txt
+
+  # <hash> <date> <user name> <commit message>
+  alias gl='git log -n 20 --oneline --date=short --pretty=format:"%Cgreen%h%Creset %Cred%ad%Creset %Cblue% %aN%Creset %s"'
+
+  # <hash> <date> <user email> <commit message>
+  alias gle='git log -n 20 --oneline --date=short --pretty=format:"%Cgreen%h%Creset %Cred%ad%Creset %Cblue% %ae%Creset %s"'
+
+  # pega o nome do repositório do git
+	alias git_repository_name="git config --get --local remote.origin.url"
+
+	# Deleta todas as branches locais, deixando só a current branch
+	alias git_clean_branches="git branch | grep -v \"\*\" | xargs -n 1 git branch -D"
+
+  # troca a branch salvando no stash temporariamente
+  function trocar_de_branch(){
+    local branch=$1
+    if [ ! -z "$branch" ];then
+      git stash save && git pull && git checkout "$branch" && git stash apply && git stash clear
+    else
+      echo "passe o nome da branch por parametro"
+      return 1
+    fi
+  }
+
+  # undo commit, and files back to the 'stage area'
+  git_undo_commit(){
+    git reset HEAD~
+  }
+
 
 # Utilidades - Commons
 #-------------------------------------------------------------------------------

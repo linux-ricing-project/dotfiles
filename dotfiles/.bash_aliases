@@ -35,6 +35,24 @@
 		alias ls="ls -G"
 	fi
 
+# Utilidades - Commons
+#-------------------------------------------------------------------------------
+
+  # Função pra imprimir informação
+  function print_info(){
+  	printf "${text_yellow}$1${text_reset}\n"
+  }
+
+  # Função pra imprimir mensagem de sucesso
+  function print_success(){
+  	printf "${text_green}$1${text_reset}\n"
+  }
+
+  # Função pra imprimir erros
+  function print_error(){
+  	printf "${text_red}[ERROR] $1${text_reset}\n"
+  }
+
 # Git Alias
 #-------------------------------------------------------------------------------
 # olhe: http://opensource.apple.com/source/Git/Git-19/src/git-htmldocs/pretty-formats.txt
@@ -67,24 +85,8 @@
     git reset HEAD~
   }
 
-
-# Utilidades - Commons
-#-------------------------------------------------------------------------------
-
-  # Função pra imprimir informação
-  function print_info(){
-  	printf "${text_yellow}$1${text_reset}\n"
-  }
-
-  # Função pra imprimir mensagem de sucesso
-  function print_success(){
-  	printf "${text_green}$1${text_reset}\n"
-  }
-
-  # Função pra imprimir erros
-  function print_error(){
-  	printf "${text_red}[ERROR] $1${text_reset}\n"
-  }
+  # General Alias
+  #-------------------------------------------------------------------------------
 
   # Syntax-highlight JSON strings or files
   # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`

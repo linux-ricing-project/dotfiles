@@ -1,3 +1,5 @@
+<img alt="Icon" src="dotfiles-logo.png?raw=true" align="middle" height="114" width="400">
+
 # dotfiles
 
 ![dependence](https://img.shields.io/badge/linux-ubuntu_18.04-212121.svg?style=true)

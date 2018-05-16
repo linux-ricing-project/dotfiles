@@ -72,8 +72,21 @@
       sudo apt-get install -y python-pygments
       echo "execute o comando novamente"
     fi
-
 }
+  # create key ssh to git repositories (like github, gitlab..)
+  create_ssh_key(){
+    local git_email=$(git config --global --includes user.email)
+    if [ ! -z "$git_email" ];then
+      ssh-keygen -t rsa -C "$git_email"
+    fi
+  }
+
+  # get ssh key from file '~/.ssh/id_rsa.pub'
+  get_ssh_key(){
+    if [ -f ~/.ssh/id_rsa.pub ];then
+      cat ~/.ssh/id_rsa.pub
+    fi
+  }
 
   # alias de navegação
   alias ..="cd .."

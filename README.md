@@ -1,4 +1,4 @@
-<img alt="Icon" src="dotfiles-logo.png?raw=true" align="middle" height="114" width="400">
+<img alt="Icon" src="https://dotfiles.github.io/images/dotfiles-logo.png?raw=true" align="middle" height="114" width="400">
 
 # dotfiles
 

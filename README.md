@@ -2,6 +2,8 @@
 
 # dotfiles
 
+##### Inspired from `dotfiles` of [Aurélio Jargas](https://github.com/aureliojargas/dotfiles)
+
 ![dependence](https://img.shields.io/badge/linux-ubuntu_18.04-212121.svg?style=true)
 
 My config files.

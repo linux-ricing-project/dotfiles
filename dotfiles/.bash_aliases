@@ -108,7 +108,7 @@
     fi
 }
   # create key ssh to git repositories (like github, gitlab..)
-  create_ssh_key(){
+  ssh_create_key(){
     local git_email=$(git config --global --includes user.email)
     if [ ! -z "$git_email" ];then
       ssh-keygen -t rsa -C "$git_email"
@@ -116,7 +116,7 @@
   }
 
   # get ssh key from file '~/.ssh/id_rsa.pub'
-  get_ssh_key(){
+  ssh_get_key(){
     if [ -f ~/.ssh/id_rsa.pub ];then
       cat ~/.ssh/id_rsa.pub
     fi
@@ -240,9 +240,9 @@
 
   # restartar o adb
   function adb_restart {
-    sudo adb 'kill-server'
+    adb kill-server
     sleep 2
-    sudo adb start-server
+    adb start-server
   }
 
   # minha tag no logcat

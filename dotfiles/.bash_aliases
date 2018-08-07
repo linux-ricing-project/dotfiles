@@ -189,15 +189,21 @@
 	# atualiza o computador e limpa os pacotes .deb
 	# lá de '/var/cache/apt/archives/'
 	function atualizar_computador(){
-		print_info "======= Update ======="
+    print_info "Removendo pacotes não utilizados..."
+    sudo apt autoremove -y
+
+		print_info "Update..."
 		sudo apt update
-		print_info "======= Upgrade ======="
+
+		print_info "Upgrade..."
 		sudo apt upgrade -y
 		sudo apt dist-upgrade -y
-		print_info "======= Limpando as dependencias ======="
-		sudo apt -f -y install # resolvendo pacotes quebrados
-		sudo apt-get autoremove -y
-		sudo apt-get clean -y
+
+		print_info "Resolvendo pacotes quebrados..."
+		sudo apt -f -y install
+
+    print_info "limpando o repositório local..."
+		sudo apt clean -y
 	}
 
 	# alias pra extrair aquivo compactado.

@@ -196,6 +196,7 @@
 		sudo apt update
 
 		print_info "Upgrade..."
+    apt list --upgradable #
 		sudo apt upgrade -y
 		sudo apt dist-upgrade -y
 

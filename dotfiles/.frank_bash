@@ -13,6 +13,9 @@
   # Carregando arquivos
   #-------------------------------------------------------------------------------
 
+  # colocando o ~/bin no $PATH
+  export PATH=$PATH:$HOME/bin
+
   # carregando as cores
   # o 'test' verifica se o arquivo existe
   # o arquivo existindo, ele carrega o arquivo
@@ -20,9 +23,6 @@
   # o '.' é sinonimo do comando "source"
   # e o '$_' imprime o último argumento do último comando executado
   test -e ~/.colors.sh && . $_
-
-  # colocando os binários no $PATH.
-  test -d $HOME/bin && PATH="$_:$PATH"
 
   # carregando o .private_aliases
   test -e ~/.private_aliases && . $_

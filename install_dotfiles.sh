@@ -48,8 +48,8 @@ link_config_tools(){
     config="$(pwd)/$config"
 
     # se o arquivo já existir no $HOME, delete
-    if [ -L ~/$home_file ];then
-      rm ~/$home_file
+    if [ -L "$home_file" ];then
+      rm "$home_file"
     fi
 
     ln -s "$config" "$home_file"

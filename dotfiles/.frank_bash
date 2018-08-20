@@ -1,11 +1,8 @@
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#       								~/.bash_aliases de Frank
-# 			       					Welcome and don't Panic =D
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # [Descrição]:
 #
-# Arquivo onde fica todas os alias e funções
+# Arquivo onde fica todas os alias e funções e configurações do shell
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Configurações
@@ -13,10 +10,25 @@
 # seta o teclado pra pt-br
   setxkbmap -layout br
 
+  # Carregando arquivos
+  #-------------------------------------------------------------------------------
+
   # carregando as cores
-  if [ -L ~/.colors.sh ]; then
-      . ~/.colors.sh
-  fi
+  # o 'test' verifica se o arquivo existe
+  # o arquivo existindo, ele carrega o arquivo
+  # utilizando o '. $_'
+  # o '.' é sinonimo do comando "source"
+  # e o '$_' imprime o último argumento do último comando executado
+  test -e ~/.colors.sh && . $_
+
+  # colocando os binários no $PATH.
+  test -d $HOME/bin && PATH="$_:$PATH"
+
+  # carregando o .private_aliases
+  test -e ~/.private_aliases && . $_
+
+  # carregando o .git_prompt
+  test -e ~/.git_prompt && . $_
 
 # Alias Padrões
 #-------------------------------------------------------------------------------
@@ -163,22 +175,6 @@
 		fi
   }
 
-	# procura facilmente por um processo rodando
-	function psgrep() {
-		ps -aux | grep $1 | grep -v grep
-	}
-
-	# mata mais facilmente um processo rodando
-	function pskill() {
-		local pid
-		local nome_do_processo=$1
-
-		pid=$(ps -ax | grep $nome_do_processo | grep -v grep | awk '{ print $1 }')
-		echo -n "killing $nome_do_processo (process $pid)..."
-		kill -9 $pid
-		echo "$nome_do_processo morto!"
-	}
-
 	# limpa a lixeira
 	function limpar_lixeira(){
 		print_info "Limpando lixeira...."
@@ -254,17 +250,3 @@
 
   # minha tag no logcat
   alias minha_tag='adb logcat -s "fcbj":v'
-
-
-  # Carregando arquivos
-  #-------------------------------------------------------------------------------
-
-  # carregando o .private_aliases
-  if [ -L ~/.private_aliases ]; then
-      . ~/.private_aliases
-  fi
-
-  # carregando o .git_prompt
-  if [ -L ~/.git_prompt ]; then
-      . ~/.git_prompt
-  fi

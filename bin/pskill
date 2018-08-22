@@ -8,8 +8,7 @@
 # pskill <nome_do_processo>
 # ##############################################################################
 
-local pid
-local nome_do_processo=$1
+nome_do_processo=$1
 
 pid=$(ps -ax | grep $nome_do_processo | grep -v grep | awk '{ print $1 }')
 echo -n "killing $nome_do_processo..."

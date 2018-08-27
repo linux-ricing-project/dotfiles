@@ -10,6 +10,15 @@
 # seta o teclado pra pt-br
   setxkbmap -layout br
 
+# variáveis para colorir manpages
+export LESS_TERMCAP_mb=${bold_green}
+export LESS_TERMCAP_md=${bold_green}
+export LESS_TERMCAP_me=${text_reset}
+export LESS_TERMCAP_se=${text_reset}
+export LESS_TERMCAP_so=${bold_yellow}
+export LESS_TERMCAP_ue=${text_reset}
+export LESS_TERMCAP_us=${bold_red}
+
   # Carregando arquivos
   #-------------------------------------------------------------------------------
 
@@ -130,9 +139,7 @@
 
   # get ssh key from file '~/.ssh/id_rsa.pub'
   ssh_get_key(){
-    if [ -f ~/.ssh/id_rsa.pub ];then
-      cat ~/.ssh/id_rsa.pub
-    fi
+    test -f ~/.ssh/id_rsa.pub && cat $_
   }
 
   # alias de navegação

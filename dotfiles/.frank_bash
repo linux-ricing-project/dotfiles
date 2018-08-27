@@ -5,6 +5,27 @@
 # Arquivo onde fica todas os alias e funções e configurações do shell
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+# Carregando arquivos
+#-------------------------------------------------------------------------------
+
+# colocando o ~/bin no $PATH
+PATH=$PATH:$HOME/bin
+PATH=$PATH:$HOME/.local/bin
+
+# carregando as cores
+# o 'test' verifica se o arquivo existe
+# o arquivo existindo, ele carrega o arquivo
+# utilizando o '. $_'
+# o '.' é sinonimo do comando "source"
+# e o '$_' imprime o último argumento do último comando executado
+test -e ~/.colors.sh && . $_
+
+# carregando o .private_aliases
+test -e ~/.private_aliases && . $_
+
+# carregando o .git_prompt
+test -e ~/.git_prompt && . $_
+
 # Configurações
 #-------------------------------------------------------------------------------
 # seta o teclado pra pt-br
@@ -18,27 +39,6 @@ export LESS_TERMCAP_se=${text_reset}
 export LESS_TERMCAP_so=${bold_yellow}
 export LESS_TERMCAP_ue=${text_reset}
 export LESS_TERMCAP_us=${bold_red}
-
-  # Carregando arquivos
-  #-------------------------------------------------------------------------------
-
-  # colocando o ~/bin no $PATH
-  PATH=$PATH:$HOME/bin
-  PATH=$PATH:$HOME/.local/bin
-
-  # carregando as cores
-  # o 'test' verifica se o arquivo existe
-  # o arquivo existindo, ele carrega o arquivo
-  # utilizando o '. $_'
-  # o '.' é sinonimo do comando "source"
-  # e o '$_' imprime o último argumento do último comando executado
-  test -e ~/.colors.sh && . $_
-
-  # carregando o .private_aliases
-  test -e ~/.private_aliases && . $_
-
-  # carregando o .git_prompt
-  test -e ~/.git_prompt && . $_
 
 # Alias Padrões
 #-------------------------------------------------------------------------------

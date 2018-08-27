@@ -40,6 +40,9 @@ export LESS_TERMCAP_so=${bold_yellow}
 export LESS_TERMCAP_ue=${text_reset}
 export LESS_TERMCAP_us=${bold_red}
 
+# exibindo data e hora no comando 'history'
+export HISTTIMEFORMAT="%d/%m/%y %T "
+
 # Alias Padrões
 #-------------------------------------------------------------------------------
 	# pra Linux

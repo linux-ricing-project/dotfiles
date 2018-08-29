@@ -28,6 +28,7 @@ link_bin(){
 
 # carrega todos os dotfiles para o $HOME
 link_dotfiles(){
+  # linkando os arquivos
   for dotfile in dotfiles/.*[a-z]; do
     home_file=$(basename $dotfile)
     dotfile="$(pwd)/$dotfile"

@@ -1,0 +1,7 @@
+$include /etc/inputrc
+
+# TAB completion
+set completion-ignore-case On
+
+# No beeps
+set bell-style visible

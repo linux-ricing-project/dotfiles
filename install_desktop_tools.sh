@@ -8,7 +8,11 @@
 # ##############################################################################
 
 install_conky(){
-  sudo apt-get install conky-all
+  sudo apt install conky-all
+}
+
+install_terminator(){
+  sudo apt install terminator
 }
 
 install_albert(){
@@ -51,7 +55,10 @@ install_tint2(){
   cd ~ > /dev/null
 }
 
+sudo apt update
+
 install_conky
+install_terminator
 install_albert
 install_tint2
 

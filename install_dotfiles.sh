@@ -57,15 +57,15 @@ link_config_tools(){
   done
 }
 
-# carregando o frank_bash
-link_frank_bash(){
-  local load_frank_bash='
+# carregando o frankrc
+link_frankrc(){
+  local load_frankrc='
   # carregando minhas configs (alias, functions...)
-  test -f ~/.frank_bash && . ~/.frank_bash
+  test -f ~/.frankrc && . ~/.frankrc
   '
 
-  if [ ! $(grep '\. ~/.frank_bash' ~/.bashrc | wc -l) -ge 1 ];then
-    echo "$load_frank_bash" >> ~/.bashrc
+  if [ ! $(grep '\. ~/.frankrc' ~/.bashrc | wc -l) -ge 1 ];then
+    echo "$load_frankrc" >> ~/.bashrc
   fi;
 }
 
@@ -80,7 +80,7 @@ link_git_config(){
 
 link_bin
 link_dotfiles
-link_frank_bash
+link_frankrc
 link_config_tools
 # set_wallpaper
 

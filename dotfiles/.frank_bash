@@ -21,7 +21,7 @@ PATH=$PATH:$HOME/.local/bin
 test -e ~/.colors.sh && . $_
 
 # carregando o .private_aliases
-test -e ~/.private_aliases && . $_
+test -e ~/.localrc && . $_
 
 # carregando o .git_prompt
 test -e ~/.git_prompt && . $_

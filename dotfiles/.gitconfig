@@ -25,10 +25,17 @@
 # Cores
 # --------------------------------------------
 [color "branch"]
-	current = blue
+  current = blue bold
+  local = green bold
+  remote = red bold
 
 [color "decorate"]
 	HEAD = reverse
+
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
 
 # Alias
 # --------------------------------------------

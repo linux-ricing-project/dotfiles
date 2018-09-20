@@ -33,13 +33,12 @@
       position = 0
 [profiles]
   [[default]]
-    background_darkness = 0.87
+    background_darkness = 0.91
     background_image = None
     background_type = transparent
     copy_on_selection = True
     cursor_shape = ibeam
     font = Source Code Pro Medium 10
     foreground_color = "#4caf50"
-    palette = "#000000:#cd0000:#00cd00:#cdcd00:#0000ee:#cd00cd:#00cdcd:#e5e5e5:#7f7f7f:#ff0000:#00ff00:#ffff00:#5c5cff:#ff00ff:#00ffff:#ffffff"
     scrollback_infinite = True
     show_titlebar = False

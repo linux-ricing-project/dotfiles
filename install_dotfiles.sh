@@ -64,9 +64,9 @@ link_frankrc(){
   test -f ~/.frankrc && . ~/.frankrc
   '
 
-  if [ ! $(grep '\. ~/.frankrc' ~/.bashrc | wc -l) -ge 1 ];then
+  if ! grep -q "~/.frankrc" ~/.bashrc ;then
     echo "$load_frankrc" >> ~/.bashrc
-  fi;
+  fi
 }
 
 # movendo o arquivo de credenciais para o $HOME

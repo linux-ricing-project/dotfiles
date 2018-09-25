@@ -1,16 +1,18 @@
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+################################################################################
 # [Descrição]:
-#
-# Arquivo onde fica todas os alias e funções e configurações do shell
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#    Arquivo onde fica todos os meus alias, funções e configurações do shell
+################################################################################
 
-# Carregando arquivos
-#-------------------------------------------------------------------------------
+# set PATH
+################################################################################
 
 # colocando o ~/bin no $PATH
 PATH=$PATH:$HOME/bin
 PATH=$PATH:$HOME/.local/bin
+
+# Carregando arquivos
+################################################################################
 
 # carregando as cores
 # o 'test' verifica se o arquivo existe
@@ -27,7 +29,7 @@ test -e ~/.localrc && . $_
 test -e ~/.git_prompt && . $_
 
 # Configurações
-#-------------------------------------------------------------------------------
+################################################################################
 # seta o teclado pra pt-br
   setxkbmap -layout br
 
@@ -44,7 +46,7 @@ export LESS_TERMCAP_us=${bold_red}
 export HISTTIMEFORMAT="%d/%m/%y %T "
 
 # Alias Padrões
-#-------------------------------------------------------------------------------
+################################################################################
 	# pra Linux
 	if [ "Linux" = $(uname -s) ]; then
 		alias ls='ls --color=auto'
@@ -61,7 +63,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 	fi
 
 # Utilidades - Commons
-#-------------------------------------------------------------------------------
+################################################################################
 
   # Função pra imprimir informação
   function print_info(){
@@ -79,7 +81,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   }
 
 # Git Alias
-#-------------------------------------------------------------------------------
+################################################################################
 # olhe: http://opensource.apple.com/source/Git/Git-19/src/git-htmldocs/pretty-formats.txt
 
   # <hash> <date> <user name> <commit message>
@@ -110,8 +112,8 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     git reset HEAD~
   }
 
-  # General Alias
-  #-------------------------------------------------------------------------------
+# General Alias
+################################################################################
 
   # Syntax-highlight JSON strings or files
   # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
@@ -212,44 +214,6 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 
     print_info "limpando o repositório local..."
 		sudo apt clean -y
-	}
-
-	# alias pra extrair aquivo compactado.
-	function extract {
-		local file=$1
-
-	 if [ -z "$file" ]; then
-	    # display usage if no parameters given
-	    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
-	    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
-	    return 1
-	 else
-	    for n in $@; do
-	      if [ -f "$n" ] ; then
-	        case "${n%,}" in
-	          *.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
-	                       tar xvf "$n"       ;;
-	          *.lzma)      unlzma ./"$n"      ;;
-	          *.bz2)       bunzip2 ./"$n"     ;;
-	          *.rar)       unrar x -ad ./"$n" ;;
-	          *.gz)        gunzip ./"$n"      ;;
-	          *.zip)       unzip ./"$n"       ;;
-	          *.z)         uncompress ./"$n"  ;;
-	          *.7z|*.arj|*.cab|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.rpm|*.udf|*.wim|*.xar)
-	                       7z x ./"$n"        ;;
-	          *.xz)        unxz ./"$n"        ;;
-	          *.exe)       cabextract ./"$n"  ;;
-	          *)
-		           echo "extract: '$n' - unknown archive method"
-		           return 1
-	           ;;
-	        esac
-	      else
-	        echo "'$n' - file does not exist"
-	        return 1
-	      fi
-	    done
-	fi
 	}
 
   # restartar o adb

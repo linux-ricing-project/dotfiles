@@ -77,11 +77,20 @@ link_git_config(){
   fi
 }
 
+# movendo as configurações do Atom para ~/.atom
+link_atom_configs(){
+  if [ -e $HOME/.atom/config.cson ];then
+    rm $HOME/.atom/config.cson
+  fi
+  ln -s $(pwd)/atom/config.cson $HOME/.atom
+}
+
 
 link_bin
 link_dotfiles
 link_frankrc
 link_config_tools
+link_atom_configs
 # set_wallpaper
 
 echo "dotfiles instalados =D"

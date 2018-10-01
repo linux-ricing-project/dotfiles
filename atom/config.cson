@@ -1,0 +1,25 @@
+"*":
+  "atom-material-ui":
+    colors:
+      abaseColor: "#2196f3"
+      paintCursor: true
+      predefinedColor: "Blue"
+    tabs:
+      compactTabs: true
+    ui:
+      panelContrast: true
+      panelShadows: true
+  core:
+    telemetryConsent: "no"
+    themes: [
+      "atom-material-ui"
+      "atom-material-syntax-dark"
+    ]
+  editor:
+    fontSize: 12
+  "exception-reporting":
+    userId: "e49eea41-8fdc-424d-a54a-5cb1d1211d47"
+  minimap:
+    adjustAbsoluteModeHeight: true
+  welcome:
+    showOnStartup: false

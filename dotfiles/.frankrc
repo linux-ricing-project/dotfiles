@@ -100,7 +100,11 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   function trocar_de_branch(){
     local branch=$1
     if [ ! -z "$branch" ];then
-      git stash save && git pull && git checkout "$branch" && git stash apply && git stash clear
+      git stash save \
+      && git pull \
+      && git checkout "$branch" \
+      && git stash apply \
+      && git stash clear
     else
       echo "passe o nome da branch por parametro"
       return 1
@@ -145,6 +149,15 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   # get ssh key from file '~/.ssh/id_rsa.pub'
   ssh_get_key(){
     test -f ~/.ssh/id_rsa.pub && cat $_
+  }
+
+  # Função pra deletar os lock do apt-get.
+  # Usado principalmente, quando ele trava do nada.
+  apt-get-fix(){
+    sudo rm /var/lib/apt/lists/lock
+    sudo rm /var/cache/apt/archives/lock
+    sudo rm /var/lib/dpkg/lock
+    echo "OK"
   }
 
   # alias de navegação

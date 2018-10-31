@@ -7,12 +7,12 @@
 # Start TMUX
 # [reference: https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login]
 ################################################################################
-if which tmux > /dev/null 2>&1; then
-    # if not inside a tmux session,
-    # and if no session is started, start a new session
-    # test -z "$TMUX" && (tmux attach || tmux new-session)
-    test -z "$TMUX" && tmux new-session
-fi
+# if which tmux > /dev/null 2>&1; then
+#     # if not inside a tmux session,
+#     # and if no session is started, start a new session
+#     # test -z "$TMUX" && (tmux attach || tmux new-session)
+#     test -z "$TMUX" && tmux new-session
+# fi
 
 # set PATH
 ################################################################################
@@ -20,6 +20,9 @@ fi
 # colocando o ~/bin no $PATH
 PATH=$PATH:$HOME/bin
 PATH=$PATH:$HOME/.local/bin
+
+# set default editor to vim
+export EDITOR=vim
 
 # Carregando arquivos
 ################################################################################

@@ -10,6 +10,7 @@
       panelContrast: true
       panelShadows: true
   core:
+    closeDeletedFileTabs: true
     telemetryConsent: "no"
     themes: [
       "atom-material-ui"
@@ -17,6 +18,7 @@
     ]
   editor:
     fontSize: 12
+    invisibles: {}
   "exception-reporting":
     userId: "e49eea41-8fdc-424d-a54a-5cb1d1211d47"
   minimap:

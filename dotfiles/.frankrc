@@ -249,5 +249,13 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     adb start-server
   }
 
+  # função pra add job no cron programaticamente
+  add_cronjob(){
+    local comando=$1
+
+    (crontab -l 2> /dev/null ; echo "$comando") \
+    | sort - | uniq - | crontab -
+  }
+
   # minha tag no logcat
   alias minha_tag='adb logcat -s "fcbj":v'

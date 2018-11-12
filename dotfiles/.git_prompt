@@ -8,42 +8,59 @@
 # Deve ser carregado no ~/.bash_aliases
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-# Variaveis do prompt
-#-------------------------------------------------------------------------------
-
-#  Configuração do Git Prompt
-	GIT_PS1_SHOWDIRTYSTATE=1 # unstaged (*) and staged (+) changes
-	GIT_PS1_SHOWSTASHSTATE=1 # stashed ($)
-	GIT_PS1_SHOWUNTRACKEDFILES=1 # untracked (%)
-	GIT_PS1_SHOWUPSTREAM="auto" # behind (<), ahead (>), equal (=), diverged (<>)
-  GIT_PS1_SHOWCOLORHINTS=1
-
 # Funções do Prompt
 #------------------------------------------------------------------------------
 
-	# localização desse script nativo do git --> /usr/lib/git-core/git-sh-prompt
-	# Script + documentação --> https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
+	# imprime as modificações do git
 	function git_prompt {
-		echo $(__git_ps1)
- 	}
+		local git_prompt=""
+		local current_branch=""
+		local untracked_files=""
 
-	# funcao pra saber se tem alguma modificacao a ser comitada ou nao
-	function parse_git_status {
-		# se nao tiver modificação, deixe amarelo
-		if [ $(git status 2> /dev/null | tail -1 | grep "nothing to commit" | wc -l) -eq 1 ];then
-			branch="${text_yellow}$(git_prompt)${text_reset}"
-		else
-			# se tiver untracked files, pinte de roxo
-			if [ $(git status 2> /dev/null | tail -1 | grep "but untracked files present" | wc -l) -eq 1 ];then
-				branch="${text_purple}$(git_prompt)${text_reset}"
+		# sefor um diretório git, faça as opeçãoes
+		if git status > /dev/null 2>&1;then
+			current_branch=$(git branch 2> /dev/null | grep ^* | awk '{print $2}')
+			git_prompt=$current_branch
+
+			# verifique se tem "untracked files" (novos arquivos)
+			untracked_files=$(git ls-files --others --exclude-standard | wc -l)
+			if (( $untracked_files >= 1 ));then
+				git_prompt="${git_prompt}${text_yellow}|${text_red}untracked +${untracked_files}"
 			else
-				# ...se não, deixe amarelo negrito
-				branch="${bold_yellow}$(git_prompt)${text_reset}"
+				git_prompt="$git_prompt"
 			fi
+
+			# verifica se tem "modified files"
+			modified_files=$(git ls-files --modified | wc -l)
+			if (( $modified_files >= 1 ));then
+				git_prompt="${git_prompt}${text_yellow}|${text_cyan}modified +$modified_files"
+			else
+				git_prompt="$git_prompt"
+			fi
+
+			# verifica se tem arquivos para ser comitados
+			added_files=$(git diff --name-only --cached | wc -l)
+			if (( $added_files >= 1 ));then
+				git_prompt="${git_prompt}${text_yellow}|${text_green}added +$added_files"
+			else
+				git_prompt="$git_prompt"
+			fi
+
+			# verifica se algo no stash
+			stashed_files=$(git stash list | wc -l)
+			if (( $stashed_files >= 1 ));then
+				git_prompt="${git_prompt}${text_yellow}|${text_yellow}stashed +$stashed_files"
+			else
+				git_prompt="$git_prompt"
+			fi
+
+			echo "${text_yellow}(${git_prompt}${text_yellow})${text_reset}"
+
+		# ... se não for, não imprima nada
+		else
+			echo "${text_yellow}${git_prompt}${text_reset}"
 		fi
-		echo "$branch"
-	}
+ 	}
 
 	# Pinta de AZUL se o comando anterior rodou com sucesso
 	function parse_erro {
@@ -66,7 +83,7 @@
 # Prompt's
 #---------------------------------------------------------------------------------------
 # Prompt de Frank
-	PROMPT_COMMAND='PS1="$(parse_erro)$(separador)[\W]:$AMARELO$(parse_git_status)${text_reset}\n\$ "'
+	PROMPT_COMMAND='PS1="$(parse_erro)$(separador)[\W]:$AMARELO$(git_prompt)${text_reset}\n\$ "'
 
 # Prompt de Aurélio Jargas
 # PROMPT_COMMAND='__git_ps1 "\033[42;30m\u@\h:\w\033[m" "\n\\\$ "'

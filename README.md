@@ -76,7 +76,7 @@ Auxiliar python code, to open Meld in git diffs
 
 > .git_prompt
 
-File with my prompt (PS1) personalized, with git features (see screenshot)
+File with my prompt (PS1) personalized, with git features (see Demo)
 
 > .gitconfig
 
@@ -94,7 +94,7 @@ Configuration file of [Tmux](https://github.com/tmux/tmux/wiki)
 
 Configuration file of Vim
 
-### Demo
+## Demo
 
 <img alt="Icon" src="screenshots/prompt_example.gif?raw=true" align="center" hspace="1" vspace="1">
 

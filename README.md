@@ -92,9 +92,8 @@ Configuration file of [Tmux](https://github.com/tmux/tmux/wiki)
 
 > .vimrc
 
-Configuration file of Vim
+Configuration file of Vimmmmmmmmmmmm
 
 ## Demo
 
 <img alt="Icon" src="screenshots/prompt_example.gif?raw=true" align="center" hspace="1" vspace="1">
-

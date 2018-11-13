@@ -94,7 +94,7 @@ Configuration file of [Tmux](https://github.com/tmux/tmux/wiki)
 
 Configuration file of Vim
 
-### Demo
+## Demo
 
 <img alt="Icon" src="screenshots/prompt_example.gif?raw=true" align="center" hspace="1" vspace="1">
 

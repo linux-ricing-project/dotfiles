@@ -67,15 +67,10 @@
 				*"-0") upstream="behind +$(echo $upstream_count | cut -d "-" -f1)" ; pipe="${text_yellow}|" ;;
 				# diverged from upstream
 				*)
-					# is_conflict=$(git status -u no | grep "diverged" > /dev/null 2>&1)
-					# if $is_conflict ; then
-					# 		upstream="conflict" ; pipe="${text_yellow}|"
-					# else
-						ahead="ahead +$(echo $upstream_count | cut -d "-" -f2)"
-						behind="behind +$(echo $upstream_count | cut -d "-" -f1)"
-						pipe="${text_yellow}|${text_purple}"
-						upstream="${ahead}${pipe}${behind}"
-					# fi
+					ahead="ahead +$(echo $upstream_count | cut -d "-" -f2)"
+					behind="behind +$(echo $upstream_count | cut -d "-" -f1)"
+					pipe="${text_yellow}|${text_purple}"
+					upstream="${ahead}${pipe}${behind}"
 				;;
 			esac
 

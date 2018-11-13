@@ -68,9 +68,9 @@
 				# diverged from upstream
 				*)
 					# se for divergente, verifique se existe indicios de conflito
-					# (depoisn de terexecutado o 'git pull').
+					# (depois de ter executado o 'git pull').
 					# enquanto não existir, é apenas um "head +1 e behind +1".
-					# se acharo marcador do conflito, aí sim o resultado é "conflict"
+					# se achar o marcador do conflito, aí sim o resultado é "conflict"
 					if grep -r "<<<<<<< HEAD" . | grep -v ".git_prompt" > /dev/null 2>&1 ; then
 						upstream="conflict"
 						pipe="${text_yellow}|"
@@ -114,7 +114,7 @@
 # Prompt's
 #---------------------------------------------------------------------------------------
 # Prompt de Frank
-	PROMPT_COMMAND='PS1="$(parse_erro)$(separador)[\W]:$AMARELO$(git_prompt)${text_reset}\n\$ "'
+	PROMPT_COMMAND='PS1="$(parse_erro)$(separador)[\W]:$(git_prompt)${text_reset}\n\$ "'
 
 # Prompt de Aurélio Jargas
 # PROMPT_COMMAND='__git_ps1 "\033[42;30m\u@\h:\w\033[m" "\n\\\$ "'

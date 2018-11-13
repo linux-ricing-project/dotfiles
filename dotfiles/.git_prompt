@@ -54,17 +54,44 @@
 				git_prompt="$git_prompt"
 			fi
 
-			# verifica setem algo a sercomitado nessa remote-branch
-			upstream_files=$(git status -sb | sed "s/## //" | awk '{print $3}' | sed "s/\]//")
-			# '${#upstream_files}' verifica se o tamanho da string é zero.
-			# isso é necessário, para caso não tenha nada, o comando exibe 2 quebras de linha.
-			# Essa foi a maneira que eu encontrei de validar esse cenário.
-			# E a verificação dessa condição deve vir primeiro, se não, dá erro na outra verificação (o elif)
-			if (( ${#upstream_files} == 0 ));then
-				git_prompt="$git_prompt"
-			elif (( $upstream_files >= 1 ));then
-				git_prompt="${git_prompt}${text_yellow}|${text_purple}upstream +$upstream_files"
-			fi
+			upstream_count=$(git rev-list --count --left-right @{upstream}...HEAD | tr "\t" "-")
+			upstream=""
+			case "$upstream_count" in
+				# no upstream
+				"") upstream="" ; pipe="" ;;
+				# equal to upstream
+				"0-0") upstream="" ; pipe="" ;;
+				# ahead of upstream
+				"0-"*) upstream="ahead +$(echo $upstream_count | cut -d "-" -f2)" ; pipe="${text_yellow}|" ;;
+				# behind upstream
+				*"-0") upstream="behind +$(echo $upstream_count | cut -d "-" -f1)" ; pipe="${text_yellow}|" ;;
+				# diverged from upstream
+				*)
+					# is_conflict=$(git status -u no | grep "diverged" > /dev/null 2>&1)
+					# if $is_conflict ; then
+					# 		upstream="conflict" ; pipe="${text_yellow}|"
+					# else
+						ahead="ahead +$(echo $upstream_count | cut -d "-" -f2)"
+						behind="behind +$(echo $upstream_count | cut -d "-" -f1)"
+						pipe="${text_yellow}|${text_purple}"
+						upstream="${ahead}${pipe}${behind}"
+					# fi
+				;;
+			esac
+
+			git_prompt="${git_prompt}${pipe}${text_purple}${upstream}"
+
+			# # verifica setem algo a sercomitado nessa remote-branch
+			# upstream_files=$(git status -sb | sed "s/## //" | awk '{print $3}' | sed "s/\]//")
+			# # '${#upstream_files}' verifica se o tamanho da string é zero.
+			# # isso é necessário, para caso não tenha nada, o comando exibe 2 quebras de linha.
+			# # Essa foi a maneira que eu encontrei de validar esse cenário.
+			# # E a verificação dessa condição deve vir primeiro, se não, dá erro na outra verificação (o elif)
+			# if (( ${#upstream_files} == 0 ));then
+			# 	git_prompt="$git_prompt"
+			# elif (( $upstream_files >= 1 ));then
+			# 	git_prompt="${git_prompt}${text_yellow}|${text_purple}upstream +$upstream_files"
+			# fi
 
 			echo "${text_yellow}(${git_prompt}${text_yellow})${text_reset}"
 

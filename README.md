@@ -92,7 +92,7 @@ Configuration file of [Tmux](https://github.com/tmux/tmux/wiki)
 
 > .vimrc
 
-Configuration file of Vimmmmmmmm
+Configuration file of Vimsssssss
 
 ## Demo
 

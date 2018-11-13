@@ -67,14 +67,19 @@
 				*"-0") upstream="behind +$(echo $upstream_count | cut -d "-" -f1)" ; pipe="${text_yellow}|" ;;
 				# diverged from upstream
 				*)
-					# se for divergente, até agora, não sei como diferenciar
-					# um conflito, ou apenas umas alteração simples do local
-					# e do remoto. Dessa forma, ele só exibe o "ahead +x" e
-					# "behind +x"
-					ahead="ahead +$(echo $upstream_count | cut -d "-" -f2)"
-					behind="behind +$(echo $upstream_count | cut -d "-" -f1)"
-					pipe="${text_yellow}|${text_purple}"
-					upstream="${ahead}${pipe}${behind}"
+					# se for divergente, verifique se existe indicios de conflito
+					# (depoisn de terexecutado o 'git pull').
+					# enquanto não existir, é apenas um "head +1 e behind +1".
+					# se acharo marcador do conflito, aí sim o resultado é "conflict"
+					if grep -r "<<<<<<< HEAD" . | grep -v ".git_prompt" > /dev/null 2>&1 ; then
+						upstream="conflict"
+						pipe="${text_yellow}|"
+					else
+						ahead="ahead +$(echo $upstream_count | cut -d "-" -f2)"
+						behind="behind +$(echo $upstream_count | cut -d "-" -f1)"
+						pipe="${text_yellow}|${text_purple}"
+						upstream="${ahead}${pipe}${behind}"
+					fi
 				;;
 			esac
 

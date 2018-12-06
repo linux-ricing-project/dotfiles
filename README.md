@@ -96,7 +96,7 @@ Configuration file of Vim
 
 ## Prompt demo
 
-<img alt="Icon" src="screenshots/prompt_example.gif?raw=true" align="center" hspace="1" vspace="1">
+<img alt="Icon" src="screenshots/prompt_example.png?raw=true" align="center" hspace="1" vspace="1">
 
 ## Prompt demo with git conflicts
 

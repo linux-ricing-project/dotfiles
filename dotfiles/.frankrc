@@ -109,6 +109,27 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 	# Deleta todas as branches locais, deixando só a current branch
 	alias git_clean_branches="git branch | grep -v \"\*\" | xargs -n 1 git branch -D"
 
+  # alias rápido para commitar e dargit push ao mesmo tempo
+  function git_commit_push(){
+    local commit_msg=$1
+
+    if [ -n "$commit_msg" ];then
+      local current_branch=$(git branch | grep "^*" | awk '{print $2}')
+
+      git commit -a -m "$commit_msg"
+      git push origin "$current_branch"
+    else
+      echo "digite a mensagem do commit"
+      return 1
+    fi
+    
+  }
+
+  # undo commit, and files back to the 'stage area'
+  git_undo_commit(){
+    git reset HEAD~
+  }
+
   # troca a branch salvando no stash temporariamente
   function trocar_de_branch(){
     local branch=$1
@@ -122,11 +143,6 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
       echo "passe o nome da branch por parametro"
       return 1
     fi
-  }
-
-  # undo commit, and files back to the 'stage area'
-  git_undo_commit(){
-    git reset HEAD~
   }
 
 # General Alias

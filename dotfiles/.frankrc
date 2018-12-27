@@ -109,6 +109,9 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 	# Deleta todas as branches locais, deixando só a current branch
 	alias git_clean_branches="git branch | grep -v \"\*\" | xargs -n 1 git branch -D"
 
+  # undo commit, and files back to the 'stage area'
+  alias git_undo_commit="git reset HEAD~"
+
   # alias rápido para commitar e dargit push ao mesmo tempo
   function git_commit_push(){
     local commit_msg=$1
@@ -123,11 +126,6 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
       return 1
     fi
     
-  }
-
-  # undo commit, and files back to the 'stage area'
-  git_undo_commit(){
-    git reset HEAD~
   }
 
   # troca a branch salvando no stash temporariamente

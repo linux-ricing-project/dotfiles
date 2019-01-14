@@ -24,6 +24,11 @@ PATH=$PATH:$HOME/.local/bin
 # set default editor to vim
 export EDITOR=vim
 
+# exibindo sysinfo e system logo com o screenfetch
+if which screenfetch > /dev/null 2>&1 ;then
+  screenfetch
+fi
+
 # Carregando arquivos
 ################################################################################
 

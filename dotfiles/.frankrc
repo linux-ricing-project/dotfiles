@@ -32,8 +32,8 @@ PATH=$PATH:$HOME/.local/bin
 export EDITOR=vim
 
 # exibindo sysinfo e system logo com o screenfetch
-if which screenfetch > /dev/null 2>&1 ;then
-  screenfetch
+if which neofetch > /dev/null 2>&1 ;then
+  neofetch
 fi
 
 # Carregando arquivos

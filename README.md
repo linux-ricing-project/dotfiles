@@ -26,22 +26,6 @@ source ~/.bashrc
 
 [Atom](https://atom.io/) file configuration, with my personal preferences. The installer script, link this file into `$HOME/.atom/config.cson`
 
-## bin
-
-Directory with my own commands. The installer link this directory to `$HOME/bin`
-
-> extract
-
-command parser that extract any type of zip file. Use: `extract <file_name>`
-
-> psgrep
-
-With this command is easier find a running process
-
-> pskill
-
-With this command is easier kill a running process
-
 ## config
 
 Directory that have all config files, linking to `$HOME/.config`

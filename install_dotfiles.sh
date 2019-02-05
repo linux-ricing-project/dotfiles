@@ -20,12 +20,6 @@ set_wallpaper(){
   fi
 }
 
-# linkando os binários
-link_bin(){
-  test -d $HOME/bin || ln -s $(pwd)/bin $HOME/bin
-  chmod +x $HOME/bin/*
-}
-
 # carrega todos os dotfiles para o $HOME
 link_dotfiles(){
   # linkando os arquivos

@@ -168,7 +168,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
       sudo apt-get install -y jq
       echo "execute o comando novamente"
     fi
-}
+  }
 
   # Clipboard
   # use: "echo mensagem | setclip"
@@ -274,11 +274,39 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   }
 
   # função pra add job no cron programaticamente
-  add_cronjob(){
+  function add_cronjob(){
     local comando=$1
 
     (crontab -l 2> /dev/null ; echo "$comando") \
     | sort - | uniq - | crontab -
+  }
+
+  # Comando para procurar um processo rodando de forma mais filtrada.
+  function psgrep(){
+    local process_name=$1
+
+    if [ -z "$process_name" ];then
+      echo "insert process name as parameter"
+      return 1
+    fi
+
+    ps -aux | grep $process_name | grep -v grep
+  }
+
+  # Comando para matar um processo de forma mais fácil.
+  function pskill(){
+    local process_name=$1
+
+    if [ -z "$process_name" ];then
+      echo "insert process name as parameter"
+      return 1
+    fi
+
+    local pid=$(ps -ax | grep $process_name | grep -v grep | awk '{ print $1 }')
+    echo -n "killing $process_name..."
+    kill -9 $pid
+    echo "process $pid"
+    echo "$process_name morto!"
   }
 
   # minha tag no logcat

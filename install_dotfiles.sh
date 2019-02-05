@@ -80,7 +80,6 @@ link_atom_configs(){
 }
 
 
-link_bin
 link_dotfiles
 link_frankrc
 link_config_tools

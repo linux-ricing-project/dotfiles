@@ -51,6 +51,14 @@ link_config_tools(){
   done
 }
 
+# linkando o arquivo de configuração do albert
+link_albert_file(){
+  if [ -d "$HOME/.config/albert" ];then
+      test -e "$HOME/.config/albert/albert.conf" && rm -rf $_
+      ln -s "$(pwd)/albert/albert.conf" "$HOME/.config/albert/albert.conf"
+  fi  
+}
+
 # carregando o frankrc
 link_frankrc(){
   local load_frankrc='
@@ -83,6 +91,7 @@ link_atom_configs(){
 link_dotfiles
 link_frankrc
 link_config_tools
+link_albert_file
 link_atom_configs
 # set_wallpaper
 

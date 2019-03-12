@@ -51,12 +51,18 @@ link_config_tools(){
   done
 }
 
-# linkando o arquivo de configuração do albert
+
 link_albert_file(){
+  # linkando o arquivo de configuração do albert
   if [ -d "$HOME/.config/albert" ];then
       test -e "$HOME/.config/albert/albert.conf" && rm -rf $_
       ln -s "$(pwd)/albert/albert.conf" "$HOME/.config/albert/albert.conf"
-  fi  
+  fi
+
+  # linkando o arquivo .desktop para iniciar o albert no boot do Ubuntu
+  if [ -f "/usr/share/applications/albert.desktop" ];then
+    ln -s /usr/share/applications/albert.desktop ~/.config/autostart/
+  fi
 }
 
 # carregando o frankrc

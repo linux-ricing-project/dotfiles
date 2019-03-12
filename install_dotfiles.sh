@@ -60,7 +60,7 @@ link_albert_file(){
   fi
 
   # linkando o arquivo .desktop para iniciar o albert no boot do Ubuntu
-  if [ -f "/usr/share/applications/albert.desktop" ];then
+  if [ ! -f "$HOME/.config/autostart/albert.desktop" ];then
     ln -s /usr/share/applications/albert.desktop ~/.config/autostart/
   fi
 }

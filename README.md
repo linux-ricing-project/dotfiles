@@ -10,7 +10,7 @@ My config files.
 The script `install_dotfiles.sh` create symbolic links in the `$HOME` with the files.
 After that run the script, reload yout `~/.bashrc` with `source ~/.bashrc`
 
-# Uso
+# Install
 ```shell
 git clone git@github.com:frankjuniorr/dotfiles.git
 cd dotfiles
@@ -19,6 +19,12 @@ source ~/.bashrc
 ```
 
 # Files
+
+## albert
+
+> albert.conf
+
+[Albert](https://github.com/albertlauncher/albert) file configuration, with my personal preferences. The installer script, link this file into `$HOME/.config`
 
 ## atom
 

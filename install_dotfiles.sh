@@ -8,18 +8,6 @@
 
 set -e
 
-set_wallpaper(){
-  wallpaper="$HOME/Dropbox/Images/current_wallpaper.jpg"
-  wallpaper_picture="$HOME/Pictures/current_wallpaper.jpg"
-
-  if [ -f "$wallpaper" ];then
-    if [ ! -f "$wallpaper_picture" ];then
-      ln -s "$wallpaper" "$wallpaper_picture"
-      gsettings set org.gnome.desktop.background picture-uri file://${wallpaper_picture}
-    fi
-  fi
-}
-
 # carrega todos os dotfiles para o $HOME
 link_dotfiles(){
   # linkando os arquivos
@@ -94,6 +82,5 @@ link_frankrc
 link_config_tools
 link_albert_file
 link_atom_configs
-# set_wallpaper
 
 echo "dotfiles instalados =D"

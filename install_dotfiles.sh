@@ -82,5 +82,6 @@ link_frankrc
 link_config_tools
 link_albert_file
 link_atom_configs
+link_git_config
 
 echo "dotfiles instalados =D"

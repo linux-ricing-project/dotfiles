@@ -34,9 +34,9 @@
       position = 0
 [profiles]
   [[default]]
-    background_darkness = 0.91
+    background_color = "#222d32"
+    background_darkness = 0.97
     background_image = None
-    background_type = transparent
     copy_on_selection = True
     cursor_shape = ibeam
     font = Source Code Pro Medium 10

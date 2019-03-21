@@ -76,6 +76,17 @@ link_atom_configs(){
   ln -s $(pwd)/atom/config.cson $HOME/.atom
 }
 
+# criando uma chave genérica de SSH, pra ser executado a primeira vez
+create_ssh_key(){
+  if [ ! -f ~/.ssh/id_rsa.pub ];then
+    # -q --> is silent
+    # -t rsa --> generate key
+    # -N '' --> tells to use empty passphrase
+    # -f <file> --> the file with new key
+    ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa > /dev/null
+  fi
+}
+
 
 link_dotfiles
 link_frankrc
@@ -83,5 +94,6 @@ link_config_tools
 link_albert_file
 link_atom_configs
 link_git_config
+create_ssh_key
 
 echo "dotfiles instalados =D"

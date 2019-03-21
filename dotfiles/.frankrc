@@ -176,12 +176,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   alias getclip='xclip -selection clipboard -o'
 
   # create key ssh to git repositories (like github, gitlab..)
-  ssh_create_key(){
-    local git_email=$(git config --global --includes user.email)
-    if [ ! -z "$git_email" ];then
-      ssh-keygen -t rsa -C "$git_email"
-    fi
-  }
+  alias ssh_create_key='ssh-keygen -t rsa'
 
   # get ssh key from file '~/.ssh/id_rsa.pub'
   ssh_get_key(){

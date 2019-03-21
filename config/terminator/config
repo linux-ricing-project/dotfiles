@@ -40,6 +40,6 @@
     copy_on_selection = True
     cursor_shape = ibeam
     font = Source Code Pro Medium 10
-    foreground_color = "#4caf50"
+    foreground_color = "#ffffff"
     scrollback_infinite = True
     show_titlebar = False

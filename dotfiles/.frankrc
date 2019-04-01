@@ -124,7 +124,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   # undo commit, and files back to the 'stage area'
   alias git_undo_commit="git reset HEAD~"
 
-  # alias rápido para commitar e dargit push ao mesmo tempo
+  # alias rápido para commitar e dar git push ao mesmo tempo
   function git_commit_push(){
     local commit_msg=$1
 
@@ -132,6 +132,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
       local current_branch=$(git branch | grep "^*" | awk '{print $2}')
 
       git commit -a -m "$commit_msg"
+      gi pull
       git push origin "$current_branch"
     else
       echo "digite a mensagem do commit"
@@ -143,7 +144,17 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   # troca a branch salvando no stash temporariamente
   function trocar_de_branch(){
     local branch=$1
+    local repository_name=$(git config --get --local remote.origin.url)
+
+    # verificando se a branch foi passada por parametro
     if [ ! -z "$branch" ];then
+      # verificando se a branch existe
+      local branch_exist=$(git ls-remote --heads "$repository_name" "$branch")
+      if [ -z "$branch_exist" ];then
+        echo "branch não existe no repositório"
+        return 1
+      fi
+
       git stash save \
       && git pull \
       && git checkout "$branch" \
@@ -152,7 +163,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     else
       echo "passe o nome da branch por parametro"
       return 1
-    fi
+    fi    
   }
 
 # General Alias

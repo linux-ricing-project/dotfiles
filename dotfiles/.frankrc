@@ -132,7 +132,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
       local current_branch=$(git branch | grep "^*" | awk '{print $2}')
 
       git commit -a -m "$commit_msg"
-      gi pull
+      git pull
       git push origin "$current_branch"
     else
       echo "digite a mensagem do commit"

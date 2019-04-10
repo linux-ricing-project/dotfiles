@@ -166,6 +166,31 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     fi    
   }
 
+  # verifica se tem conflito com o remote
+  function git_verify_conflict(){
+    #  verificando se é um diretorio git
+    if git rev-parse --is-inside-work-tree > /dev/null 2>&1;then
+      echo "verificando conflito"
+      local current_branch=$(git branch | grep "^*" | awk '{print $2}')
+
+      git fetch > /dev/null 2>&1
+      # faz um merge sem commit e salva nesse arquivo temporário
+      git merge origin/${current_branch} --no-commit --no-ff > .conflict.txt 2>&1
+      if grep -q "CONFLICT" .conflict.txt;then
+          local conflict_file=$(grep "CONFLICT" .conflict.txt | awk '{print $6}')
+          # caso tenha conflito, formata a mensagem bonitinha
+          echo
+          echo "============ CONFLICT ============"
+          printf "${text_red}CONFLICT${text_reset} in ${text_yellow}${conflict_file}${text_reset}\n"
+          echo "=================================="
+          echo
+      fi
+      # aborta o merge, e deleta o arquivo temporário
+      git merge --abort
+      test -f .conflict.txt && rm -rf $_
+    fi
+  }
+
 # General Alias
 ################################################################################
 

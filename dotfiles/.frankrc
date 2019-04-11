@@ -124,6 +124,15 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   # undo commit, and files back to the 'stage area'
   alias git_undo_commit="git reset HEAD~"
 
+  # Função pra encurtar URLs do github
+  function github_shorten_url(){
+    local url="$1"
+    local code="$2"
+    test -z "$url" && echo "digite a URL que você quer encurtar" && return 1
+    test -z "$code" && echo "digite o nome customizado da URL" && return 1
+    curl --silent https://git.io/ -i -F "url=$url" -F "code=$code" | grep "Location" | awk '{print $2}'
+  }
+
   # alias rápido para commitar e dar git push ao mesmo tempo
   function git_commit_push(){
     local commit_msg=$1

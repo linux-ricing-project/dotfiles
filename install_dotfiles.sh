@@ -12,40 +12,31 @@ set -e
 link_dotfiles(){
   # linkando os arquivos
   for dotfile in dotfiles/.*[a-z]; do
-    home_file=$(basename $dotfile)
+    local home_dotfile=$(basename $dotfile)
     dotfile="$(pwd)/$dotfile"
 
     # se o arquivo já existir no $HOME, delete
-    if [ -L ~/$home_file ];then
-      rm ~/$home_file
+    if [ -L ~/$home_dotfile ];then
+      rm ~/$home_dotfile
     fi
 
-    ln -s "$dotfile" ~/$home_file
+    ln -s "$dotfile" ~/$home_dotfile
   done
 }
 
 # linkando os arquivos de configuração
 link_config_tools(){
   for config in config/*; do
-    home_file=$HOME/.config/$(basename $config)
+    local home_config="$HOME/.config/$(basename $config)"
     config="$(pwd)/$config"
 
     # se o arquivo já existir no $HOME, delete
-    if [ -d "$home_file" ];then
-      rm -rf "$home_file"
+    if [ -e "$home_config" ] || [ -d "$home_config" ];then
+      rm -rf "$home_config"
     fi
 
-    ln -s "$config" "$home_file"
+    ln -s "$config" "$home_config"
   done
-}
-
-
-link_albert_file(){
-  # linkando o arquivo de configuração do albert
-  if [ -d "$HOME/.config/albert" ];then
-      test -e "$HOME/.config/albert/albert.conf" && rm -rf $_
-      ln -s "$(pwd)/albert/albert.conf" "$HOME/.config/albert/albert.conf"
-  fi
 }
 
 # carregando o frankrc
@@ -68,14 +59,6 @@ link_git_config(){
   fi
 }
 
-# movendo as configurações do Atom para ~/.atom
-link_atom_configs(){
-  if [ -e $HOME/.atom/config.cson ];then
-    rm $HOME/.atom/config.cson
-  fi
-  ln -s $(pwd)/atom/config.cson $HOME/.atom
-}
-
 # criando uma chave genérica de SSH, pra ser executado a primeira vez
 create_ssh_key(){
   if [ ! -f ~/.ssh/id_rsa.pub ];then
@@ -91,8 +74,6 @@ create_ssh_key(){
 link_dotfiles
 link_frankrc
 link_config_tools
-link_albert_file
-link_atom_configs
 link_git_config
 create_ssh_key
 

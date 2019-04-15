@@ -40,11 +40,7 @@
 # Alias
 # --------------------------------------------
 [alias]
-  unstage = reset HEAD
-  last = log -1 HEAD
   visual = !gitk
-  st = status
-  uncommit = reset --soft HEAD^
   progress = diff --stat
   pg = diff --shortstat
 

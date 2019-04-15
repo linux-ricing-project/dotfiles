@@ -115,6 +115,12 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   # <hash> <date> <user email> <commit message>
   alias gle='git log -n 20 --oneline --date=short --pretty=format:"%Cgreen%h%Creset %Cred%ad%Creset %Cblue% %ae%Creset %s"'
 
+  # imprime apenas o ultimo commit
+  alias git_last_commit="git log -1 HEAD"
+
+  # desfaz as alteração do stage
+  alias git_unstage="git reset HEAD"
+
   # pega o nome do repositório do git
 	alias git_repository_name="git config --get --local remote.origin.url"
 
@@ -122,7 +128,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 	alias git_clean_branches="git branch | grep -v \"\*\" | xargs -n 1 git branch -D"
 
   # undo commit, and files back to the 'stage area'
-  alias git_undo_commit="git reset HEAD~"
+  alias git_undo_commit="git reset --soft HEAD^"
 
   # Função pra encurtar URLs do github
   function github_shorten_url(){

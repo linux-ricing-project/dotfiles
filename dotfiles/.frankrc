@@ -221,6 +221,19 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 # General Alias
 ################################################################################
 
+  # cria rapidamente um script novo
+  function fast_script(){
+    local filename="$1"
+    if [ -z "$filename" ];then
+      echo "digite o nome do script"
+      return 1
+    fi
+
+    echo '#!/bin/bash' > "${filename}.sh"
+    chmod +x "${filename}.sh"
+    code "${filename}.sh"
+  }
+
   # Syntax-highlight JSON strings or files
   # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
   function json() {
@@ -241,6 +254,9 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 
   # create key ssh to git repositories (like github, gitlab..)
   alias ssh_create_key='ssh-keygen -t rsa'
+
+  # alias pra recarregar o bashrc
+  alias refresh_bash='source ~/.bashrc > /dev/null && echo "bash refreshed"'
 
   # get ssh key from file '~/.ssh/id_rsa.pub'
   ssh_get_key(){

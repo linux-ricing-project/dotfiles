@@ -235,6 +235,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 
   # Clipboard
   # use: "echo mensagem | setclip"
+  # OBS: 'xclip' não vem instalado por padrão no SO.
   alias setclip='xclip -selection c'
   alias getclip='xclip -selection clipboard -o'
 

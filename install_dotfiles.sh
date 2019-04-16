@@ -31,7 +31,9 @@ link_config_tools(){
     config="$(pwd)/$config"
 
     # se o arquivo já existir no $HOME, delete
-    if [ -e "$home_config" ] || [ -d "$home_config" ];then
+    if [ -e "$home_config" ] ||\
+      [ -d "$home_config" ] ||\
+      [ -L "$home_config" ];then
       rm -rf "$home_config"
     fi
 

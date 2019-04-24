@@ -20,18 +20,6 @@ source ~/.bashrc
 
 # Files
 
-## albert
-
-> albert.conf
-
-[Albert](https://github.com/albertlauncher/albert) file configuration, with my personal preferences. The installer script, link this file into `$HOME/.config`
-
-## atom
-
-> config.cson
-
-[Atom](https://atom.io/) file configuration, with my personal preferences. The installer script, link this file into `$HOME/.atom/config.cson`
-
 ## config
 
 Directory that have all config files, linking to `$HOME/.config`
@@ -47,6 +35,10 @@ configutarion file with may profile preferencesof terminal [Terminator](https://
 > tint2
 
 Configuration file of all [tint2](https://gitlab.com/o9000/tint2) bars
+
+> albert.conf
+
+[Albert](https://github.com/albertlauncher/albert) file configuration, with my personal preferences. The installer script, link this file into `$HOME/.config`
 
 ## dotfiles
 

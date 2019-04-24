@@ -51,7 +51,7 @@
     # Criada por: Frank Junior
     # Ferramenta de auxílio: terminal.sexy
     # ==================================================================
-    palette = "#000000:#c62828:#2e7d32:#f9a825:#1976d2:#9C27B0:#64B5F6:#bdbdbd:#757575:#c62828:#2e7d32:#f9a825:#1976d2:#9C27B0:#64B5F6:#fafafa"
+    palette = "#000000:#c62828:#2e7d32:#f9a825:#1976d2:#BA68C8:#64B5F6:#bdbdbd:#757575:#c62828:#2e7d32:#f9a825:#1976d2:#BA68C8:#64B5F6:#fafafa"
     foreground_color = "#bdbdbd"
     background_color = "#000000"
     cursor_color = "#bdbdbd"

@@ -91,3 +91,9 @@ Configuration file of Vim
 ## Prompt demo with git conflicts
 
 <img alt="Icon" src="screenshots/conflict_example.png?raw=true" align="center" hspace="1" vspace="1">
+
+## Terminal example
+
+- Terminator + neofetch
+
+<img alt="Icon" src="screenshots/terminal_example.png?raw=true" align="center" hspace="1" vspace="1">

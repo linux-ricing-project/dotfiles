@@ -250,7 +250,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   }
 
   # Clipboard
-  # use: "echo mensagem | setclip"
+  # use: "echo mensagem | copiar"
   # OBS: 'xclip' não vem instalado por padrão no SO.
   alias copiar='xclip -selection c'
   alias colar='xclip -selection clipboard -o'

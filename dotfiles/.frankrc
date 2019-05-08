@@ -252,8 +252,8 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   # Clipboard
   # use: "echo mensagem | setclip"
   # OBS: 'xclip' não vem instalado por padrão no SO.
-  alias setclip='xclip -selection c'
-  alias getclip='xclip -selection clipboard -o'
+  alias copiar='xclip -selection c'
+  alias colar='xclip -selection clipboard -o'
 
   # create key ssh to git repositories (like github, gitlab..)
   alias ssh_create_key='ssh-keygen -t rsa'

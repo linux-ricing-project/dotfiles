@@ -17,8 +17,8 @@
 		local current_branch=""
 		local untracked_files=""
 
-		# sefor um diretório git, faça as opeçãoes
-		if git status > /dev/null 2>&1;then
+		# se for um diretório git, faça as operações
+    	if git rev-parse --is-inside-work-tree > /dev/null 2>&1;then
 			current_branch=$(git branch 2> /dev/null | grep ^* | awk '{print $2}')
 			git_prompt=$current_branch
 

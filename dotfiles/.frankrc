@@ -390,5 +390,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   # minha tag no logcat
   alias minha_tag='adb logcat -s "fcbj":v'
 
+  # download video do youtube
   alias youtube_download="youtube-dl --add-metadata -i -o '%(upload_date)s-%(title)s.%(ext)s'"
-  alias youtube_download_audio="youtube-dl --add-metadata -xic"
+  # download apenas o audio do vídeo do youtube em mp3
+  alias youtube_download_audio="youtube-dl --add-metadata --audio-format 'mp3' -xic -o '%(title)s.%(ext)s'"

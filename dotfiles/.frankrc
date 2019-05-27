@@ -74,7 +74,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 ################################################################################
 	# pra Linux
 	if [ "Linux" = $(uname -s) ]; then
-		alias ls='ls --color=auto'
+		alias ls='ls -h --color=auto --group-directories-first'
 		alias grep='grep --color=auto'
 		alias fgrep='fgrep --color=auto'
 		alias egrep='egrep --color=auto'
@@ -254,6 +254,46 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   # OBS: 'xclip' não vem instalado por padrão no SO.
   alias copiar='xclip -selection c'
   alias colar='xclip -selection clipboard -o'
+
+  # alias que mede a velocidade da internet
+  # OBS: o 'speedometer' não vem instalado por padrão
+  function internet_speed(){
+    if type speedometer > /dev/null 2>&1;then
+      local interface_cabo=$(ifconfig | grep "Link encap" | awk '{print $1}' | grep -v "docker\|lo")
+      speedometer -rx "$interface_cabo"
+    else
+      echo "speedometer não está instalado"
+      echo "instalando agora..."
+      sudo apt-get install -y speedometer
+      clear
+      echo "execute o comando novamente"
+    fi
+  }
+
+  # alias para ler um arquivo ou acessar um diretório.
+  # OBS: o comando "bat" não vem instalado por padrão.
+  function arquivo() {
+    local parametro="$1"
+    local file_type=$(file -i "$parametro" | awk '{print $2}' | grep "text")
+    if [ $# -eq 0 ];then
+        clear
+    elif [ -d "$parametro" ];then
+        cd "$parametro"
+    elif [ ! -z "$file_type" ];then
+      bat "$parametro"
+    fi
+}
+
+# Ref: https://github.com/paulmillr/dotfiles/blob/master/home/.zshrc.sh
+# Find files and exec commands at them.
+# $ find-exec .coffee cat | wc -l
+# # => 9762
+function find-exec() {
+  find . -type f -iname "*${1:-}*" -exec "${2:-file}" '{}' \;
+}
+
+  # alias pra pegar o clima
+  alias clima='curl pt.wttr.in'
 
   # create key ssh to git repositories (like github, gitlab..)
   alias ssh_create_key='ssh-keygen -t rsa'

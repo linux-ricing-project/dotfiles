@@ -255,6 +255,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   alias copiar='xclip -selection c'
   alias colar='xclip -selection clipboard -o'
 
+  # Ref: https://github.com/SeraphyBR/DotFiles/blob/master/.zshrc
   # alias que mede a velocidade da internet
   # OBS: o 'speedometer' não vem instalado por padrão
   function internet_speed(){
@@ -270,6 +271,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     fi
   }
 
+  # Ref: https://github.com/SeraphyBR/DotFiles/blob/master/.zshrc
   # alias para ler um arquivo ou acessar um diretório.
   # OBS: o comando "bat" não vem instalado por padrão.
   function arquivo() {
@@ -292,6 +294,7 @@ function find-exec() {
   find . -type f -iname "*${1:-}*" -exec "${2:-file}" '{}' \;
 }
 
+  # Ref: https://github.com/paulmillr/dotfiles/blob/master/home/.zshrc.sh
   # alias pra pegar o clima
   alias clima='curl pt.wttr.in'
 

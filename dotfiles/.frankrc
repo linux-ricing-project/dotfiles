@@ -241,7 +241,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
   function json() {
     if type jq > /dev/null 2>&1;then
-    	jq '.'
+    	jq '.' $*
     else
       echo "instalando o jq"
       sudo apt-get install -y jq
@@ -369,9 +369,6 @@ function find-exec() {
 	# atualiza o computador e limpa os pacotes .deb
 	# lá de '/var/cache/apt/archives/'
 	function atualizar_computador(){
-    print_info "Removendo pacotes não utilizados..."
-    sudo apt autoremove -y
-
 		print_info "Update..."
 		sudo apt update
 
@@ -384,6 +381,8 @@ function find-exec() {
 		sudo apt -f -y install
 
     print_info "limpando o repositório local..."
+    sudo apt autoremove -y
+    sudo apt autoclean -y
 		sudo apt clean -y
 	}
 

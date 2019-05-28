@@ -429,6 +429,8 @@ function find-exec() {
     echo "$process_name morto!"
   }
 
+  # alias do youtube-dl apontando para imagem do docker
+  alias youtube-dl='docker run --rm -u $(id -u):$(id -g) -v $PWD:/data vimagick/youtube-dl'
   # download video do youtube
   alias youtube_download="youtube-dl --add-metadata -i -o '%(upload_date)s-%(title)s.%(ext)s'"
   # download apenas o audio do vídeo do youtube em mp3

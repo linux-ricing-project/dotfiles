@@ -271,6 +271,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     fi
   }
 
+  alias bat='docker run -it --rm -e BAT_THEME -e BAT_STYLE -e BAT_TABS -v "$(pwd):/myapp" danlynn/bat'
   # Ref: https://github.com/SeraphyBR/DotFiles/blob/master/.zshrc
   # alias para ler um arquivo ou acessar um diretório.
   # OBS: o comando "bat" não vem instalado por padrão.

@@ -312,10 +312,11 @@ function find-exec() {
 
   # Função pra deletar os lock do apt-get.
   # Usado principalmente, quando ele trava do nada.
-  apt-get-fix(){
-    sudo rm /var/lib/apt/lists/lock
-    sudo rm /var/cache/apt/archives/lock
-    sudo rm /var/lib/dpkg/lock
+  apt-get_fix(){
+    sudo rm -rf /var/lib/apt/lists/lock
+    sudo rm -rf /var/cache/apt/archives/lock
+    sudo rm -rf /var/lib/dpkg/lock
+    sudo rm -rf /var/lib/dpkg/lock-frontend
     echo "OK"
   }
 

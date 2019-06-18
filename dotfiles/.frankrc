@@ -297,6 +297,7 @@ function find-exec() {
 
 # Alias para criar um novo diretório e entrar nele, logo na sequencia
 function new_dir(){
+  test -z $1 && echo "passe o nome do novo diretorio por parametro" && return 1
   mkdir -p "$@" && cd "$@"
 }
 

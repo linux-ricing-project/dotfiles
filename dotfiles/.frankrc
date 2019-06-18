@@ -31,7 +31,7 @@ PATH=$PATH:$HOME/.local/bin
 # set default editor to vim
 export EDITOR=vim
 
-# exibindo sysinfo e system logo com o screenfetch
+# exibindo sysinfo e system logo com o neofetch
 if which neofetch > /dev/null 2>&1 ;then
   neofetch
 fi
@@ -295,6 +295,11 @@ function find-exec() {
   find . -type f -iname "*${1:-}*" -exec "${2:-file}" '{}' \;
 }
 
+# Alias para criar um novo diretório e entrar nele, logo na sequencia
+function new_dir(){
+  mkdir -p "$@" && cd "$@"
+}
+
   # Ref: https://github.com/paulmillr/dotfiles/blob/master/home/.zshrc.sh
   # alias pra pegar o clima
   alias clima='curl pt.wttr.in'
@@ -375,7 +380,6 @@ function find-exec() {
 		sudo apt update
 
 		print_info "Upgrade..."
-    apt list --upgradable
 		sudo apt upgrade -y
 		sudo apt dist-upgrade -y
 

@@ -255,22 +255,6 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   alias copiar='xclip -selection c'
   alias colar='xclip -selection clipboard -o'
 
-  # Ref: https://github.com/SeraphyBR/DotFiles/blob/master/.zshrc
-  # alias que mede a velocidade da internet
-  # OBS: o 'speedometer' não vem instalado por padrão
-  function internet_speed(){
-    if type speedometer > /dev/null 2>&1;then
-      local interface_cabo=$(ifconfig | grep "Link encap" | awk '{print $1}' | grep -v "docker\|lo")
-      speedometer -rx "$interface_cabo"
-    else
-      echo "speedometer não está instalado"
-      echo "instalando agora..."
-      sudo apt-get install -y speedometer
-      clear
-      echo "execute o comando novamente"
-    fi
-  }
-
   alias bat='docker run -it --rm -e BAT_THEME -e BAT_STYLE -e BAT_TABS -v "$(pwd):/myapp" danlynn/bat'
   # Ref: https://github.com/SeraphyBR/DotFiles/blob/master/.zshrc
   # alias para ler um arquivo ou acessar um diretório.

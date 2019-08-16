@@ -213,6 +213,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
       git stash save \
       && git pull \
       && git checkout "$branch" \
+      && git clean -f -d \
       && git stash apply \
       && git stash clear
     else

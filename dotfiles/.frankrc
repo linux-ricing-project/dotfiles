@@ -303,11 +303,14 @@ function new_dir(){
 
   # Função pra deletar os lock do apt-get.
   # Usado principalmente, quando ele trava do nada.
+  # Além de reconfigurar o dpkg e resolver os pacotes quebrados
   apt-get_fix(){
     sudo rm -rf /var/lib/apt/lists/lock
     sudo rm -rf /var/cache/apt/archives/lock
     sudo rm -rf /var/lib/dpkg/lock
     sudo rm -rf /var/lib/dpkg/lock-frontend
+    sudo apt --fix-broken install
+    sudo dpkg --configure -a
     echo "OK"
   }
 

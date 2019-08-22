@@ -355,6 +355,20 @@ function new_dir(){
 		fi
   }
 
+  # Função usada para converter a diferença de "line ending"
+  # entre Windows (CRLF) e Linux (LF). Pra não ter que usar um
+  # pacote externo (dos2unix), preferi usar o sed.
+  # ele converte o "line-ending" do Windows ('\r') para o Linux.
+  # uso: chame o alias passando um arquivod e texto por parametro.
+  function winToLinux(){
+    local file=$1
+    
+    test -z "$file" && echo "passe um arquivo por parametro" && return 1
+    test ! -f "$file" && echo "passe um arquivo válido" && return 1
+
+    sed -i 's/\r$//' "$file"
+  }
+
 	# limpa a lixeira
 	function limpar_lixeira(){
 		print_info "Limpando lixeira...."

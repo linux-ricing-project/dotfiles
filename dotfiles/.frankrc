@@ -131,7 +131,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   alias git_undo_commit="git reset --soft HEAD^"
 
   # remove all untracked files, is case of you want to clean in repo.
-  alias git_remove_untracked_files="git clean -df"
+  alias git_remove_untracked_files="rm -rf $(git ls-files --others --exclude-standard | xargs)"
 
   # Função pra encurtar URLs do github
   function github_shorten_url(){

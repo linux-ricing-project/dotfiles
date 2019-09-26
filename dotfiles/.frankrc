@@ -135,6 +135,20 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     rm -rf $(git ls-files --others --exclude-standard | xargs)
   }
 
+  # Função para renomear uma tag no git
+  function git_rename_tags(){
+    local old_tag="$1"
+    local new_tag="$2"
+
+    test -z "$old_tag" && echo "digite a tag antiga no 1º parametro" && return 1
+    test -z "$new_tag" && echo "digite a tag nova no 2º parametro" && return 1
+
+    git tag "$new_tag" "$old_tag"
+    git tag -d "$old_tag"
+    git push origin ":refs/tags/${old_tag}"
+    git push --tags
+  }
+
   # Função pra encurtar URLs do github
   function github_shorten_url(){
     local url="$1"

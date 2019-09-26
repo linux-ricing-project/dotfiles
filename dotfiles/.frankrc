@@ -135,6 +135,15 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     rm -rf $(git ls-files --others --exclude-standard | xargs)
   }
 
+  # Função que cria uma nova branch local, a partir deu uma tag no git
+  function git_new_branch_from_tag(){
+    local tag="$1"
+
+    test -z "$tag" && echo "digite o nome da tag por parametro" && return 1
+
+    git checkout -b "$tag" "$tag"
+  }
+
   # Função para renomear uma tag no git
   function git_rename_tags(){
     local old_tag="$1"

@@ -330,10 +330,10 @@ function new_dir(){
   # Usado principalmente, quando ele trava do nada.
   # Além de reconfigurar o dpkg e resolver os pacotes quebrados
   apt-get_fix(){
-    sudo rm -rf /var/lib/apt/lists/lock
-    sudo rm -rf /var/cache/apt/archives/lock
-    sudo rm -rf /var/lib/dpkg/lock
-    sudo rm -rf /var/lib/dpkg/lock-frontend
+    test -f /var/lib/apt/lists/lock && sudo rm -rf /var/lib/apt/lists/lock
+    test -f /var/cache/apt/archives/lock && sudo rm -rf /var/cache/apt/archives/lock
+    test -f /var/lib/dpkg/lock && sudo rm -rf /var/lib/dpkg/lock
+    test -f /var/lib/dpkg/lock-frontend && sudo rm -rf /var/lib/dpkg/lock-frontend
     sudo apt --fix-broken install
     sudo dpkg --configure -a
     echo "OK"
@@ -424,6 +424,25 @@ function new_dir(){
     sudo apt autoclean -y
 		sudo apt clean -y
 	}
+
+  # alias temporário para corrigir o bug de cloudormation-capabilities do ansible.
+  # sempre que o ansible é atualziado via apt-get, ele perde o fix.
+  function fix_ansible_capabilities(){
+    # variável que guarda o local de instalação do ansible.
+    # OBS: esses dois 'dirname' estão aí, pq um pega o 'dirname' do comando 'ansible'
+    # 	O outro pega o 'dirname' do diretório bin, ou seja, eles removem o '/bin/ansible' da string
+    local ansible_installation=$(dirname $(dirname $(which ansible)))
+
+    # variável que guarda o endereço absoluto do 'cloudformation.py'
+    local cloudformation_module=$(find "$ansible_installation" -iname "cloudformation.py" | grep modules)
+
+    if ! grep -q "CAPABILITY_AUTO_EXPAND" "$cloudformation_module"; then
+      sudo sed -i "s/CAPABILITY_NAMED_IAM/CAPABILITY_NAMED_IAM', 'CAPABILITY_AUTO_EXPAND/g" "$cloudformation_module"	
+      echo "arquivo 'cloudformation.py' alterado com sucesso!"
+    else
+      echo "OK: O arquivo 'cloudformation.py' já foi alterado com o 'CAPABILITY_AUTO_EXPAND'"
+    fi
+  }
 
   # restartar o adb
   function adb_restart {

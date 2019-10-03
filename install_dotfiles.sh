@@ -16,8 +16,10 @@ link_dotfiles(){
     dotfile="$(pwd)/$dotfile"
 
     # se o arquivo já existir no $HOME, delete
-    if [ -L ~/$home_dotfile ];then
-      rm ~/$home_dotfile
+    if [ -e ~/$home_dotfile ] ||\
+       [ -f ~/$home_dotfile ] ||\
+       [ -L ~/$home_dotfile ];then
+        rm -rf ~/$home_dotfile
     fi
 
     ln -s "$dotfile" ~/$home_dotfile
@@ -32,9 +34,9 @@ link_config_tools(){
 
     # se o arquivo já existir no $HOME, delete
     if [ -e "$home_config" ] ||\
-      [ -d "$home_config" ] ||\
-      [ -L "$home_config" ];then
-      rm -rf "$home_config"
+       [ -d "$home_config" ] ||\
+       [ -L "$home_config" ];then
+        rm -rf "$home_config"
     fi
 
     ln -s "$config" "$home_config"

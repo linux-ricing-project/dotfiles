@@ -21,13 +21,6 @@
 #     test -z "$TMUX" && tmux new-session
 # fi
 
-# set PATH
-################################################################################
-
-# colocando o ~/bin no $PATH
-PATH=$PATH:$HOME/bin
-PATH=$PATH:$HOME/.local/bin
-
 # set default editor to vim
 export EDITOR=vim
 

@@ -183,7 +183,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
       echo "digite a mensagem do commit"
       return 1
     fi
-    
+
   }
 
   # verifica se tem conflito com o remote
@@ -237,7 +237,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     else
       echo "passe o nome da branch por parametro"
       return 1
-    fi    
+    fi
   }
 
 # General Alias
@@ -319,6 +319,12 @@ function new_dir(){
     test -f ~/.ssh/id_rsa.pub && cat $_
   }
 
+  # Função que executa um "cd" seguido de um "ls"
+  function cd {
+    builtin cd "$@" && \
+    ls
+  }
+
   # Função pra deletar os lock do apt-get.
   # Usado principalmente, quando ele trava do nada.
   # Além de reconfigurar o dpkg e resolver os pacotes quebrados
@@ -385,7 +391,7 @@ function new_dir(){
   # uso: chame o alias passando um arquivod e texto por parametro.
   function winToLinux(){
     local file=$1
-    
+
     test -z "$file" && echo "passe um arquivo por parametro" && return 1
     test ! -f "$file" && echo "passe um arquivo válido" && return 1
 
@@ -430,7 +436,7 @@ function new_dir(){
     local cloudformation_module=$(find "$ansible_installation" -iname "cloudformation.py" | grep modules)
 
     if ! grep -q "CAPABILITY_AUTO_EXPAND" "$cloudformation_module"; then
-      sudo sed -i "s/CAPABILITY_NAMED_IAM/CAPABILITY_NAMED_IAM', 'CAPABILITY_AUTO_EXPAND/g" "$cloudformation_module"	
+      sudo sed -i "s/CAPABILITY_NAMED_IAM/CAPABILITY_NAMED_IAM', 'CAPABILITY_AUTO_EXPAND/g" "$cloudformation_module"
       echo "arquivo 'cloudformation.py' alterado com sucesso!"
     else
       echo "OK: O arquivo 'cloudformation.py' já foi alterado com o 'CAPABILITY_AUTO_EXPAND'"

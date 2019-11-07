@@ -8,6 +8,25 @@
 
 set -e
 
+git_nome="$1"
+git_email="$2"
+
+# movendo o arquivo de credenciais para o $HOME
+create_git_credetials(){
+  if [ ! -f ~/.gitconfig.local ];then
+    if [ -z "$git_email" ] || [ -z "$git_nome" ];then
+      echo "Arquivo do ~/.gitconfig.local não existe"
+      echo "passe o nome e o email por parametro pro script"
+      echo "ex: ./install_dotfiles.sh <NOME> <EMAIL>"
+      exit 1
+    else
+      cp .gitconfig.local.template ~/.gitconfig.local
+      sed -i "s/@nome@/$git_nome/g" ~/.gitconfig.local
+      sed -i "s/@email@/$git_email/g" ~/.gitconfig.local
+    fi
+  fi
+}
+
 # carrega todos os dotfiles para o $HOME
 link_dotfiles(){
   # linkando os arquivos
@@ -55,14 +74,6 @@ link_frankrc(){
   fi
 }
 
-# movendo o arquivo de credenciais para o $HOME
-link_git_config(){
-  if [ ! -f ~/.gitconfig.local ];then
-    cp .gitconfig.local.template ~/.gitconfig.local
-    vim ~/.gitconfig.local
-  fi
-}
-
 # criando uma chave genérica de SSH, pra ser executado a primeira vez
 create_ssh_key(){
   if [ ! -f ~/.ssh/id_rsa.pub ];then
@@ -74,11 +85,10 @@ create_ssh_key(){
   fi
 }
 
-
+create_git_credetials
 link_dotfiles
 link_frankrc
 link_config_tools
-link_git_config
 create_ssh_key
 
 echo "dotfiles instalados =D"

@@ -118,7 +118,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 	alias git_repository_name="git config --get --local remote.origin.url"
 
 	# Deleta todas as branches locais, deixando só a current branch
-	alias git_clean_branches="git branch | grep -v \"\*\" | xargs -n 1 git branch -D"
+	alias git_clean_branches="git branch | grep -v \"\*\" | xargs -n 1 git branch -D && git fetch --prune"
 
   # undo commit, and files back to the 'stage area'
   alias git_undo_commit="git reset --soft HEAD^"

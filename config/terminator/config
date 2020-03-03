@@ -7,10 +7,8 @@
   title_transmit_bg_color = "#000000"
   title_transmit_fg_color = "#bdbdbd"
 [keybindings]
-  go_down = None
-  go_left = None
-  go_right = None
-  go_up = None
+  split_horiz = <Primary><Shift>Right
+  split_vert = <Primary><Shift>Down
   switch_to_tab_1 = <Alt>1
   switch_to_tab_2 = <Alt>2
   switch_to_tab_3 = <Alt>3

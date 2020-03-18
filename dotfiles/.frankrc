@@ -40,8 +40,8 @@ fi
 # e o '$_' imprime o último argumento do último comando executado
 test -e ~/.colors.sh && . $_
 
-# carregando o .private_aliases
-test -e ~/.localrc && . $_
+# carregando o .bashrc-personal, com seus alias pessoais
+test -e ~/.bashrc-personal && . $_
 
 # carregando o .git_prompt
 test -e ~/.git_prompt && . $_
@@ -342,6 +342,12 @@ function new_dir(){
   alias ..="cd .."
   alias cd..="cd .."
   alias back="cd -"
+
+  # alias pro 'free'
+  # -m  - memória
+  # -t  - exibe uma linha a mais com o total de memória
+  # -h  - leitura mais humana
+  alias free="free -mth"
 
   # lista os alias de forma mais amigável
   alias aliases="alias | sed 's/=.*//'"

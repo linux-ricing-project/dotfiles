@@ -35,7 +35,7 @@
     copy_on_selection = True
     cursor_color = "#bdbdbd"
     cursor_shape = ibeam
-    foreground_color = "#43a047"
+    foreground_color = "#e0e0e0"
     palette = "#000000:#c62828:#2e7d32:#f9a825:#1976d2:#ba68c8:#64b5f6:#bdbdbd:#757575:#c62828:#2e7d32:#f9a825:#1976d2:#ba68c8:#64b5f6:#fafafa"
     scrollback_infinite = True
     show_titlebar = False

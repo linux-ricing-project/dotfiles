@@ -319,12 +319,6 @@ function new_dir(){
     test -f ~/.ssh/id_rsa.pub && cat $_
   }
 
-  # Função que executa um "cd" seguido de um "ls"
-  function cd {
-    builtin cd "$@" && \
-    ls
-  }
-
   # Função pra deletar os lock do apt-get.
   # Usado principalmente, quando ele trava do nada.
   # Além de reconfigurar o dpkg e resolver os pacotes quebrados

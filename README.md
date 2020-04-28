@@ -1,10 +1,10 @@
 <img alt="Icon" src="https://dotfiles.github.io/images/dotfiles-logo.png?raw=true" align="middle" height="114" width="400">
 
+![dependence](https://img.shields.io/badge/linux-ubuntu_20.04-212121.svg?style=flat-square&logo=ubuntu)
+
 # dotfiles
 
 ##### Inspired from `dotfiles` of [Aurélio Jargas](https://github.com/aureliojargas/dotfiles)
-
-![dependence](https://img.shields.io/badge/linux-ubuntu_18.04-212121.svg?style=true)
 
 My config files.
 The script `install_dotfiles.sh` create symbolic links in the `$HOME` with the files.

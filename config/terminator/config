@@ -24,7 +24,7 @@
   [[default]]
     [[[child1]]]
       parent = window0
-      profile = nord
+      profile = default
       type = Terminal
     [[[window0]]]
       parent = ""
@@ -32,13 +32,14 @@
 [plugins]
 [profiles]
   [[default]]
+    background_color = "#2e3440"
     background_darkness = 0.85
     background_type = transparent
     copy_on_selection = True
-    cursor_color = "#bdbdbd"
+    cursor_color = "#D8DEE9"
     cursor_shape = ibeam
-    foreground_color = "#e0e0e0"
-    palette = "#000000:#c62828:#2e7d32:#f9a825:#1976d2:#ba68c8:#64b5f6:#bdbdbd:#757575:#c62828:#2e7d32:#f9a825:#1976d2:#ba68c8:#64b5f6:#fafafa"
+    foreground_color = "#d8dee9"
+    palette = "#3B4252:#BF616A:#A3BE8C:#EBCB8B:#81A1C1:#B48EAD:#88C0D0:#E5E9F0:#4C566A:#BF616A:#A3BE8C:#EBCB8B:#81A1C1:#B48EAD:#8F  BCBB:#ECEFF4"
     scrollback_infinite = True
     show_titlebar = False
   [[material]]
@@ -53,9 +54,11 @@
     show_titlebar = False
   [[nord]]
     background_color = "#2E3440"
+    background_darkness = 0.85
     copy_on_selection = True
     cursor_color = "#D8DEE9"
     cursor_shape = ibeam
     foreground_color = "#D8DEE9"
     palette = "#3B4252:#BF616A:#A3BE8C:#EBCB8B:#81A1C1:#B48EAD:#88C0D0:#E5E9F0:#4C566A:#BF616A:#A3BE8C:#EBCB8B:#81A1C1:#B48EAD:#8F  BCBB:#ECEFF4"
+    scrollback_infinite = True
     show_titlebar = False

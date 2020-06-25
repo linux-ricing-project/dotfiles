@@ -65,8 +65,9 @@
 # Diff
 # --------------------------------------------
 [diff]
-	external = ~/.git_diff_meld.py
-
+    tool = meld
+[difftool]
+    prompt = false
 [difftool "meld"]
     cmd = meld "\"$LOCAL\" \"$REMOTE\" --label \"DIFF (ORIGINAL MY)\""
 

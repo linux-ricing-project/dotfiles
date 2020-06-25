@@ -33,7 +33,7 @@
 [profiles]
   [[default]]
     background_color = "#2e3440"
-    background_darkness = 0.85
+    background_darkness = 0.9
     background_type = transparent
     copy_on_selection = True
     cursor_color = "#D8DEE9"
@@ -54,7 +54,8 @@
     show_titlebar = False
   [[nord]]
     background_color = "#2E3440"
-    background_darkness = 0.85
+    background_darkness = 0.9
+    background_type = transparent
     copy_on_selection = True
     cursor_color = "#D8DEE9"
     cursor_shape = ibeam

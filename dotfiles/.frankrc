@@ -214,32 +214,6 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     fi
   }
 
-  # troca a branch salvando no stash temporariamente
-  function trocar_de_branch(){
-    local branch=$1
-    local repository_name=$(git config --get --local remote.origin.url)
-
-    # verificando se a branch foi passada por parametro
-    if [ ! -z "$branch" ];then
-      # verificando se a branch existe
-      local branch_exist=$(git ls-remote --heads "$repository_name" "$branch")
-      if [ -z "$branch_exist" ];then
-        echo "branch não existe no repositório"
-        return 1
-      fi
-
-      git stash save \
-      && git pull \
-      && git checkout "$branch" \
-      && git clean -f -d \
-      && git stash apply \
-      && git stash clear
-    else
-      echo "passe o nome da branch por parametro"
-      return 1
-    fi
-  }
-
 # General Alias
 ################################################################################
 

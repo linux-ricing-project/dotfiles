@@ -409,7 +409,7 @@ function new_folder(){
     # variável que guarda o endereço absoluto do 'cloudformation.py'
     local cloudformation_module=$(find "$ansible_installation" -iname "cloudformation.py" | grep modules)
 
-    if ! grep -q "CAPABILITY_AUTO_EXPAND" "$cloudformation_module"; then
+    if ! grep -q "CAPABILITY_NAMED_IAM', 'CAPABILITY_AUTO_EXPAND" "$cloudformation_module"; then
       sudo sed -i "s/CAPABILITY_NAMED_IAM/CAPABILITY_NAMED_IAM', 'CAPABILITY_AUTO_EXPAND/g" "$cloudformation_module"
       echo "arquivo 'cloudformation.py' alterado com sucesso!"
     else

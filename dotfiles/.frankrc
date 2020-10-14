@@ -26,7 +26,7 @@ export EDITOR=vim
 
 # exibindo sysinfo e system logo com o neofetch
 if which neofetch > /dev/null 2>&1 ;then
-  neofetch
+  neofetch --ascii_colors 4 7 4 7 8 9 --colors 4 7 7 4 4 7
 fi
 
 # Carregando arquivos

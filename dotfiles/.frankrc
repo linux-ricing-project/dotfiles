@@ -285,8 +285,33 @@ function new_folder(){
   # create key ssh to git repositories (like github, gitlab..)
   alias ssh_create_key='ssh-keygen -t rsa'
 
-  # alias pra recarregar o bashrc
-  alias refresh_bash='source ~/.bashrc > /dev/null && echo "bash refreshed"'
+  # alias pra recarregar o shell
+  refresh_shell(){
+    local shell_file=""
+
+    if grep "$USER" "/etc/passwd" | grep -q bash ;then
+      shell_file="${HOME}/.bashrc"
+    elif grep "$USER" "/etc/passwd" | grep -q zsh ;then
+      shell_file="${HOME}/.zshrc"
+    fi
+
+    source "$shell_file" > /dev/null && echo "shell refreshed"
+  }
+
+  # alias pra trocar de shell padrão bash --> zsh
+  bashToZsh(){
+    if type zsh > /dev/null 2>&1 ;then
+      chsh -s $(which zsh)
+    fi
+  }
+
+  # alias pra trocar de shell padrão zsh --> bash
+  zshToBash(){
+    if type bash > /dev/null 2>&1 ;then
+      chsh -s $(which bash)
+    fi
+  }
+
 
   # get ssh key from file '~/.ssh/id_rsa.pub'
   ssh_get_key(){

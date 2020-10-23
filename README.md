@@ -1,6 +1,11 @@
 <img alt="Icon" src="https://dotfiles.github.io/images/dotfiles-logo.png?raw=true" align="middle" height="114" width="400">
 
-![dependence](https://img.shields.io/badge/linux-ubuntu_20.04-212121.svg?style=flat-square&logo=ubuntu)
+![](https://img.shields.io/badge/-Gnu-A42E2B.svg?style=for-the-badge&logo=GNU&logoColor=white)
+![](https://img.shields.io/badge/-Linux-000000.svg?style=for-the-badge&logo=Linux&logoColor=white)
+![](https://img.shields.io/badge/-ubuntu_20.04-2C001E.svg?style=for-the-badge&logo=ubuntu&logoColor=white)
+![](https://img.shields.io/badge/-Gnome-212121.svg?style=for-the-badge&logo=gnome&logoColor=white)
+![](https://img.shields.io/badge/-ZSH-3E2723.svg?style=for-the-badge&logo=gnu-bash&logoColor=white)
+![](https://img.shields.io/badge/-Vim-004D40.svg?style=for-the-badge&logo=vim&logoColor=white)
 
 # dotfiles
 

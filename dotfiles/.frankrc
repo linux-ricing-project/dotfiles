@@ -67,10 +67,17 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 ################################################################################
 	# pra Linux
 	if [ "Linux" = $(uname -s) ]; then
-		alias ls='ls -h --color=auto --group-directories-first'
-		alias grep='grep --color=auto'
-		alias fgrep='fgrep --color=auto'
-		alias egrep='egrep --color=auto'
+    # se o 'colorls' estiver instalado, sobrescreva o 'ls' pra usar o 'colorls'
+    if type colorls > /dev/null 2>&1; then
+      source $(dirname $(gem which colorls))/tab_complete.sh
+      alias ls='colorls --sd'
+    else
+      alias ls='ls -h --color=auto --group-directories-first'
+      alias grep='grep --color=auto'
+      alias fgrep='fgrep --color=auto'
+      alias egrep='egrep --color=auto'
+    fi
+
 	# pra Mac
 	else
 		export GREP_OPTIONS="--color=auto"

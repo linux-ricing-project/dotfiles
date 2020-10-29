@@ -103,20 +103,22 @@ create_ssh_key(){
 # Albert Theme Creator: https://albertlauncher.github.io/docs/extensions/widgetboxmodel/themecreator/
 # ============================================
 install_albert_theme(){
-  # criando a pasta de 'theme' caso não exista
-  local albert_themes_folder="/usr/share/albert/org.albert.frontend.widgetboxmodel/themes"
-  [[ ! -d "$albert_themes_folder" ]] && mkdir -p "$albert_themes_folder"
+  if [ $(grep "DISTRIB_RELEASE" /etc/lsb-release | cut -d "=" -f2) == "20.04" ];then
+    # criando a pasta de 'theme' caso não exista
+    local albert_themes_folder="/usr/share/albert/org.albert.frontend.widgetboxmodel/themes"
+    [[ ! -d "$albert_themes_folder" ]] && sudo mkdir -p "$albert_themes_folder"
 
-  local file_dest="${albert_themes_folder}/Nord.qss"
-  # se o arquivo já existir no destino, delete
-  if [ -e "$file_dest" ] ||\
-     [ -L "$file_dest" ];then
-      rm -rf "$file_dest"
+    local file_dest="${albert_themes_folder}/Nord.qss"
+    # se o arquivo já existir no destino, delete
+    if [ -e "$file_dest" ] ||\
+      [ -L "$file_dest" ];then
+        rm -rf "$file_dest"
+    fi
+
+    # copiando o tema pra lá.
+    sudo ln -s "$(pwd)/files/Nord.qss" "$file_dest"
+    sudo chmod 644 "$file_dest"
   fi
-
-  # copiando o tema pra lá.
-  sudo ln -s "$(pwd)/files/Nord.qss" "$file_dest"
-  sudo chmod 644 "$file_dest"
 }
 
 # ============================================

@@ -84,3 +84,9 @@
 
 [credential]
 	helper = cache
+
+# esse parametro serve pros comandos ('git branch' ou 'git log' por exemplo)
+# não se comportarem interativamente feito o comando 'less' por exemplo
+[pager]
+	branch = false
+	log = false

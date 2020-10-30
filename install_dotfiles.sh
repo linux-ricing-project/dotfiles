@@ -11,7 +11,9 @@ set -e
 git_nome="$1"
 git_email="$2"
 
+# ============================================
 # movendo o arquivo de credenciais para o $HOME
+# ============================================
 create_git_credetials(){
   if [ ! -f ~/.gitconfig.local ];then
     if [ -z "$git_email" ] || [ -z "$git_nome" ];then
@@ -27,7 +29,9 @@ create_git_credetials(){
   fi
 }
 
+# ============================================
 # carrega todos os dotfiles para o $HOME
+# ============================================
 link_dotfiles(){
   # linkando os arquivos
   for dotfile in dotfiles/.*[a-z]; do
@@ -45,11 +49,13 @@ link_dotfiles(){
   done
 }
 
+# ============================================
 # linkando os arquivos de configuração
+# ============================================
 link_config_tools(){
   for config in config/*; do
     local home_config="$HOME/.config/$(basename $config)"
-    config="$(pwd)/$config"
+    config="$(pwd)/${config}"
 
     # se o arquivo já existir no $HOME, delete
     if [ -e "$home_config" ] ||\
@@ -62,7 +68,9 @@ link_config_tools(){
   done
 }
 
+# ============================================
 # carregando o frankrc
+# ============================================
 link_frankrc(){
   local load_frankrc='
   # carregando minhas configs (alias, functions...)
@@ -74,7 +82,9 @@ link_frankrc(){
   fi
 }
 
+# ============================================
 # criando uma chave genérica de SSH, pra ser executado a primeira vez
+# ============================================
 create_ssh_key(){
   if [ ! -f ~/.ssh/id_rsa.pub ];then
     # -q --> is silent
@@ -85,10 +95,56 @@ create_ssh_key(){
   fi
 }
 
+# ============================================
+# Instala um 'theme' customizado pro Alfred, usando
+# a paleta de cores do 'Nord'
+#
+# color-pallete: https://www.nordtheme.com/
+# Albert Theme Creator: https://albertlauncher.github.io/docs/extensions/widgetboxmodel/themecreator/
+# ============================================
+install_albert_theme(){
+  if [ $(grep "DISTRIB_RELEASE" /etc/lsb-release | cut -d "=" -f2) == "20.04" ];then
+    # criando a pasta de 'theme' caso não exista
+    local albert_themes_folder="/usr/share/albert/org.albert.frontend.widgetboxmodel/themes"
+    [[ ! -d "$albert_themes_folder" ]] && sudo mkdir -p "$albert_themes_folder"
+
+    local file_dest="${albert_themes_folder}/Nord.qss"
+    # se o arquivo já existir no destino, delete
+    if [ -e "$file_dest" ] ||\
+      [ -L "$file_dest" ];then
+        rm -rf "$file_dest"
+    fi
+
+    # copiando o tema pra lá.
+    sudo ln -s "$(pwd)/files/Nord.qss" "$file_dest"
+    sudo chmod 644 "$file_dest"
+  fi
+}
+
+# ============================================
+# Instala meu próprio tema do 'Oh-My-Zsh'.
+# OBS: Ainda em fase beta
+# ============================================
+install_my_ohmyzsh_theme(){
+  local file_dest="${HOME}/.oh-my-zsh/themes/frank.zsh-theme"
+
+  # se o arquivo já existir no destino, delete
+  if [ -e "$file_dest" ] ||\
+     [ -L "$file_dest" ];then
+      rm -rf "$file_dest"
+  fi
+
+  # copiando o tema pra lá.
+  ln -s "files/frank.zsh-theme" "$file_dest"
+}
+
+# ######################### MAIN #########################
 create_git_credetials
 link_dotfiles
 link_frankrc
 link_config_tools
 create_ssh_key
+install_albert_theme
+install_my_ohmyzsh_theme
 
 echo "dotfiles instalados =D"

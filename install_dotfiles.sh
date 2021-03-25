@@ -143,7 +143,7 @@ create_git_credetials
 link_dotfiles
 link_frankrc
 link_config_tools
-create_ssh_key
+# create_ssh_key
 install_albert_theme
 install_my_ohmyzsh_theme
 

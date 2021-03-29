@@ -430,6 +430,12 @@ function new_folder(){
 		sudo apt clean -y
 	}
 
+  # função auxiliar que destrói todo o ambiente docker na máquina
+  function docker_destroy_all(){
+    yes | docker system prune -a
+    yes | docker volume prune
+  }
+
   # alias temporário para corrigir o bug de cloudormation-capabilities do ansible.
   # sempre que o ansible é atualziado via apt-get, ele perde o fix.
   function fix_ansible_capabilities(){

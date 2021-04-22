@@ -292,9 +292,6 @@ function new_folder(){
   # alias pra pegar o clima
   alias clima='curl pt.wttr.in'
 
-  # create key ssh to git repositories (like github, gitlab..)
-  alias ssh_create_key='ssh-keygen -t rsa'
-
   # alias pra recarregar o shell
   refresh_shell(){
     local shell_file=""
@@ -322,6 +319,32 @@ function new_folder(){
     fi
   }
 
+  # funcção que imrpime o conteúdo de um alias ou função no terminal.
+  showMyAlias(){
+    my_alias="$1"
+
+    # validação
+    if [ -z "$my_alias" ];then
+      echo "Digite um alias ou function no 1º paramêtro"
+      return 0
+    fi
+
+    # verifique se é um alias
+    if type "$my_alias" | grep -q "alias"; then
+      echo "[alias]:"
+      type "$my_alias" | cut -d " " -f6-
+    # verifique se é uma function
+    elif type "$my_alias" | grep -q "function"; then
+      echo "[function]:"
+      declare -f "$my_alias"
+    else
+      echo "alias ou function não encontrado"
+      return 1
+    fi
+  }
+
+  # create key ssh to git repositories (like github, gitlab..)
+  alias ssh_create_key='ssh-keygen -t rsa'
 
   # get ssh key from file '~/.ssh/id_rsa.pub'
   ssh_get_key(){

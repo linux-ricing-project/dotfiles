@@ -130,6 +130,9 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
   # undo commit, and files back to the 'stage area'
   alias git_undo_commit="git reset --soft HEAD^"
 
+  # basicamente adiciona as modificações correntes no último commit
+  alias git_edit_last_commit="git commit --amend --no-edit"
+
   # remove all untracked files, is case of you want to clean in repo.
   function git_remove_untracked_files(){
     rm -rf $(git ls-files --others --exclude-standard | xargs)

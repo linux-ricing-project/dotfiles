@@ -115,5 +115,3 @@ source $ZSH/oh-my-zsh.sh
 
 #  carregando minhas configs (alias, functions...)
 test -f ~/.frankrc && . ~/.frankrc
-
-

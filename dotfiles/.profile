@@ -25,3 +25,12 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+
+
+# adicionando a instalação do node (em sua versão LTS),
+# que foi feita via package direto do site oficial [https://nodejs.org/en/download/]
+export NODEJS_HOME=/usr/local/node-v14.17.0-linux-x64/bin
+export PATH=$NODEJS_HOME:$PATH
+
+# instalação do yarn
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

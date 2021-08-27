@@ -46,6 +46,9 @@ test -e ~/.bashrc-personal && . $_
 # carregando o .git_prompt
 test -e ~/.git_prompt && . $_
 
+# carregando o .profile
+test -e ~/.profile && . $_
+
 # Configurações
 ################################################################################
 # seta o teclado pra pt-br
@@ -70,11 +73,16 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     # se o 'colorls' estiver instalado, sobrescreva o 'ls' pra usar o 'colorls'
     if type colorls > /dev/null 2>&1; then
       source $(dirname $(gem which colorls))/tab_complete.sh
+      # ls sobrescrito para usar o 'colorls' (caso esteja instalado)
       alias ls='colorls --sd'
     else
+      # ls padrão com cores automáticas
       alias ls='ls -h --color=auto --group-directories-first'
+      # grep padrão com cores automáticas
       alias grep='grep --color=auto'
+      # fgrep padrão com cores automáticas
       alias fgrep='fgrep --color=auto'
+      # egrep padrão com cores automáticas
       alias egrep='egrep --color=auto'
     fi
 
@@ -84,6 +92,7 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
 		export GREP_COLOR="4;33"
 		export CLICOLOR="auto"
 
+    # ls pra MAC
 		alias ls="ls -G"
 	fi
 

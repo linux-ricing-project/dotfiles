@@ -46,9 +46,6 @@ test -e ~/.bashrc-personal && . $_
 # carregando o .git_prompt
 test -e ~/.git_prompt && . $_
 
-# carregando o .profile
-test -e ~/.profile && . $_
-
 # Configurações
 ################################################################################
 # seta o teclado pra pt-br

@@ -26,6 +26,10 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# loading CESAR local scripts
+if [ -d "$HOME/bin/CESAR" ] ; then
+    PATH="$HOME/bin/CESAR:$PATH"
+fi
 
 # adicionando a instalação do node (em sua versão LTS),
 # que foi feita via package direto do site oficial [https://nodejs.org/en/download/]

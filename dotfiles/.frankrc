@@ -402,6 +402,9 @@ function new_folder(){
 	# troca para versões do java instalado no computador
 	alias trocar_java='sudo update-alternatives --config java'
 
+  # remove todos os screenshots salvos
+  alias remove_all_screenshots="find ${HOME}/Pictures -type f -iname \"Screenshot*.png\" -delete"
+
   # função para abrir o Disk Usage Analyzer (baobab)
 	# caso não esteja instalado, dando erro ele instala pra mim
   # ---------------------------------

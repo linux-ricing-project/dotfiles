@@ -384,6 +384,21 @@ function new_folder(){
     echo "OK"
   }
 
+  # alias rápido que habilita um venv padrão no python
+  function python_enable_venv(){
+    if ! dpkg -s python3-venv > /dev/null 2>&1;then
+      echo "instale primeiro o pacote:"
+      echo "sudo apt install python3-venv"
+    fi
+    python3 -m venv venv
+    source venv/bin/activate
+  }
+
+  # alias rápido que desabilita um venv no python
+  function python_disable_venv(){
+    deactivate
+  }
+
   # alias de navegação
   alias ..="cd .."
   alias cd..="cd .."
@@ -502,13 +517,6 @@ function new_folder(){
     else
       echo "OK: O arquivo 'cloudformation.py' já foi alterado com o 'CAPABILITY_AUTO_EXPAND'"
     fi
-  }
-
-  # restartar o adb
-  function adb_restart {
-    adb kill-server
-    sleep 2
-    adb start-server
   }
 
   # função pra add job no cron programaticamente

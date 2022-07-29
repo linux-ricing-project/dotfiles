@@ -230,6 +230,20 @@ export HISTTIMEFORMAT="%d/%m/%y %T "
     fi
   }
 
+  # Função que troca de branch rapidamente
+  function change_branch(){
+    local new_branch="$1"
+
+    local default_branch=$(git remote show $(git remote) | sed -n '/HEAD branch/s/.*: //p')
+
+    git checkout "$default_branch"
+    git pull
+
+    if [ -n "$new_branch" ];then
+      git checkout "$new_branch"
+    fi
+  }
+
 # General Alias
 ################################################################################
 

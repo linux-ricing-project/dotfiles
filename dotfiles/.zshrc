@@ -115,3 +115,6 @@ source $ZSH/oh-my-zsh.sh
 
 #  carregando minhas configs (alias, functions...)
 test -f ~/.frankrc && . ~/.frankrc
+
+# carregando alguns alias do projeto cesar_scripts
+test -f ~/config/cesar_scripts/.cesar_scripts.alias && . ~/config/cesar_scripts/.cesar_scripts.alias

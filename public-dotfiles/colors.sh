@@ -45,3 +45,19 @@ background_white="$(tput setab 7 2>/dev/null || echo '\e[47m')"  # White
 
 # Reset
 text_reset="$(tput sgr 0 2>/dev/null || echo '\e[0m')"  # text_ Resets
+
+
+# Função pra imprimir informação
+  function print_info(){
+  	printf "${text_yellow}$1${text_reset}\n"
+  }
+
+  # Função pra imprimir mensagem de sucesso
+  function print_success(){
+  	printf "${text_green}$1${text_reset}\n"
+  }
+
+  # Função pra imprimir erros
+  function print_error(){
+  	printf "${text_red}[ERROR] $1${text_reset}\n"
+  }

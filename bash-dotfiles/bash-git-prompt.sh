@@ -1,11 +1,8 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#       								~/.git_prompt de Frank
-# 			       					Welcome and don't Panic =D
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # [Descrição]:
 #
 # Arquivo onde fica toda a configuração do prompt
-# Deve ser carregado no ~/.bash_aliases
+# Deve ser carregado no ~/.bashrc
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Funções do Prompt

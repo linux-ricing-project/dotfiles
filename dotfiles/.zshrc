@@ -113,8 +113,18 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-#  carregando minhas configs (alias, functions...)
-test -f ~/.frankrc && . ~/.frankrc
+if [ -d ${HOME}/.public-dotfiles/ ]; then
+   for public_files in ${HOME}/.public-dotfiles/*; do
+      source $public_files
+   done
+fi
 
-# carregando alguns alias do projeto cesar_scripts
-test -f ~/config/cesar_scripts/.cesar_scripts.alias && . ~/config/cesar_scripts/.cesar_scripts.alias
+if [ -d ${HOME}/.private-dotfiles/ ]; then
+   for private_files in ${HOME}/.private-dotfiles/*; do
+      source $private_files
+   done
+fi
+
+if [ -d "${HOME}/dotfiles-master" ];then
+   echo "Lembrete: dotfiles temporários"
+fi

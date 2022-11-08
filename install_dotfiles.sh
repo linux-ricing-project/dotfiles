@@ -14,7 +14,7 @@ git_email="$2"
 # ============================================
 # movendo o arquivo de credenciais para o $HOME
 # ============================================
-create_git_credetials(){
+create_git_credentials(){
   if [ ! -f ~/.gitconfig.local ];then
     if [ -z "$git_email" ] || [ -z "$git_nome" ];then
       echo "Arquivo do ~/.gitconfig.local não existe"
@@ -69,59 +69,6 @@ link_config_tools(){
 }
 
 # ============================================
-# carregando o frankrc
-# ============================================
-link_frankrc(){
-  local load_frankrc='
-  # carregando minhas configs (alias, functions...)
-  test -f ~/.frankrc && . ~/.frankrc
-  '
-
-  if ! grep -q "~/.frankrc" ~/.bashrc ;then
-    echo "$load_frankrc" >> ~/.bashrc
-  fi
-}
-
-# ============================================
-# criando uma chave genérica de SSH, pra ser executado a primeira vez
-# ============================================
-create_ssh_key(){
-  if [ ! -f ~/.ssh/id_rsa.pub ];then
-    # -q --> is silent
-    # -t rsa --> generate key
-    # -N '' --> tells to use empty passphrase
-    # -f <file> --> the file with new key
-    ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa > /dev/null
-  fi
-}
-
-# ============================================
-# Instala um 'theme' customizado pro Alfred, usando
-# a paleta de cores do 'Nord'
-#
-# color-pallete: https://www.nordtheme.com/
-# Albert Theme Creator: https://albertlauncher.github.io/docs/extensions/widgetboxmodel/themecreator/
-# ============================================
-install_albert_theme(){
-  if [ $(grep "DISTRIB_RELEASE" /etc/lsb-release | cut -d "=" -f2) == "20.04" ];then
-    # criando a pasta de 'theme' caso não exista
-    local albert_themes_folder="/usr/share/albert/org.albert.frontend.widgetboxmodel/themes"
-    [[ ! -d "$albert_themes_folder" ]] && sudo mkdir -p "$albert_themes_folder"
-
-    local file_dest="${albert_themes_folder}/Nord.qss"
-    # se o arquivo já existir no destino, delete
-    if [ -e "$file_dest" ] ||\
-      [ -L "$file_dest" ];then
-        rm -rf "$file_dest"
-    fi
-
-    # copiando o tema pra lá.
-    sudo ln -s "$(pwd)/files/Nord.qss" "$file_dest"
-    sudo chmod 644 "$file_dest"
-  fi
-}
-
-# ============================================
 # Instala meu próprio tema do 'Oh-My-Zsh'.
 # OBS: Ainda em fase beta
 # ============================================
@@ -138,13 +85,46 @@ install_my_ohmyzsh_theme(){
   ln -s "files/frank.zsh-theme" "$file_dest"
 }
 
+install_public_dotfiles(){
+  local public_dotfiles_folder="${HOME}/.public-dotfiles"
+
+  if [ -d $public_dotfiles_folder ];then
+    rm -rf $public_dotfiles_folder
+  fi
+
+  mkdir $public_dotfiles_folder
+
+  for public_dotfiles in public-dotfiles/*; do
+    local home_public_dotfiles="${public_dotfiles_folder}/$(basename $public_dotfiles)"
+    local public_dotfiles="$(pwd)/${public_dotfiles}"
+
+    ln -s "$public_dotfiles" "$home_public_dotfiles"
+  done
+}
+
+install_private_dotfiles(){
+  local private_dotfiles_folder="${HOME}/.private-dotfiles"
+
+  if [ -d $private_dotfiles_folder ];then
+    rm -rf $private_dotfiles_folder
+  fi
+
+  mkdir $private_dotfiles_folder
+
+  for private_dotfiles in private-dotfiles/*; do
+    local home_private_dotfiles="${private_dotfiles_folder}/$(basename $private_dotfiles)"
+    local private_dotfiles="$(pwd)/${private_dotfiles}"
+
+    ln -s "$private_dotfiles" "$home_private_dotfiles"
+  done
+}
+
 # ######################### MAIN #########################
-create_git_credetials
+create_git_credentials
 link_dotfiles
-link_frankrc
 link_config_tools
-# create_ssh_key
-install_albert_theme
-install_my_ohmyzsh_theme
+# install_my_ohmyzsh_theme
+install_public_dotfiles
+install_private_dotfiles
 
 echo "dotfiles instalados =D"

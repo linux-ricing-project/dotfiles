@@ -25,6 +25,8 @@ create_git_credentials(){
       cp .gitconfig.local.template ~/.gitconfig.local
       sed -i "s/@nome@/$git_nome/g" ~/.gitconfig.local
       sed -i "s/@email@/$git_email/g" ~/.gitconfig.local
+
+      echo "[OK] git credentials created"
     fi
   fi
 }
@@ -46,6 +48,8 @@ link_dotfiles(){
     fi
 
     ln -s "$dotfile" ~/$home_dotfile
+
+    echo "[OK] ${HOME}/$home_dotfile created"
   done
 }
 
@@ -65,6 +69,8 @@ link_config_tools(){
     fi
 
     ln -s "$config" "$home_config"
+
+    echo "[OK] $home_config created"
   done
 }
 
@@ -99,6 +105,8 @@ install_public_dotfiles(){
     local public_dotfiles="$(pwd)/${public_dotfiles}"
 
     ln -s "$public_dotfiles" "$home_public_dotfiles"
+
+    echo "[OK] $home_public_dotfiles created"
   done
 }
 
@@ -116,6 +124,8 @@ install_private_dotfiles(){
     local private_dotfiles="$(pwd)/${private_dotfiles}"
 
     ln -s "$private_dotfiles" "$home_private_dotfiles"
+
+    echo "[OK] $home_private_dotfiles created"
   done
 }
 
@@ -126,5 +136,3 @@ link_config_tools
 # install_my_ohmyzsh_theme
 install_public_dotfiles
 install_private_dotfiles
-
-echo "dotfiles instalados =D"

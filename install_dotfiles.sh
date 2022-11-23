@@ -8,29 +8,6 @@
 
 set -e
 
-git_nome="$1"
-git_email="$2"
-
-# ============================================
-# movendo o arquivo de credenciais para o $HOME
-# ============================================
-create_git_credentials(){
-  if [ ! -f ~/.gitconfig.local ];then
-    if [ -z "$git_email" ] || [ -z "$git_nome" ];then
-      echo "Arquivo do ~/.gitconfig.local não existe"
-      echo "passe o nome e o email por parametro pro script"
-      echo "ex: ./install_dotfiles.sh <NOME> <EMAIL>"
-      exit 1
-    else
-      cp .gitconfig.local.template ~/.gitconfig.local
-      sed -i "s/@nome@/$git_nome/g" ~/.gitconfig.local
-      sed -i "s/@email@/$git_email/g" ~/.gitconfig.local
-
-      echo "[OK] git credentials created"
-    fi
-  fi
-}
-
 # ============================================
 # carrega todos os dotfiles para o $HOME
 # ============================================
@@ -74,23 +51,6 @@ link_config_tools(){
   done
 }
 
-# ============================================
-# Instala meu próprio tema do 'Oh-My-Zsh'.
-# OBS: Ainda em fase beta
-# ============================================
-install_my_ohmyzsh_theme(){
-  local file_dest="${HOME}/.oh-my-zsh/themes/frank.zsh-theme"
-
-  # se o arquivo já existir no destino, delete
-  if [ -e "$file_dest" ] ||\
-     [ -L "$file_dest" ];then
-      rm -rf "$file_dest"
-  fi
-
-  # copiando o tema pra lá.
-  ln -s "files/frank.zsh-theme" "$file_dest"
-}
-
 install_public_dotfiles(){
   local public_dotfiles_folder="${HOME}/.public-dotfiles"
 
@@ -116,6 +76,7 @@ install_private_dotfiles(){
     # check if folder in this project exist.
     # If don't exist, is the because is temporarily dotfiles
     if [ -d private-dotfiles/ ];then
+
         if [ -d $private_dotfiles_folder ];then
             rm -rf $private_dotfiles_folder
         fi
@@ -129,15 +90,13 @@ install_private_dotfiles(){
             ln -s "$private_dotfiles" "$home_private_dotfiles"
 
             echo "[OK] $home_private_dotfiles created"
+        done
+        
     fi
-
-  done
 }
 
 # ######################### MAIN #########################
-create_git_credentials
 link_dotfiles
 link_config_tools
-# install_my_ohmyzsh_theme
 install_public_dotfiles
 install_private_dotfiles

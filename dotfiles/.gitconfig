@@ -9,13 +9,6 @@
 #   Documentação [https://git-scm.com/docs/git-config]
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# Credenciais
-# --------------------------------------------
-[include]
-    # Use arquivos separados para username, credentials, etc
-    path = ~/.gitconfig.local
-
-
 # editor
 # --------------------------------------------
 [core]

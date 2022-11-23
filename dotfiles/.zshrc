@@ -124,5 +124,5 @@ if [ -d ${HOME}/.private-dotfiles/ ]; then
       source $private_files
    done
 else
-   test -f "$HOME/Dropbox/check_dotfiles.sh" && bash "$HOME/Dropbox/check_dotfiles.sh"
+   test -f "$HOME/Dropbox/check_dotfiles.sh" && bash "$HOME/Dropbox/check_dotfiles.sh" || return 0
 fi

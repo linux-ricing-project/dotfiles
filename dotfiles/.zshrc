@@ -123,8 +123,6 @@ if [ -d ${HOME}/.private-dotfiles/ ]; then
    for private_files in ${HOME}/.private-dotfiles/*; do
       source $private_files
    done
-fi
-
-if [ -d "${HOME}/dotfiles-master" ];then
-   echo "Lembrete: dotfiles temporários"
+else
+   test -f "$HOME/Dropbox/check_dotfiles.sh" && bash "$HOME/Dropbox/check_dotfiles.sh"
 fi

@@ -113,19 +113,24 @@ install_public_dotfiles(){
 install_private_dotfiles(){
   local private_dotfiles_folder="${HOME}/.private-dotfiles"
 
-  if [ -d $private_dotfiles_folder ];then
-    rm -rf $private_dotfiles_folder
-  fi
+    # check if folder in this project exist.
+    # If don't exist, is the because is temporarily dotfiles
+    if [ -d private-dotfiles/ ];then
+        if [ -d $private_dotfiles_folder ];then
+            rm -rf $private_dotfiles_folder
+        fi
 
-  mkdir $private_dotfiles_folder
+        mkdir $private_dotfiles_folder
 
-  for private_dotfiles in private-dotfiles/*; do
-    local home_private_dotfiles="${private_dotfiles_folder}/$(basename $private_dotfiles)"
-    local private_dotfiles="$(pwd)/${private_dotfiles}"
+        for private_dotfiles in private-dotfiles/*; do
+            local home_private_dotfiles="${private_dotfiles_folder}/$(basename $private_dotfiles)"
+            local private_dotfiles="$(pwd)/${private_dotfiles}"
 
-    ln -s "$private_dotfiles" "$home_private_dotfiles"
+            ln -s "$private_dotfiles" "$home_private_dotfiles"
 
-    echo "[OK] $home_private_dotfiles created"
+            echo "[OK] $home_private_dotfiles created"
+    fi
+
   done
 }
 

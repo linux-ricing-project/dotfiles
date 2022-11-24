@@ -23,9 +23,6 @@
   # undo commit, and files back to the 'stage area'
   alias git_undo_commit="git reset --soft HEAD^"
 
-  # basicamente adiciona as modificações correntes no último commit
-  alias git_edit_last_commit="git commit --amend --no-edit"
-
   # remove all untracked files, is case of you want to clean in repo.
   function git_remove_untracked_files(){
     rm -rf $(git ls-files --others --exclude-standard | xargs)
@@ -40,19 +37,25 @@
     git checkout -b "$tag" "$tag"
   }
 
-  # Função para renomear uma tag no git
-  function git_rename_tags(){
+# Função para renomear uma tag no git
+function git_rename_tags(){
     local old_tag="$1"
     local new_tag="$2"
 
     test -z "$old_tag" && echo "digite a tag antiga no 1º parametro" && return 1
     test -z "$new_tag" && echo "digite a tag nova no 2º parametro" && return 1
 
-    git tag "$new_tag" "$old_tag"
-    git tag -d "$old_tag"
-    git push origin ":refs/tags/${old_tag}"
-    git push --tags
-  }
+    if git rev-parse --is-inside-work-tree > /dev/null;then
+        git tag "$new_tag" "$old_tag"
+        git tag -d "$old_tag"
+        git push origin ":refs/tags/${old_tag}"
+        git push --tags
+    else
+        echo "ERROR: This folder is not a git repository"
+        exit "$ERROR"
+    fi
+
+}
 
   # Função pra encurtar URLs do github
   function github_shorten_url(){
@@ -67,55 +70,36 @@
   function git_commit_push(){
     local commit_msg=$1
 
-    if [ -n "$commit_msg" ];then
-      local current_branch=$(git branch | grep "^*" | awk '{print $2}')
+    if git rev-parse --is-inside-work-tree > /dev/null;then
+        if [ -n "$commit_msg" ];then
+            local current_branch=$(git branch | grep "^*" | awk '{print $2}')
 
-      git commit -a -m "$commit_msg"
+            git commit -a -m "$commit_msg"
 
-      local has_conflict=$(git_verify_conflict)
-      # se o $has_conflict for nulo, não teve conflito
-      if [ -z "$has_conflict" ];then
-        git pull
-        git push origin "$current_branch"
-      else
-        printf "$has_conflict"
-        return 1
-      fi
+            git pull
+            git push origin "$current_branch"
 
+        else
+            echo "digite a mensagem do commit"
+            return 1
+        fi
     else
-      echo "digite a mensagem do commit"
-      return 1
-    fi
-
-  }
-
-  # verifica se tem conflito com o remote
-  function git_verify_conflict(){
-    #  verificando se é um diretorio git
-    if git rev-parse --is-inside-work-tree > /dev/null 2>&1;then
-      local current_branch=$(git branch | grep "^*" | awk '{print $2}')
-
-      git fetch > /dev/null 2>&1
-      # faz um merge sem commit e salva nesse arquivo temporário
-      git merge origin/${current_branch} --no-commit --no-ff > .conflict.txt 2>&1
-      if grep -q "CONFLICT" .conflict.txt;then
-          local conflict_file=$(grep "CONFLICT" .conflict.txt | awk '{print $6}')
-          # caso tenha conflito, formata a mensagem bonitinha
-          echo
-          echo "============ CONFLICT ============"
-          printf "${text_red}CONFLICT${text_reset} in ${text_yellow}${conflict_file}${text_reset}\n"
-          echo "=================================="
-          echo
-      fi
-      local git_root_directory=$(git rev-parse --show-toplevel)
-      #  verificação para saber se existe merge a ser abortado
-      if [ $(find $git_root_directory -iname "MERGE_HEAD" | wc -l) != "0" ];then
-        # aborta o merge, e deleta o arquivo temporário
-        git merge --abort
-      fi
-      test -f .conflict.txt && rm -rf $_
+        echo "ERROR: This folder is not a git repository"
+        exit "$ERROR"
     fi
   }
+
+# Função para adicionar as modificações no ultimo commit do log
+function git_edit_last_commit(){
+    if git rev-parse --is-inside-work-tree > /dev/null;then
+        current_branch=$(git branch | grep "^*" | awk '{print $2}')
+        git commit -a --amend --no-edit
+        git push origin +${current_branch}
+    else
+        echo "ERROR: This folder is not a git repository"
+        exit "$ERROR"
+    fi
+}
 
   # Função que troca de branch rapidamente
   function change_branch(){

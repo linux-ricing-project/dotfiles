@@ -11,10 +11,10 @@ if type colorls > /dev/null 2>&1; then
     # ls sobrescrito para usar o 'colorls' (caso esteja instalado)
     # --sd --> folders first
     # -A --> 'Almost All'. List without '.' and '..'
-    alias ls='colorls --sd -A'
+    alias ls='colorls --sd'
 else
     # ls padrão com cores automáticas
-    alias ls='ls -A -h --color=auto --group-directories-first'
+    alias ls='ls -h --color=auto --group-directories-first'
     # grep padrão com cores automáticas
     alias grep='grep --color=auto'
     # fgrep padrão com cores automáticas
@@ -68,11 +68,11 @@ function showMyAlias(){
     fi
 
     # verifique se é um alias
-    if type "$my_alias" | grep -q "alias"; then
+    if type "$my_alias" | grep -q "is an alias"; then
         echo "[alias]:"
         type "$my_alias" | cut -d " " -f6-
     # verifique se é uma function
-    elif type "$my_alias" | grep -q "function"; then
+    elif type "$my_alias" | grep -q "is a shell function"; then
         echo "[function]:"
         declare -f "$my_alias"
     else

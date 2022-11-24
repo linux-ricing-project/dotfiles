@@ -9,10 +9,12 @@ setxkbmap -layout br
 if type colorls > /dev/null 2>&1; then
     source $(dirname $(gem which colorls))/tab_complete.sh
     # ls sobrescrito para usar o 'colorls' (caso esteja instalado)
-    alias ls='colorls --sd'
+    # --sd --> folders first
+    # -A --> 'Almost All'. List without '.' and '..'
+    alias ls='colorls --sd -A'
 else
     # ls padrão com cores automáticas
-    alias ls='ls -h --color=auto --group-directories-first'
+    alias ls='ls -A -h --color=auto --group-directories-first'
     # grep padrão com cores automáticas
     alias grep='grep --color=auto'
     # fgrep padrão com cores automáticas

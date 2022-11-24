@@ -25,7 +25,7 @@ After that run the script, reload your terminal, close it and open it again.
 ```shell
 git clone git@github.com:frankjuniorr/dotfiles.git
 cd dotfiles
-./install_dotfiles.sh <git_name> <git_email>
+./install_dotfiles.sh
 ```
 
 ## [current terminal] Terminal example (zsh)

@@ -250,3 +250,6 @@ function atualizar_computador(){
   sudo apt autoclean -y
   sudo apt clean -y
 }
+
+# Mostra todas as interfaces de rede, highlighted, e de mais fácil visualização.
+alias ips='ip -c -br a'

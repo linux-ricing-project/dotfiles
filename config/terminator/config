@@ -28,7 +28,7 @@
     background_type = transparent
     cursor_shape = ibeam
     cursor_color = "#D8DEE9"
-    font = MesloLGS Nerd Font 10
+    font = DroidSansM Nerd Font 10
     foreground_color = "#d8dee9"
     show_titlebar = False
     scrollback_infinite = True

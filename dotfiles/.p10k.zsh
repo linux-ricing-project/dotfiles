@@ -1514,7 +1514,7 @@
   # OBS: o código de cores completo, pode ser conferido aqui:
   # https://user-images.githubusercontent.com/704406/43988708-64c0fa52-9d4c-11e8-8cf9-c4d4b97a5200.png
   function prompt_symbols() {
-    p10k segment -f 007 -i '☯ ☮'
+    p10k segment -f 007 -i '☯ ☮ '
   }
 
   # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job

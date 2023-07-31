@@ -184,36 +184,6 @@ function zshToBash(){
   fi
  }
 
-
-################################################################################
-#  SSH ALIASES
-################################################################################
-
-# create key ssh to git repositories (like github, gitlab..)
-alias ssh_create_key='ssh-keygen -t rsa'
-
-  # get ssh key from file '~/.ssh/id_rsa.pub'
-function ssh_get_key(){
-  test -f ~/.ssh/id_rsa.pub && cat $_
-}
-
-function create_ssh_key(){
-  local key_name="$1"
-
-  test -z $key_name && echo "Digite o nome da chave por parâmetro"; exit 1
-
-  if [ ! -f "${HOME}/.ssh/${key_name}.pub" ];then
-    # -q --> is silent
-    # -t rsa --> generate key
-    # -N '' --> tells to use empty passphrase
-    # -f <file> --> the file with new key
-    ssh-keygen -q -t rsa -N '' -f "${HOME}/.ssh/${key_name}" > /dev/null
-
-    echo "OK: chave $key_name criada em: $HOME/.ssh"
-  fi
-}
-
-
 ################################################################################
 #  APT-GET ALIASES
 ################################################################################

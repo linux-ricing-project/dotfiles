@@ -52,7 +52,7 @@ function git_rename_tags(){
         git push --tags
     else
         echo "ERROR: This folder is not a git repository"
-        exit "$ERROR"
+        return 1
     fi
 
 }
@@ -85,7 +85,7 @@ function git_rename_tags(){
         fi
     else
         echo "ERROR: This folder is not a git repository"
-        exit "$ERROR"
+        return 1
     fi
   }
 
@@ -97,12 +97,12 @@ function git_edit_last_commit(){
         git push origin +${current_branch}
     else
         echo "ERROR: This folder is not a git repository"
-        exit "$ERROR"
+        return 1
     fi
 }
 
   # Função que troca de branch rapidamente
-  function change_branch(){
+  function git_change_branch(){
     local new_branch="$1"
 
     local default_branch=$(git remote show $(git remote) | sed -n '/HEAD branch/s/.*: //p')
@@ -112,5 +112,40 @@ function git_edit_last_commit(){
 
     if [ -n "$new_branch" ];then
       git checkout "$new_branch"
+    fi
+  }
+
+  # Função pra juntar vários commits em 1 só.
+  # passando a quantidade por parâmetro, tipo assim:
+  # git_squash_commits 5 # ele irá considerar os ultimos 5 commits para fazer um squash
+  function git_squash_commits(){
+    local amount_commits="$1"
+
+    if [ -n "$amount_commits" ];then
+      current_branch=$(git branch | grep "^*" | awk '{print $2}')
+      git rebase -i HEAD~$amount_commits
+      git push origin +${current_branch}
+    else
+      echo "type the amount of commits"
+      return 1
+    fi
+  }
+
+  # Função para juntar vários commits em 1 só.
+  # Passando uma string de busca por parâmetro, tipo assim:
+  # git_squash_equal_commits "refactor code" # ele irá dar squash nos ultimos commits repetidos com essa mensagem.
+  # pode-se utilziar o 'git_last_commit' antes desse comando pra facilitar
+  function git_squash_equal_commits(){
+    local search_commit="$1"
+
+    if [ -n "$search_commit" ];then
+      current_branch=$(git branch | grep "^*" | awk '{print $2}')
+      amount_commits=$(git log --oneline --grep="$search_commit" | wc -l)
+
+      git rebase -i HEAD~${amount_commits}
+      git push origin +${current_branch}
+    else
+      echo "Type a string to search in commits log"
+      return 1
     fi
   }

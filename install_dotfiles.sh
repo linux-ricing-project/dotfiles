@@ -88,14 +88,33 @@ install_private_dotfiles(){
             local private_dotfiles="$(pwd)/${private_dotfiles}"
 
             ln -s "$private_dotfiles" "$home_private_dotfiles"
-
             echo "[OK] $home_private_dotfiles created"
+
         done
-        
+
     fi
 }
 
+install_autostart_commands(){
+  for autostart in autostart/*; do
+    local home_autostart="${HOME}/.config/${autostart}"
+    autostart="$(pwd)/${autostart}"
+
+    # se o arquivo já existir no $HOME/.config/autostart, delete
+    if [ -e "$home_autostart" ] ||\
+       [ -f "$home_autostart" ] ||\
+       [ -L "$home_autostart" ];then
+        rm -rf "$home_autostart"
+    fi
+
+
+    ln -s "$autostart" "$home_autostart"
+    echo "[OK] $home_autostart created"
+  done
+}
+
 # ######################### MAIN #########################
+install_autostart_commands
 link_dotfiles
 link_config_tools
 install_public_dotfiles

@@ -84,3 +84,6 @@
 [pager]
 	branch = false
 	log = false
+[user]
+	email = frankcbjunior@gmail.com
+	name = Frank Junior

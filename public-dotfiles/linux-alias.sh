@@ -1,5 +1,8 @@
-# seta o teclado pra pt-br
-setxkbmap -layout br
+# seta o layout do teclado para teclados BR-ABNT2
+#setxkbmap -layout br
+
+# Seta o layout do teclado para usar o "Logitech Mx Keys"
+setxkbmap -model logitech_base -layout us -variant intl -option "compose:ralt"
 
 ################################################################################
 #  LINUX COMMANDS ALIASES

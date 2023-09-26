@@ -1,18 +1,22 @@
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#       								~/.gitconfig de Frank
-# 			       					Welcome and don't Panic =D
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+################################################################################
 # [Descrição]:
 #   Arquivo onde fica as configurações globais do git
 #
 # Links úteis:
 #   Documentação [https://git-scm.com/docs/git-config]
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#   Inspiração:
+#       Aurélio Jargas dotfiles: [https://github.com/aureliojargas/dotfiles/blob/main/.gitconfig]
+################################################################################
 
 # editor
 # --------------------------------------------
 [core]
 	editor = vim
+
+    # esse parametro serve pros comandos ('git branch' ou 'git log' por exemplo)
+    # não se comportarem interativamente feito o comando 'less' por exemplo
+    # Essa linha pode ser adicionado com o comando "git config --global core.pager '' "
+	pager =
 
 
 # Cores
@@ -54,6 +58,8 @@
     # don't create backup *.orig files
     keepBackup = false
 
+[commit]
+    status = false  # no `git status` output in commit template
 
 # Diff
 # --------------------------------------------
@@ -68,9 +74,14 @@
 # Outras configurações
 # --------------------------------------------
 [push]
-	# http://git-scm.com/docs/git-config.html, search push.default
-	# default = current  # Git 1.x
-	default = simple  # Git 2.x
+    # https://git-scm.com/docs/git-config.html#git-config-pushdefault
+    default = current  # default in Git 1.x
+
+[remote "origin"]
+    prune = true  # Autoremove already deleted remote branches
+
+[remote "upstream"]
+    prune = true  # Autoremove already deleted remote branches
 
 [http]
 	sslVerify = false
@@ -79,11 +90,6 @@
 	helper = store
 	useHttpPath = true
 
-# esse parametro serve pros comandos ('git branch' ou 'git log' por exemplo)
-# não se comportarem interativamente feito o comando 'less' por exemplo
-[pager]
-	branch = false
-	log = false
 [user]
 	email = frankcbjunior@gmail.com
 	name = Frank Junior

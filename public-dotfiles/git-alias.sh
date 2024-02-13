@@ -9,7 +9,7 @@
   alias gle='git log -n 20 --oneline --date=short --pretty=format:"%Cgreen%h%Creset %Cred%ad%Creset %Cblue% %ae%Creset %s"'
 
   # imprime apenas o ultimo commit
-  alias git_last_commit="git log -1 HEAD"
+  alias git_last_commit="git log -1 --pretty=%s"
 
   # desfaz as alteração do stage
   alias git_unstage="git reset HEAD"
@@ -132,20 +132,14 @@ function git_edit_last_commit(){
   }
 
   # Função para juntar vários commits em 1 só.
-  # Passando uma string de busca por parâmetro, tipo assim:
-  # git_squash_equal_commits "refactor code" # ele irá dar squash nos ultimos commits repetidos com essa mensagem.
-  # pode-se utilziar o 'git_last_commit' antes desse comando pra facilitar
+  # Ele a quantidade de vezes que o ultimo commit repetiu a mensagem.
   function git_squash_equal_commits(){
-    local search_commit="$1"
+    local last_repeated_commit_count
+    last_repeated_commit_count=$(git log --format=%s -n 20 | uniq -c | head -n 1 | awk '{print $1}')
 
-    if [ -n "$search_commit" ];then
-      current_branch=$(git branch | grep "^*" | awk '{print $2}')
-      amount_commits=$(git log --oneline --grep="$search_commit" | wc -l)
+    echo current_branch="$(git branch --show-current)"
+    echo "$last_repeated_commit_count"
 
-      git rebase -i HEAD~${amount_commits}
-      git push origin +${current_branch}
-    else
-      echo "Type a string to search in commits log"
-      return 1
-    fi
+    git rebase -i HEAD~"${last_repeated_commit_count}"
+    git push origin +"${current_branch}"
   }

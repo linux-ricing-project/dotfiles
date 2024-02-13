@@ -9,6 +9,10 @@
   enabled_plugins = CustomCommandsMenu, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   suppress_multiple_term_dialog = True
 [keybindings]
+  go_up = ""
+  go_down = ""
+  go_left = ""
+  go_right = ""
   split_horiz = <Shift><Alt>Down
   split_vert = <Shift><Alt>Right
   switch_to_tab_1 = <Alt>1

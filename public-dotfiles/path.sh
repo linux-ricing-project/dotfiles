@@ -11,3 +11,7 @@ fi
 if [ -d "$HOME/.krew" ] ; then
     export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
+
+if [ -d "/usr/local/go/bin" ] ; then
+    export PATH="$PATH:/usr/local/go/bin"
+fi

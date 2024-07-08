@@ -1,20 +1,25 @@
+#!/bin/bash
 # seta o layout do teclado para teclados BR-ABNT2
 #setxkbmap -layout br
 
 # Seta o layout do teclado para usar o "Logitech Mx Keys"
 setxkbmap -model logitech_base -layout us -variant intl -option "compose:ralt"
 
+if [ -f "${HOME}/.atuin/bin/env" ];then
+  source "${HOME}/.atuin/bin/env"
+fi
+if which atuin > /dev/null 2>&1 ;then
+  eval "$(atuin init zsh --disable-up-arrow)"
+fi
+
 ################################################################################
-#  LINUX COMMANDS ALIASES
+#  OVERRIDE LINUX COMMANDS
 ################################################################################
 
-# se o 'colorls' estiver instalado, sobrescreva o 'ls' pra usar o 'colorls'
-if type colorls > /dev/null 2>&1; then
-    source $(dirname $(gem which colorls))/tab_complete.sh
-    # ls sobrescrito para usar o 'colorls' (caso esteja instalado)
-    # --sd --> folders first
-    # -A --> 'Almost All'. List without '.' and '..'
-    alias ls='colorls --sd'
+################# LS
+# se o 'lsd' estiver instalado, sobrescreva o 'ls' pra usar o 'lsd'
+if type lsd > /dev/null 2>&1; then
+    alias ls='lsd'
 else
     # ls padrão com cores automáticas
     alias ls='ls -h --color=auto --group-directories-first'
@@ -26,6 +31,16 @@ else
     alias egrep='egrep --color=auto'
 fi
 
+alias cat='bat'
+alias cd='z'
+cx(){ cd "$@" && ls; }
+
+# fd = package to replace "find" command
+# package used by "fzf" in "FZF_DEFAULT_COMMAND" env variable
+# Installation Ubuntu: sudo apt install fd-find
+# The name of executable is "fdfind". So, only in Ubuntu is necessary this alias below
+alias fd='fdfind'
+
 # alias de navegação
 alias ..="cd .."
 alias cd..="cd .."
@@ -36,12 +51,6 @@ alias back="cd -"
 # -t  - exibe uma linha a mais com o total de memória
 # -h  - leitura mais humana
 alias free="free -mth"
-
-# print 'ls -lha' com formato de timestamp
-alias ll='ls -l --time-style=+"%d-%m-%Y %H:%M:%S" --color -h -a'
-
-# get folder size
-alias size='du -sh'
 
 # get and print folder size for all folders, recursively
 alias sizer='du -h -c'
@@ -61,27 +70,68 @@ alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'"
 alias path='echo $PATH | tr ":" "\n" | sort'
 
 # funcção que imrpime o conteúdo de um alias ou função no terminal.
-function showMyAlias(){
-    my_alias="$1"
+show_my_alias(){
+    my_alias=$(echo "$1" | sed 's/()//g' | sed 's/alias //g')
 
     # validação
     if [ -z "$my_alias" ];then
         echo "Digite um alias ou function no 1º paramêtro"
         return 0
+
     fi
 
     # verifique se é um alias
     if type "$my_alias" | grep -q "is an alias"; then
-        echo "[alias]:"
-        type "$my_alias" | cut -d " " -f6-
+        type "$my_alias" | cut -d " " -f6- | bat --color=always -l bash --file-name="alias"
     # verifique se é uma function
     elif type "$my_alias" | grep -q "is a shell function"; then
-        echo "[function]:"
-        declare -f "$my_alias"
+        declare -f "$my_alias" | bat --color=always -l bash --file-name="function"
     else
         echo "alias ou function não encontrado"
         return 1
     fi
+}
+
+list_my_alias(){
+  local dotfiles_path="${HOME}/Dropbox/code/01.github/linux_ricing_project/dotfiles"
+  local public_dotfiles_path="${dotfiles_path}/public-dotfiles"
+  local private_dotfiles_path="${dotfiles_path}/private-dotfiles"
+
+  local search_query='^alias [a-zA-Z_][a-zA-Z0-9_]*='
+
+  grep -rE "$search_query" "${public_dotfiles_path}"/* "${private_dotfiles_path}"/* > /tmp/list_alias.tmp
+
+  show_my_alias "$(grep --no-filename -E "$search_query" "${public_dotfiles_path}"/* "${private_dotfiles_path}"/* | \
+   cut -d "=" -f1 |\
+    fzf  --header-first --header="Alias" --layout reverse --preview '
+      file=$(grep {} /tmp/list_alias.tmp | cut -d ":" -f 1);
+      alias_line={}
+
+      grep {} "$file" | cut -d "=" -f2
+    ')"
+
+    rm -rf /tmp/list_alias.tmp
+}
+
+
+list_my_functions(){
+  local dotfiles_path="${HOME}/Dropbox/code/01.github/linux_ricing_project/dotfiles"
+  local public_dotfiles_path="${dotfiles_path}/public-dotfiles"
+  local private_dotfiles_path="${dotfiles_path}/private-dotfiles"
+
+  local search_query='^(function )?[a-zA-Z_][a-zA-Z0-9_]*\(\)'
+
+  grep -E "$search_query" "${public_dotfiles_path}"/* "${private_dotfiles_path}"/* > /tmp/list_functions.tmp
+
+  show_my_alias "$(grep --no-filename -E "$search_query" "${public_dotfiles_path}"/* "${private_dotfiles_path}"/* | \
+   sed "s/function //g" | sed "s/{//g" |\
+    fzf  --header-first --header="Functions" --layout reverse --preview '
+      file=$(grep {} /tmp/list_functions.tmp | cut -d ":" -f 1);
+      function_line={}
+      awk "/^${function_line}/,/^\}/ { if (/^\}/ && getline == 0) exit; print NR, \$0 }" "$file"
+')"
+
+  rm -rf /tmp/list_functions.tmp
 }
 
 
@@ -94,12 +144,12 @@ function showMyAlias(){
 # Find files and exec commands at them.
 # $ find-exec .coffee cat | wc -l
 # # => 9762
-function find-exec() {
+find-exec(){
   find . -type f -iname "*${1:-}*" -exec "${2:-file}" '{}' \;
 }
 
 # Alias para criar um novo diretório e entrar nele, logo na sequencia
-function new_folder(){
+new_folder(){
   test -z $1 && echo "passe o nome do novo diretorio por parametro" && return 1
   mkdir -p "$@" && cd "$@"
 }
@@ -109,7 +159,7 @@ function new_folder(){
 # pacote externo (dos2unix), preferi usar o sed.
 # ele converte o "line-ending" do Windows ('\r') para o Linux.
 # uso: chame o alias passando um arquivod e texto por parametro.
-function winToLinux(){
+winToLinux(){
     local file=$1
 
     test -z "$file" && echo "passe um arquivo por parametro" && return 1
@@ -119,14 +169,14 @@ function winToLinux(){
 }
 
 # limpa a lixeira
-function limpar_lixeira(){
+limpar_lixeira(){
     print_info "Limpando lixeira...."
     rm -rfv  ~/.local/share/Trash/*
     print_info "Lixeira vazia!"
 }
 
 # cria rapidamente um script novo
-function fast_script(){
+fast_script(){
   local filename="$1"
   if [ -z "$filename" ];then
     echo "digite o nome do script"
@@ -141,7 +191,7 @@ function fast_script(){
 # Ref: https://github.com/SeraphyBR/DotFiles/blob/master/.zshrc
 # alias para ler um arquivo ou acessar um diretório.
 # OBS: o comando "bat" não vem instalado por padrão.
-function arquivo() {
+arquivo(){
   local parametro="$1"
   local file_type=$(file -i "$parametro" | awk '{print $2}' | grep "text")
   if [ $# -eq 0 ];then
@@ -161,7 +211,7 @@ alias remove_all_screenshots="find ${HOME}/Pictures -type f -iname \"Screenshot*
 #  SHELL ALIASES
 ################################################################################
  # alias pra recarregar o shell
-function refresh_shell(){
+refresh_shell(){
     local shell_file=""
 
     if grep "$USER" "/etc/passwd" | grep -q bash ;then
@@ -174,14 +224,14 @@ function refresh_shell(){
 }
 
   # alias pra trocar de shell padrão bash --> zsh
-function bashToZsh(){
+bashToZsh(){
   if type zsh > /dev/null 2>&1 ;then
     chsh -s $(which zsh)
   fi
 }
 
   # alias pra trocar de shell padrão zsh --> bash
-function zshToBash(){
+zshToBash(){
   if type bash > /dev/null 2>&1 ;then
     chsh -s $(which bash)
   fi
@@ -194,7 +244,7 @@ function zshToBash(){
 # Função pra deletar os lock do apt-get.
 # Usado principalmente, quando ele trava do nada.
 # Além de reconfigurar o dpkg e resolver os pacotes quebrados
-function apt-get_fix(){
+apt-get_fix(){
   test -f /var/lib/apt/lists/lock && sudo rm -rf /var/lib/apt/lists/lock
   test -f /var/cache/apt/archives/lock && sudo rm -rf /var/cache/apt/archives/lock
   test -f /var/lib/dpkg/lock && sudo rm -rf /var/lib/dpkg/lock
@@ -207,7 +257,7 @@ function apt-get_fix(){
 
 # atualiza o computador e limpa os pacotes .deb
 # lá de '/var/cache/apt/archives/'
-function atualizar_computador(){
+upgrade(){
   print_info "Update..."
   sudo apt update
 

@@ -126,3 +126,7 @@ if [ -d ${HOME}/.private-dotfiles/ ]; then
 else
    test -f "$HOME/Dropbox/check_dotfiles.sh" && bash "$HOME/Dropbox/check_dotfiles.sh" || return 0
 fi
+
+if which zoxide > /dev/null 2>&1 ;then
+  eval "$(zoxide init zsh)"
+fi

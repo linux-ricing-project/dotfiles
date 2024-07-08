@@ -36,7 +36,7 @@ cd dotfiles
 - [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
 - [powerlevel10k](https://github.com/romkatv/powerlevel10k)
 - [Fira Code font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode)
-- [colorls](https://github.com/athityakumar/colorls)
+- [lsd](https://github.com/lsd-rs/lsd)
 
 <img alt="Icon" src="screenshots/terminal_example.png?raw=true" align="center" hspace="1" vspace="1">
 <img alt="Icon" src="screenshots/terminal_example2.png?raw=true" align="center" hspace="1" vspace="1">

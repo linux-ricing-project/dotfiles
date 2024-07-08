@@ -24,21 +24,21 @@
   alias git_undo_commit="git reset --soft HEAD^"
 
   # remove all untracked files, is case of you want to clean in repo.
-  function git_remove_untracked_files(){
-    rm -rf $(git ls-files --others --exclude-standard | xargs)
-  }
+git_remove_untracked_files(){
+  rm -rf $(git ls-files --others --exclude-standard | xargs)
+}
 
   # Função que cria uma nova branch local, a partir deu uma tag no git
-  function git_new_branch_from_tag(){
-    local tag="$1"
+git_new_branch_from_tag(){
+  local tag="$1"
 
-    test -z "$tag" && echo "digite o nome da tag por parametro" && return 1
+  test -z "$tag" && echo "digite o nome da tag por parametro" && return 1
 
-    git checkout -b "$tag" "$tag"
-  }
+  git checkout -b "$tag" "$tag"
+ }
 
 # Função para renomear uma tag no git
-function git_rename_tags(){
+git_rename_tags(){
     local old_tag="$1"
     local new_tag="$2"
 
@@ -58,39 +58,39 @@ function git_rename_tags(){
 }
 
   # Função pra encurtar URLs do github
-  function github_shorten_url(){
-    local url="$1"
-    local code="$2"
-    test -z "$url" && echo "digite a URL que você quer encurtar" && return 1
-    test -z "$code" && echo "digite o nome customizado da URL" && return 1
-    curl --silent https://git.io/ -i -F "url=$url" -F "code=$code" | grep "Location" | awk '{print $2}'
-  }
+github_shorten_url(){
+  local url="$1"
+  local code="$2"
+  test -z "$url" && echo "digite a URL que você quer encurtar" && return 1
+  test -z "$code" && echo "digite o nome customizado da URL" && return 1
+  curl --silent https://git.io/ -i -F "url=$url" -F "code=$code" | grep "Location" | awk '{print $2}'
+}
 
   # alias rápido para commitar e dar git push ao mesmo tempo
-  function git_commit_push(){
-    local commit_msg=$1
+git_commit_push(){
+  local commit_msg=$1
 
-    if git rev-parse --is-inside-work-tree > /dev/null;then
-        if [ -n "$commit_msg" ];then
-            local current_branch=$(git branch | grep "^*" | awk '{print $2}')
+  if git rev-parse --is-inside-work-tree > /dev/null;then
+      if [ -n "$commit_msg" ];then
+          local current_branch=$(git branch | grep "^*" | awk '{print $2}')
 
-            git commit -a -m "$commit_msg"
+          git commit -a -m "$commit_msg"
 
-            git pull
-            git push origin "$current_branch"
+          git pull
+          git push origin "$current_branch"
 
-        else
-            echo "digite a mensagem do commit"
-            return 1
-        fi
-    else
-        echo "ERROR: This folder is not a git repository"
-        return 1
-    fi
-  }
+      else
+          echo "digite a mensagem do commit"
+          return 1
+      fi
+  else
+      echo "ERROR: This folder is not a git repository"
+      return 1
+  fi
+}
 
 # Função para adicionar as modificações no ultimo commit do log
-function git_edit_last_commit(){
+git_edit_last_commit(){
     if git rev-parse --is-inside-work-tree > /dev/null;then
         current_branch=$(git branch | grep "^*" | awk '{print $2}')
         git commit -a --amend --no-edit
@@ -102,44 +102,44 @@ function git_edit_last_commit(){
 }
 
   # Função que troca de branch rapidamente
-  function git_change_branch(){
-    local new_branch="$1"
+git_change_branch(){
+  local new_branch="$1"
 
-    local default_branch=$(git remote show $(git remote) | sed -n '/HEAD branch/s/.*: //p')
+  local default_branch=$(git remote show $(git remote) | sed -n '/HEAD branch/s/.*: //p')
 
-    git checkout "$default_branch"
-    git pull
+  git checkout "$default_branch"
+  git pull
 
-    if [ -n "$new_branch" ];then
-      git checkout "$new_branch"
-    fi
-  }
+  if [ -n "$new_branch" ];then
+    git checkout "$new_branch"
+  fi
+ }
 
-  # Função pra juntar vários commits em 1 só.
-  # passando a quantidade por parâmetro, tipo assim:
-  # git_squash_commits 5 # ele irá considerar os ultimos 5 commits para fazer um squash
-  function git_squash_commits(){
-    local amount_commits="$1"
+# Função pra juntar vários commits em 1 só.
+# passando a quantidade por parâmetro, tipo assim:
+# git_squash_commits 5 # ele irá considerar os ultimos 5 commits para fazer um squash
+git_squash_commits(){
+  local amount_commits="$1"
 
-    if [ -n "$amount_commits" ];then
-      current_branch=$(git branch | grep "^*" | awk '{print $2}')
-      git rebase -i HEAD~$amount_commits
-      git push origin +${current_branch}
-    else
-      echo "type the amount of commits"
-      return 1
-    fi
-  }
+  if [ -n "$amount_commits" ];then
+    current_branch=$(git branch | grep "^*" | awk '{print $2}')
+    git rebase -i HEAD~$amount_commits
+    git push origin +${current_branch}
+  else
+    echo "type the amount of commits"
+    return 1
+  fi
+}
 
-  # Função para juntar vários commits em 1 só.
-  # Ele a quantidade de vezes que o ultimo commit repetiu a mensagem.
-  function git_squash_equal_commits(){
-    local last_repeated_commit_count
-    last_repeated_commit_count=$(git log --format=%s -n 20 | uniq -c | head -n 1 | awk '{print $1}')
+# Função para juntar vários commits em 1 só.
+# Ele a quantidade de vezes que o ultimo commit repetiu a mensagem.
+git_squash_equal_commits(){
+  local last_repeated_commit_count
+  last_repeated_commit_count=$(git log --format=%s -n 20 | uniq -c | head -n 1 | awk '{print $1}')
 
-    echo current_branch="$(git branch --show-current)"
-    echo "$last_repeated_commit_count"
+  echo current_branch="$(git branch --show-current)"
+  echo "$last_repeated_commit_count"
 
-    git rebase -i HEAD~"${last_repeated_commit_count}"
-    git push origin +"${current_branch}"
-  }
+  git rebase -i HEAD~"${last_repeated_commit_count}"
+  git push origin +"${current_branch}"
+}

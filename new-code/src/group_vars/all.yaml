@@ -1,0 +1,4 @@
+---
+default_roles:
+  - system-base
+  - vim # substituir depois por 'neovim'

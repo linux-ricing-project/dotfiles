@@ -1,0 +1,36 @@
+---
+- name: "{{ ansible_distribution }} | Install extract packages"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - gzip
+    - unzip
+    - bzip2
+
+- name: "{{ ansible_distribution }} | Install important packages"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - apt-transport-https
+    - net-tools
+    - software-properties-common
+
+- name: "{{ ansible_distribution }} | Install tools"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - curl
+    - wget
+    - meld
+    - jq
+    - nano
+    - ffmpeg
+    - imagemagick
+    - neofetch
+    - xclip

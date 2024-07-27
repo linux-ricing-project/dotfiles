@@ -15,10 +15,13 @@ RUN echo "ALL ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN echo "ubuntu:ubuntu" | chpasswd
 
 # Definir o usuário para "ubuntu"
-USER ubuntu
 WORKDIR /home/ubuntu
 
 COPY . .
+
+RUN chown -R ubuntu:ubuntu /home/ubuntu
+
+USER ubuntu
 
 # Defina o comando padrão
 CMD ["tail", "-f", "/dev/null"]

@@ -1,0 +1,244 @@
+#!/bin/bash
+
+# color codes
+RESTORE='\033[0m'
+NC='\033[0m'
+BLACK='\033[00;30m'
+RED='\033[00;31m'
+GREEN='\033[00;32m'
+YELLOW='\033[00;33m'
+BLUE='\033[00;34m'
+PURPLE='\033[00;35m'
+CYAN='\033[00;36m'
+SEA="\\033[38;5;49m"
+LIGHTGRAY='\033[00;37m'
+LBLACK='\033[01;30m'
+LRED='\033[01;31m'
+LGREEN='\033[01;32m'
+LYELLOW='\033[01;33m'
+LBLUE='\033[01;34m'
+LPURPLE='\033[01;35m'
+LCYAN='\033[01;36m'
+WHITE='\033[01;37m'
+# OVERWRITE='\e[1A\e[K'
+OVERWRITE='\033[1A\033[K'
+
+#emoji codes
+CHECK_MARK="${GREEN}\xE2\x9C\x94${NC}"
+X_MARK="${RED}\xE2\x9C\x96${NC}"
+PIN="${RED}\xF0\x9F\x93\x8C${NC}"
+CLOCK="${GREEN}\xE2\x8C\x9B${NC}"
+ARROW="${SEA}\xE2\x96\xB6${NC}"
+BOOK="${RED}\xF0\x9F\x93\x8B${NC}"
+HOT="${ORANGE}\xF0\x9F\x94\xA5${NC}"
+WARNING="${RED}\xF0\x9F\x9A\xA8${NC}"
+RIGHT_ANGLE="${GREEN}\xE2\x88\x9F${NC}"
+
+
+DOTFILES_LOG="$HOME/.dotfiles.log"
+
+set -e
+
+# Paths
+CONFIG_DIR="$HOME/.config/dotfiles"
+VAULT_SECRET="$HOME/.ansible-vault/vault.secret"
+DOTFILES_DIR="$HOME/.dotfiles"
+SSH_DIR="$HOME/.ssh"
+IS_FIRST_RUN="$HOME/.dotfiles_run"
+
+
+# _header colorize the given argument with spacing
+function _task {
+  # if _task is called while a task was set, complete the previous
+  if [[ $TASK != "" ]]; then
+    # shellcheck disable=SC2059
+    printf "${OVERWRITE}${LGREEN} [✓]  ${LGREEN}${TASK}\n${NC}"
+  fi
+  # set new task title and print
+  TASK=$1
+  # shellcheck disable=SC2059
+  printf "${LYELLOW} [ ]  ${TASK} \n${NC}"
+}
+
+# _cmd performs commands with error checking
+function _cmd {
+  #create log if it doesn't exist
+  if ! [[ -f $DOTFILES_LOG ]]; then
+    touch "$DOTFILES_LOG"
+  fi
+
+  # shellcheck disable=SC2188
+  > "$DOTFILES_LOG"
+  # hide stdout, on error we print and exit
+  if eval "$1" 1> /dev/null 2> "$DOTFILES_LOG"; then
+    return 0 # success
+  fi
+  # read error from log and add spacing
+  # shellcheck disable=SC2059
+  printf "${OVERWRITE}${LRED} [X]  ${TASK}${LRED}\n"
+  while read line; do
+    # shellcheck disable=SC2059
+    printf "      ${line}\n"
+  done < "$DOTFILES_LOG"
+  # shellcheck disable=SC2059
+  printf "\n${NC}"
+  # remove log file
+  rm "$DOTFILES_LOG"
+  # exit installation
+  exit 1
+}
+
+function _clear_task {
+  TASK=""
+}
+
+function _task_done {
+  # shellcheck disable=SC2059
+  printf "${OVERWRITE}${LGREEN} [✓]  ${LGREEN}${TASK}\n${NC}"
+  _clear_task
+}
+
+function ubuntu_setup() {
+
+  _task "Updating packages..."
+  test -f /var/lib/apt/lists/lock && sudo rm -rf /var/lib/apt/lists/lock
+  test -f /var/cache/apt/archives/lock && sudo rm -rf /var/cache/apt/archives/lock
+  test -f /var/lib/dpkg/lock && sudo rm -rf /var/lib/dpkg/lock
+  test -f /var/lib/dpkg/lock-frontend && sudo rm -rf /var/lib/dpkg/lock-frontend
+
+  _cmd "sudo apt update"
+  _cmd "sudo apt -y upgrade"
+  _cmd "sudo apt -y dist-upgrade"
+  _cmd "sudo apt -y full-upgrade"
+
+  if ! dpkg -s git >/dev/null 2>&1; then
+    _task "Installing Git"
+    _cmd "sudo apt install -y git"
+  fi
+
+  if ! dpkg -s python3 >/dev/null 2>&1; then
+    _task "Installing Python3"
+    _cmd "sudo apt install -y python3"
+  fi
+
+  if ! type pip3 >/dev/null 2>&1; then
+    _task "Installing Python3 Pip"
+    _cmd "sudo apt -y install \
+          python3-testresources \
+          python3-venv \
+          python3-pip"
+  fi
+
+  if ! dpkg -s ansible >/dev/null 2>&1; then
+    _task "Installing Ansible"
+    _cmd "sudo apt-get update"
+    _cmd "sudo apt-get install -y software-properties-common"
+    _cmd "sudo apt-add-repository -y ppa:ansible/ansible"
+    _cmd "sudo apt-get update"
+    _cmd "sudo apt-get install -y ansible"
+  fi
+
+  if ! pip3 list | grep watchdog >/dev/null 2>&1; then
+    _task "Installing Python3 Watchdog"
+    _cmd "sudo apt-get install -y python3-watchdog"
+  fi
+
+  _task_done
+}
+
+function arch_setup() {
+
+  if ! pacman -Q python3 >/dev/null 2>&1; then
+    _task "Installing Python3"
+    _cmd "sudo pacman -S --noconfirm python3"
+  fi
+
+  if ! pacman -Q python-pip >/dev/null 2>&1; then
+    _task "Installing Python3 Pip"
+    _cmd "sudo pacman -S --noconfirm python-pip"
+  fi
+
+  if ! [ -x "$(command -v ansible)" ]; then
+    _task "Installing Ansible"
+    _cmd "sudo pacman -Sy --noconfirm"
+    _cmd "sudo pacman -S --noconfirm ansible"
+    _cmd "sudo pacman -S --noconfirm python-argcomplete"
+    # _cmd "sudo activate-global-python-argcomplete3"
+  fi
+
+  if ! pip3 list | grep watchdog >/dev/null 2>&1; then
+    _task "Installing Python3 Watchdog"
+    _cmd "sudo pacman -S --noconfirm python-watchdog"
+  fi
+
+  if ! pacman -Q openssh >/dev/null 2>&1; then
+    _task "Installing OpenSSH"
+    _cmd "sudo pacman -S --noconfirm openssh"
+  fi
+
+  _task "Setting Locale"
+  _cmd "sudo localectl set-locale LANG=en_US.UTF-8"
+}
+
+update_ansible_galaxy() {
+  local os=$1
+  local os_requirements=""
+  _task "Updating Ansible Galaxy"
+  if [ -f "$DOTFILES_DIR/requirements/$os.yml" ]; then
+    _task "${OVERWRITE}Updating Ansible Galaxy with OS Config: $os"
+    os_requirements="$DOTFILES_DIR/requirements/$os.yml"
+  fi
+  _cmd "ansible-galaxy install -r $DOTFILES_DIR/requirements/common.yml $os_requirements"
+}
+
+# shellcheck disable=SC1091
+source /etc/os-release
+_task "Loading Setup for detected OS: $ID"
+
+
+case $ID in
+  ubuntu)
+    ubuntu_setup
+    ;;
+  arch)
+    arch_setup
+    ;;
+  *)
+    _task "Unsupported OS"
+    _cmd "echo 'Unsupported OS'"
+    ;;
+esac
+
+
+# if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
+#   _task "Generating SSH keys"
+#   _cmd "mkdir -p $SSH_DIR"
+#   _cmd "chmod 700 $SSH_DIR"
+#   _cmd "ssh-keygen -b 4096 -t rsa -f $SSH_DIR/id_rsa -N '' -C $USER@$HOSTNAME"
+#   _cmd "cat $SSH_DIR/id_rsa.pub >> $SSH_DIR/authorized_keys"
+# fi
+
+if ! [[ -d "$DOTFILES_DIR" ]] && [[ -f "$IS_FIRST_RUN" ]]; then
+  _task "Cloning repository"
+  _cmd "git clone --quiet https://github.com/linux-ricing-project/dotfiles.git $DOTFILES_DIR"
+fi
+
+# pushd "$DOTFILES_DIR" 2>&1 > /dev/null
+# update_ansible_galaxy $ID
+
+# _task "Running playbook"; _task_done
+# if [[ -f $VAULT_SECRET ]]; then
+#   ansible-playbook --vault-password-file $VAULT_SECRET "$DOTFILES_DIR/main.yml" "$@"
+# else
+#   ansible-playbook "$DOTFILES_DIR/main.yml" "$@"
+# fi
+
+# popd 2>&1 > /dev/null
+
+if ! [[ -f "$IS_FIRST_RUN" ]]; then
+  echo -e "${CHECK_MARK} ${GREEN}First run complete!${NC}"
+  echo -e "${ARROW} ${CYAN}Please reboot your computer to complete the setup.${NC}"
+  touch "$IS_FIRST_RUN"
+fi
+
+_task_done

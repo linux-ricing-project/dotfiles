@@ -6,5 +6,5 @@ docker_destroy_all(){
 
 # Docker PS formatted to print only my most used fields
 dps(){
-  docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}"
+  docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Size}}"
 }

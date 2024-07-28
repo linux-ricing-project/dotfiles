@@ -17,12 +17,12 @@
   ansible.builtin.debug:
     var: "{{ lsd_latest_version }}"
 
-- name: "LSD | Download the Cargo .deb package"
+- name: "LSD | Download .deb package"
   ansible.builtin.get_url:
     url: "https://github.com/lsd-rs/lsd/releases/download/v{{ lsd_latest_version }}/lsd-musl_{{ lsd_latest_version }}_amd64.deb"
     dest: /tmp/lsd.deb
 
-- name: "LSD | Install the Cargo .deb package"
+- name: "LSD | Install .deb package"
   become: yes
   ansible.builtin.command:
     cmd: dpkg -i /tmp/lsd.deb
@@ -32,3 +32,25 @@
   ansible.builtin.file:
     path: /tmp/lsd.deb
     state: absent
+
+- name: "LSD | Ensure lsd directory structure exists"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - ~/.config
+    - ~/.config/lsd
+
+- name: "LSD | Find all yaml files in the files directory"
+  ansible.builtin.find:
+    paths: "{{ role_path }}/files/"
+    patterns: "*.yaml"
+  register: found_files
+
+- name: "LSD | Create symbolic links for configuration files"
+  ansible.builtin.file:
+    src: "{{ item.path }}"
+    dest: "{{ ansible_env.HOME }}/.config/lsd/{{ item.path | basename }}"
+    state: link
+  loop: "{{ found_files.files }}"

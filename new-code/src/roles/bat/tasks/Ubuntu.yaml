@@ -1,0 +1,22 @@
+---
+- name: "BAT | Install"
+  become: yes
+  ansible.builtin.apt:
+    name: "bat"
+    state: present
+
+# This is necessary, because when installed by apt-get, the name of executable is "batcat".
+# In this case, I create a symlink from 'batcat' to 'to bat', in the same installation location
+# See More: https://github.com/sharkdp/bat?tab=readme-ov-file#on-ubuntu-using-apt
+
+- name: "BAT | Find the location of batcat"
+  command: which batcat
+  register: batcat_location
+
+- name: "BAT | Create symlink from batcat -> bat"
+  become: true
+  file:
+    src: "{{ batcat_location.stdout }}"
+    dest: "{{ batcat_location.stdout | regex_replace('/batcat$', '/bat') }}"
+    state: link
+  when: batcat_location.stdout != ""

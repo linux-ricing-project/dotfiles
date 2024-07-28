@@ -4,3 +4,4 @@ default_roles:
   - vim # substituir depois por 'neovim'
   - solaar
   - vscode
+  - spotify

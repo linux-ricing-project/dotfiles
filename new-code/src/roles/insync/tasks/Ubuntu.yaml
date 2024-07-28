@@ -1,0 +1,27 @@
+---
+- name: "Insync | Get Ubuntu codename"
+  ansible.builtin.shell: grep "DISTRIB_CODENAME" /etc/lsb-release | cut -d "=" -f2
+  register: so_codename
+
+- name: "Insync | Add Insync GPG key"
+  become: yes
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: ACCAF35C
+
+- name: "Insync | Add Insync repository"
+  become: yes
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] http://apt.insync.io/ubuntu {{ so_codename.stdout }} non-free contrib"
+    state: present
+
+- name: "Insync | Update apt cache"
+  become: yes
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: "Insync | Install Insync"
+  become: yes
+  ansible.builtin.apt:
+    name: insync
+    state: present

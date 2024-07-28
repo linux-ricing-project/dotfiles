@@ -6,3 +6,4 @@ default_roles:
   - vscode
   - spotify
   - google-chrome
+  - insync

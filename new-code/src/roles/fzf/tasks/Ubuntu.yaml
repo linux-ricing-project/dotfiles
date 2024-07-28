@@ -14,8 +14,32 @@
     url: "https://github.com/junegunn/fzf/releases/download/v{{ fzf_latest_release }}/fzf-{{ fzf_latest_release }}-linux_amd64.tar.gz"
     dest: /tmp/fzf.tar.gz
 
+- name: "FZF | Ensure {{ ansible_user_dir }}/.bin directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.bin"
+    state: directory
+    mode: '0755'
+
 - name: "FZF | Extract fzf tarball"
   become: yes
   ansible.builtin.unarchive:
     src: /tmp/fzf.tar.gz
-    dest: /usr/local/bin
+    dest: "{{ ansible_user_dir }}/.bin"
+
+
+- name: "FZF | Download key-bindings.zsh from GitHub"
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh"
+    dest: "{{ ansible_user_dir }}/.bin/key-bindings.zsh"
+
+# Comment this lines in the file. To disable "CTRL + R" command (because this shortcut already used by 'atuin')
+- name: "FZF | Comment specific lines in key-bindings.zsh"
+  ansible.builtin.replace:
+    dest: "{{ ansible_user_dir }}/.bin/key-bindings.zsh"
+    regexp: "{{ item.regex }}"
+    replace: "{{ item.replace }}"
+  loop:
+    - { regex: '^zle     -N            fzf-history-widget', replace: '# zle     -N            fzf-history-widget' }
+    - { regex: '^bindkey -M emacs .* fzf-history-widget', replace: '# bindkey -M emacs .* fzf-history-widget' }
+    - { regex: '^bindkey -M vicmd .* fzf-history-widget', replace: '# bindkey -M vicmd .* fzf-history-widget' }
+    - { regex: '^bindkey -M viins .* fzf-history-widget', replace: '# bindkey -M viins .* fzf-history-widget' }

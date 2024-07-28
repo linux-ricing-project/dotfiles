@@ -7,3 +7,4 @@ default_roles:
   - spotify
   - google-chrome
   - insync
+  - telegram

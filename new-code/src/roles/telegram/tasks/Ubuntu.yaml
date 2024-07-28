@@ -1,0 +1,17 @@
+---
+- name: "Telegram | Add Telegram PPA"
+  become: yes
+  ansible.builtin.apt_repository:
+    repo: ppa:atareao/telegram
+    state: present
+
+- name: "Telegram | Update apt cache"
+  become: yes
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: "Telegram | Install Telegram"
+  become: yes
+  ansible.builtin.apt:
+    name: telegram
+    state: present

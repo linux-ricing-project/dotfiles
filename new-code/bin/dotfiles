@@ -56,7 +56,7 @@ cat << "HEADER"
   / / / / __ \/ __/ /_/ / / _ \/ ___/
  / /_/ / /_/ / /_/ __/ / /  __(__  )
 /_____/\____/\__/_/ /_/_/\___/____/
-                      Frank Junior
+                              v1.0
 
 HEADER
 }
@@ -247,7 +247,7 @@ if [[ -f $VAULT_SECRET ]]; then
   ansible-playbook --vault-password-file "$VAULT_SECRET" "$DOTFILES_DIR/main.yml" --tags "$tag_name"
 else
   # cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "main.yml" --tags "$tag_name"
-  cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "main.yml" --tags "solaar"
+  cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "main.yml" --tags "vscode"
 fi
 
 # shellcheck disable=SC2069

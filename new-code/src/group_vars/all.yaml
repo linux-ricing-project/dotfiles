@@ -4,6 +4,7 @@ default_roles:
   - vim # substituir depois por 'neovim'
   - bat
   - lsd
+  - neofetch
   - fonts
   - zsh
   - solaar

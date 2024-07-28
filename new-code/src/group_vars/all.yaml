@@ -9,3 +9,4 @@ default_roles:
   - insync
   - telegram
   - 1password
+  - docker

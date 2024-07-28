@@ -8,7 +8,6 @@
   ansible.builtin.unarchive:
     src: /tmp/dropbox.tar.gz
     dest: /tmp
-    remote_src: yes
 
 - name: "Dropbox | Move Dropbox to /opt/dropbox"
   become: yes

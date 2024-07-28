@@ -8,3 +8,4 @@ default_roles:
   - google-chrome
   - insync
   - telegram
+  - 1password

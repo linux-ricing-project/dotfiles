@@ -1,0 +1,67 @@
+---
+- name: "Solaar | Check if udev rules file exists"
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.local/share/solaar/udev-rules.d/42-logitech-unify-permissions.rules"
+  register: udev_rules_file
+
+- name: "Solaar | Copy udev rules"
+  become_user: yes
+  ansible.builtin.copy:
+    src: "{{ ansible_env.HOME }}/.local/share/solaar/udev-rules.d/42-logitech-unify-permissions.rules"
+    dest: /etc/udev/rules.d/42-logitech-unify-permissions.rules
+    owner: root
+    group: root
+    mode: '0644'
+  when: udev_rules_file.stat.exists
+
+- name: "Solaar | Reload udev rules"
+  become_user: yes
+  ansible.builtin.shell: udevadm control --reload-rules
+  args:
+    warn: false
+  when: udev_rules_file.stat.exists
+
+- name: "Solaar | Remove apt locks"
+  become: yes
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/var/lib/apt/lists/lock"
+    - "/var/cache/apt/archives/lock"
+    - "/var/lib/dpkg/lock"
+    - "/var/lib/dpkg/lock-frontend"
+
+- name: "Solaar | Install Python dependencies"
+  become: yes
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+      - python3-pyudev
+      - python3-psutil
+      - python3-xlib
+      - python3-evdev
+      - python3-typing-extensions
+      - python3-yaml
+      - build-essential
+      - libdbus-glib-1-dev
+      - libgirepository1.0-dev
+      - python3-dbus
+
+- name: "Solaar | Add PPA repository"
+  become: yes
+  ansible.builtin.apt_repository:
+    repo: ppa:solaar-unifying/ppa
+    state: present
+
+- name: "Solaar | Update apt cache"
+  become: yes
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: "Solaar | Install solaar"
+  become: yes
+  ansible.builtin.apt:
+    name: solaar
+    state: present

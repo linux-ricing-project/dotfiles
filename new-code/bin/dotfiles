@@ -244,9 +244,10 @@ update_ansible_galaxy "$ID"
 
 _task "Running playbook"; _task_done
 if [[ -f $VAULT_SECRET ]]; then
-  ansible-playbook --vault-password-file "$VAULT_SECRET" "$DOTFILES_DIR/main.yml" --tags "$1"
+  ansible-playbook --vault-password-file "$VAULT_SECRET" "$DOTFILES_DIR/main.yml" --tags "$tag_name"
 else
-  cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "main.yml" --tags "$tag_name"
+  # cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "main.yml" --tags "$tag_name"
+  cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "main.yml" --tags "solaar"
 fi
 
 # shellcheck disable=SC2069

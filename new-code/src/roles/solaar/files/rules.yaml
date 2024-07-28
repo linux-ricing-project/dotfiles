@@ -1,0 +1,12 @@
+%YAML 1.3
+---
+- Rule:
+  - Key: [Screen Capture/Print Screen, pressed]
+  - Execute: flameshot
+- Rule:
+  - Key: [Calculator, pressed]
+  - Execute: kcalc
+- Rule:
+  - Key: [Mission Control/Task View, pressed]
+  - Execute: terminator
+...

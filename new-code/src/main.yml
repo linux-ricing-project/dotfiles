@@ -11,6 +11,12 @@
       tags:
         - always
 
+    - name: Display tags
+      ansible.builtin.debug:
+        var: ansible_run_tags
+      tags:
+        - always
+
     - name: Display roles
       ansible.builtin.debug:
         var: run_roles

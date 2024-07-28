@@ -7,9 +7,3 @@
 - name: "System | Run Tasks: {{ ansible_distribution }}"
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
   when: system_distribution_config.stat.exists
-
-- name: "System | Creating {{ ansible_user_dir }}/.bin folder"
-  ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/.bin"
-    state: directory
-    mode: '0755'

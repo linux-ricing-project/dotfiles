@@ -1,0 +1,23 @@
+---
+# Ubuntu Installation
+########################################################################################
+- name: "Fonts | Ensure font directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/share/fonts"
+    state: directory
+    mode: '0755'
+
+- name: "Fonts | Download fonts if not already present"
+  ansible.builtin.get_url:
+    url: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.local/share/fonts/{{ item.split('/')[-1] }}"
+  loop: "{{ fonts_list }}"
+
+- name: "Fonts | Install dependencies"
+  become: true
+  ansible.builtin.apt:
+    name: "fontconfig"
+    state: present
+
+- name: "Fonts | Refresh font cache"
+  ansible.builtin.shell: "fc-cache -f -v"

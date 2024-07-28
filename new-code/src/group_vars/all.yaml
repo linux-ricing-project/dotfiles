@@ -2,12 +2,18 @@
 default_roles:
   - system-base
   - vim # substituir depois por 'neovim'
+  - lsd
+  - fonts
+  - zsh
   - solaar
-  - vscode
-  - spotify
-  - google-chrome
-  - insync
-  - telegram
+
   - 1password
+
   - docker
   - terraform
+
+  - insync
+  - vscode
+  - google-chrome
+  - telegram
+  - spotify

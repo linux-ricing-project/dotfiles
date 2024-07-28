@@ -1,0 +1,30 @@
+---
+- name: "Google Chrome | Download Google Chrome deb package"
+  ansible.builtin.get_url:
+    url: "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+    dest: /tmp/google-chrome-stable_current_amd64.deb
+
+- name: "Google Chrome | Install Google Chrome using dpkg"
+  become: yes
+  ansible.builtin.command:
+    cmd: dpkg -i /tmp/google-chrome-stable_current_amd64.deb
+  ignore_errors: yes
+
+- name: "Google Chrome | Fix missing dependencies if any"
+  become: yes
+  ansible.builtin.shell: apt install -f -y
+  ignore_errors: yes
+
+- name: "Google Chrome | Fix broken dependencies"
+  become: yes
+  ansible.builtin.shell: apt --fix-broken install -y
+
+- name: "Google Chrome | Install Google Chrome using dpkg again"
+  become: yes
+  ansible.builtin.command:
+    cmd: dpkg -i /tmp/google-chrome-stable_current_amd64.deb
+
+- name: "Google Chrome | Remove Google Chrome deb package"
+  ansible.builtin.file:
+    path: /tmp/google-chrome-stable_current_amd64.deb
+    state: absent

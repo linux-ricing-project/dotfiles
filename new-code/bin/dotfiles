@@ -132,15 +132,12 @@ function ubuntu_setup() {
 
   if ! dpkg -s python3 >/dev/null 2>&1; then
     _task "Installing Python3"
-    _cmd "sudo apt install -y python3"
-  fi
-
-  if ! type pip3 >/dev/null 2>&1; then
-    _task "Installing Python3 Pip"
     _cmd "sudo apt -y install \
+          python3 \
           python3-testresources \
           python3-venv \
-          python3-pip"
+          python3-pip \
+          python3-watchdog"
   fi
 
   if ! dpkg -s ansible >/dev/null 2>&1; then
@@ -150,11 +147,6 @@ function ubuntu_setup() {
     _cmd "sudo apt-add-repository -y ppa:ansible/ansible"
     _cmd "sudo apt update"
     _cmd "sudo apt install -y ansible"
-  fi
-
-  if ! pip3 list | grep watchdog >/dev/null 2>&1; then
-    _task "Installing Python3 Watchdog"
-    _cmd "sudo apt install -y python3-watchdog"
   fi
 
   _task_done
@@ -247,7 +239,7 @@ if [[ -f $VAULT_SECRET ]]; then
   ansible-playbook --vault-password-file "$VAULT_SECRET" "$DOTFILES_DIR/main.yml" --tags "$tag_name"
 else
   # cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "main.yml" --tags "$tag_name"
-  cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "main.yml" --tags "dropbox"
+  cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "main.yml" --tags "google-chrome"
 fi
 
 # shellcheck disable=SC2069

@@ -5,3 +5,4 @@ default_roles:
   - solaar
   - vscode
   - spotify
+  - google-chrome

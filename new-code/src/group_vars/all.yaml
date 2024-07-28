@@ -2,6 +2,7 @@
 default_roles:
   - system-base
   - vim # substituir depois por 'neovim'
+  - btop
   - bat
   - lsd
   - neofetch

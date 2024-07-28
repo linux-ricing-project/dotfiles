@@ -4,8 +4,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Instalação de dependências necessárias
 RUN apt-get update && apt-get install -y \
-    sudo tzdata \
+    sudo \
+    tzdata \
+    locales \
     && rm -rf /var/lib/apt/lists/*
+
+# Gerar e configurar locale
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 RUN ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime \
     && dpkg-reconfigure --frontend noninteractive tzdata

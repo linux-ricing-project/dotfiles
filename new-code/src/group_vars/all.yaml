@@ -10,3 +10,4 @@ default_roles:
   - telegram
   - 1password
   - docker
+  - terraform

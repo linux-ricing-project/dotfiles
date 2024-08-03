@@ -14,7 +14,7 @@
       - gnupg
     state: present
 
-- name: "Docker | Add Docker’s official GPG key"
+- name: "Docker | Add Docker's official GPG key"
   become: true
   ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
@@ -28,7 +28,7 @@
   failed_when: false
   check_mode: false
 
-- name: "Docker | Add Docker’s stable repository"
+- name: "Docker | Add Docker's stable repository"
   become: true
   ansible.builtin.apt_repository:
     repo: deb [arch={{ dpkg_architecture.stdout }} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable

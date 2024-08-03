@@ -10,15 +10,17 @@
     dest: /tmp
 
 - name: "Dropbox | Move Dropbox to /opt/dropbox"
-  become: yes
-  ansible.builtin.command:
-    cmd: mv /tmp/.dropbox-dist /opt/dropbox
-    creates: /opt/dropbox
+  become: true
+  copy:
+    src: "/tmp/.dropbox-dist"
+    dest: "/opt/dropbox"
+    mode: '0755'
+    remote_src: true
 
 - name: "Dropbox | Create symbolic link for dropboxd"
   become: yes
   ansible.builtin.file:
-    src: /opt/dropbox/dropboxd
+    src: /opt/dropbox/.dropbox-dist/dropboxd
     dest: /usr/bin/dropbox
     state: link
 

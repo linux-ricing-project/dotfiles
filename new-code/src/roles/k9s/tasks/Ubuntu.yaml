@@ -37,9 +37,9 @@
 
     - name: "k9s | Ensure clean download destination"
       ansible.builtin.file:
+      become: true
         path: "/tmp/{{ k9s_file }}.tar.gz"
         state: absent
-      become: true
 
     - name: "k9s | Downloading k9s Release"
       ansible.builtin.get_url:
@@ -52,9 +52,9 @@
 
     - name: "k9s | Ensure clean extraction destination"
       ansible.builtin.file:
+      become: true
         path: "/tmp/k9s"
         state: absent
-      become: true
 
     - name: "k9s | Extract k9s tar file"
       ansible.builtin.unarchive:
@@ -63,12 +63,13 @@
 
     - name: "k9s | Remove any current k9s installations"
       ansible.builtin.file:
+      become: true
         path: /usr/local/bin/k9s
         state: absent
-      become: true
 
     - name: "k9s | Install k9s"
       ansible.builtin.copy:
+      become: true
         remote_src: true
         src: /tmp/k9s
         dest: /usr/local/bin/
@@ -76,7 +77,6 @@
         group: "{{ host_user }}"
         force: true
         mode: 0755
-      become: true
       notify:
         - Remove extracted k9s directory
   when: k9s_latest_release not in current_k9s_version.stdout|default('')

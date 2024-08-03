@@ -5,15 +5,22 @@
     dest: "/tmp/kind"
     mode: '0755'
 
-- name: "Kind | Ensure {{ ansible_user_dir }}/.bin directory exists"
+- name: "Kind | Remove any current kind installations"
+  become: true
   ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/.bin"
-    state: directory
-    mode: '0755'
+    path: "/usr/local/bin/kind"
+    state: absent
 
 - name: "Kind | Move Kind to bin"
-  copy:
+  become: true
+  ansible.builtin.copy:
     src: "/tmp/kind"
-    dest: "{{ ansible_user_dir }}/.bin/kind"
+    dest: "/usr/local/bin"
     mode: '0755'
     remote_src: true
+
+- name: "Kind | Remove donwloaded binary"
+  become: true
+  ansible.builtin.file:
+    path: "/tmp/kind"
+    state: absent

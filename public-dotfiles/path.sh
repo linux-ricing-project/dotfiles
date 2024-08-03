@@ -14,4 +14,6 @@ fi
 
 if [ -d "/usr/local/go/bin" ] ; then
     export PATH="$PATH:/usr/local/go/bin"
+    GOPATH=$(go env | grep "GOPATH" | cut -d "=" -f2 | sed "s/'//g")
+    export PATH="$PATH:${GOPATH}/bin"
 fi

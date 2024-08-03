@@ -26,6 +26,7 @@ default_roles:
   - docker
   - terraform
   - go
+  - kubectl
 
   # GUI softwares
   - 1password
@@ -40,3 +41,6 @@ go:
   packages:
     - package: github.com/spf13/cobra-cli@latest
       cmd: cobra-cli
+
+k8s:
+  version: "v1.26"

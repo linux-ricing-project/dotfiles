@@ -36,8 +36,8 @@
         k9s_file: "k9s_Linux_amd64"
 
     - name: "k9s | Ensure clean download destination"
-      ansible.builtin.file:
       become: true
+      ansible.builtin.file:
         path: "/tmp/{{ k9s_file }}.tar.gz"
         state: absent
 
@@ -51,8 +51,8 @@
         - Cleanup k9s downloaded tar
 
     - name: "k9s | Ensure clean extraction destination"
-      ansible.builtin.file:
       become: true
+      ansible.builtin.file:
         path: "/tmp/k9s"
         state: absent
 
@@ -62,14 +62,14 @@
         dest: /tmp
 
     - name: "k9s | Remove any current k9s installations"
-      ansible.builtin.file:
       become: true
+      ansible.builtin.file:
         path: /usr/local/bin/k9s
         state: absent
 
     - name: "k9s | Install k9s"
-      ansible.builtin.copy:
       become: true
+      ansible.builtin.copy:
         remote_src: true
         src: /tmp/k9s
         dest: /usr/local/bin/

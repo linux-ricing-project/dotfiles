@@ -20,14 +20,6 @@
     src: /tmp/kubecolor.tar.gz
     dest: "/usr/local/bin"
 
-# - name: "Kubecolor | Move Kubecolor to /usr/local/bin"
-#   become: true
-#   copy:
-#     src: "/tmp/linux-amd64/kubecolor"
-#     dest: "/usr/local/bin"
-#     mode: '0755'
-#     remote_src: true
-
 - name: "Kubecolor | Cleanup downloaded tar"
   ansible.builtin.file:
     path: "/tmp/kubecolor.tar.gz"

@@ -24,7 +24,7 @@
 
 - name: "Dropbox | Ensure ~/.config/autostart directory exists"
   ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.config/autostart"
+    path: "{{ ansible_user_dir }}/.config/autostart"
     state: directory
     mode: '0755'
 
@@ -40,7 +40,7 @@
 - name: "Dropbox | Copy dropbox.desktop to ~/.config/autostart"
   ansible.builtin.copy:
     src: "{{ role_path }}/files/dropbox.desktop"
-    dest: "{{ ansible_env.HOME }}/.config/autostart/dropbox.desktop"
+    dest: "{{ ansible_user_dir }}/.config/autostart/dropbox.desktop"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: '0644'

@@ -8,6 +8,7 @@ default_roles:
   - atuin
   - btop
   - bat
+  - zoxide
   - lsd
   - neofetch
   - lazygit
@@ -16,7 +17,6 @@ default_roles:
   - fonts
   - zsh           # TODO: remover o Powerlevel10k daqui, e cria ruma nova role para "spaceship"
   - tmux
-  - zoxide
   - terminator      # TODO: substitui depois por 'kitty'
 
   # utilities to connect Logitech devices
@@ -26,7 +26,10 @@ default_roles:
   - docker
   - terraform
   - go
+
+  # Kubernetes tools
   - kubectl
+  - kind
 
   # GUI softwares
   - 1password
@@ -43,4 +46,5 @@ go:
       cmd: cobra-cli
 
 k8s:
-  version: "v1.26"
+  kubectl_version: "v1.26"
+  kind_version: "v0.23.0"

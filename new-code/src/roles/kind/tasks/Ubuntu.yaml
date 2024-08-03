@@ -1,0 +1,19 @@
+---
+- name: "Kind | Download Kind binary"
+  ansible.builtin.get_url:
+    url: "https://kind.sigs.k8s.io/dl/{{ k8s.kind_version }}/kind-linux-amd64"
+    dest: "/tmp/kind"
+    mode: '0755'
+
+- name: "Kind | Ensure {{ ansible_user_dir }}/.bin directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.bin"
+    state: directory
+    mode: '0755'
+
+- name: "Kind | Move Kind to bin"
+  copy:
+    src: "/tmp/kind"
+    dest: "{{ ansible_user_dir }}/.bin/kind"
+    mode: '0755'
+    remote_src: true

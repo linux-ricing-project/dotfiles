@@ -8,5 +8,16 @@
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
   when: system_distribution_config.stat.exists
 
-- name: "Solaar | Link Config files"
-  ansible.builtin.include_tasks: "link-config-files.yaml"
+- name: "Solaar | Ensure solaar directory structure exists"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{ ansible_user_dir }}/.config"
+    - "{{ ansible_user_dir }}/.config/solaar"
+
+- name: "Solaar | Create symbolic links for configuration files"
+  ansible.builtin.shell:
+    cmd: "stow -t {{ ansible_user_dir }}/.config/solaar ."
+    chdir: "{{ role_path }}/files"

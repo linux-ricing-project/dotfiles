@@ -1,32 +1,32 @@
 ---
 default_roles:
   - system-base
-  - vim           # TODO: substituir depois por 'neovim'
+  # - vim           # TODO: substituir depois por 'neovim'
 
   # CLI Tools
-  - fzf
-  - atuin
-  - btop
-  - bat
-  - lsd
-  - neofetch
+  # - fzf
+  # - atuin
+  # - btop
+  # - bat
+  # - lsd
+  # - neofetch
 
-  # Terminal
-  - fonts
+  # # Terminal
+  # - fonts
   - zsh
 
   # utilities to connect Logitech devices
-  - solaar
+  # - solaar
 
-  # Devops tools
-  - docker
-  - terraform
+  # # Devops tools
+  # - docker
+  # - terraform
 
-  # GUI softwares
-  - 1password
-  - insync
-  - vscode
-  - google-chrome
-  - telegram
-  - spotify
-  - funny-apps
+  # # GUI softwares
+  # - 1password
+  # - insync
+  # - vscode
+  # - google-chrome
+  # - telegram
+  # - spotify
+  # - funny-apps

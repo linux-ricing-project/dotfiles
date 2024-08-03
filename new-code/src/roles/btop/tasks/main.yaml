@@ -14,11 +14,10 @@
     mode: "0755"
     state: directory
   loop:
-    - ~/.config
-    - ~/.config/btop
+    - "{{ ansible_user_dir }}/.config"
+    - "{{ ansible_user_dir }}/.config/btop"
 
 - name: "BTOP | Copy btop config"
-  ansible.builtin.copy:
-    src: btop.conf
-    dest: ~/.config/btop/btop.conf
-    mode: "0644"
+  ansible.builtin.shell:
+    cmd: "stow -t {{ ansible_user_dir }}/.config/btop ."
+    chdir: "{{ role_path }}/files"

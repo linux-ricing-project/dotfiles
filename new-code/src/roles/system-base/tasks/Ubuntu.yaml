@@ -18,6 +18,7 @@
     - apt-transport-https
     - net-tools
     - software-properties-common
+    - build-essential
 
 - name: "{{ ansible_distribution }} | Install tools"
   become: true
@@ -25,11 +26,11 @@
     name: "{{ item }}"
     state: present
   loop:
+    - stow
     - curl
     - wget
     - meld
     - jq
-    - nano
     - ffmpeg
     - imagemagick
     - xclip

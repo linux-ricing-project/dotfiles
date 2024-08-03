@@ -13,10 +13,6 @@
   ansible.builtin.set_fact:
     lsd_latest_version: "{{ lsd_latest_release | replace('v', '') }}"
 
-- name: "DEBUUG"
-  ansible.builtin.debug:
-    var: "{{ lsd_latest_version }}"
-
 - name: "LSD | Download .deb package"
   ansible.builtin.get_url:
     url: "https://github.com/lsd-rs/lsd/releases/download/v{{ lsd_latest_version }}/lsd-musl_{{ lsd_latest_version }}_amd64.deb"

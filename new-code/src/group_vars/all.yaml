@@ -42,6 +42,7 @@ default_roles:
   - google-chrome
   - telegram
   - spotify
+
   - funny-apps
 
 go:
@@ -52,3 +53,7 @@ go:
 k8s:
   kubectl_version: "v1.26"
   kind_version: "v0.23.0"
+
+# fonts list used by me
+fonts_list:
+  - "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/DroidSansMNerdFont-Regular.otf"

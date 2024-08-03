@@ -26,8 +26,8 @@
     src: /tmp/lazygit
     dest: /usr/local/bin/lazygit
     mode: '0755'
-    owner: root
-    group: root
+    owner: "{{ host_user }}"
+    group: "{{ host_user }}"
     force: true
 
 - name: Cleanup lazygit downloaded tar

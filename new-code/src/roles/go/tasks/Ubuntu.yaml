@@ -60,61 +60,33 @@
 
 - name: "GO | Install"
   block:
-    - name: "GO | Ensure clean download destination"
-      ansible.builtin.file:
-        # path: "/tmp/{{ go_file }}.tar.gz"
-        path: "/usr/local/{{ go_file }}.tar.gz"
-        state: absent
-      become: true
-
-
-    - name: "GO | Downloading GoLang Release"
-      become: true
-      ansible.builtin.get_url:
-        url: https://go.dev/dl/{{ go_file }}.tar.gz
-        # dest: /tmp/
-        dest: /usr/local/
-        mode: 0644
-        force: true
-
-    - name: "GO | Ensure clean extraction destination"
-      ansible.builtin.file:
-        # path: "/tmp/go"
-        path: "/usr/local/go"
-        state: absent
-      become: true
-
-    - name: "GO | Extract go tar file"
-      become: true
-      ansible.builtin.unarchive:
-        # src: "/tmp/{{ go_file }}.tar.gz"
-        src: "/usr/local/{{ go_file }}.tar.gz"
-        dest: /usr/local
-
-    # - name: "GO | Remove any current Go installations"
-    #   ansible.builtin.file:
-    #     path: /usr/local/go
-    #     state: absent
-    #   become: true
-
-    # - name: "GO | Install Go"
-    #   become: true
-    #   ansible.builtin.copy:
-    #     src: /tmp/go
-    #     dest: /usr/local/
-    #     owner: "root"
-    #     group: "root"
-    #     force: true
-
-    - name: Cleanup go downloaded tar
+    - name: "GO | Ensure clean Go Installations"
       become: true
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
       loop:
-        - "/usr/local/{{ go_file }}.tar.gz"
+        - "/tmp/{{ go_file }}.tar.gz"
         - "/usr/local/go"
-        # - "/tmp/{{ go_file }}.tar.gz"
-        # - /tmp/go
 
+    - name: "GO | Downloading GoLang Release"
+      become: true
+      ansible.builtin.get_url:
+        url: https://go.dev/dl/{{ go_file }}.tar.gz
+        dest: /tmp/
+        mode: 0644
+        force: true
+
+    - name: "GO | Extract go tar file"
+      become: true
+      ansible.builtin.unarchive:
+        src: "/tmp/{{ go_file }}.tar.gz"
+        dest: /usr/local
+
+    - name: Cleanup go downloaded tar
+      become: true
+      ansible.builtin.file:
+        path: "/tmp/{{ go_file }}.tar.gz"
+        state: absent
+      loop:
   when: go_latest_version not in current_go_version.stdout|default('')

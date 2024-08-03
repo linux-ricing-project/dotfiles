@@ -32,6 +32,7 @@ default_roles:
   - kind
   - helm
   - kubecolor
+  - k9s
 
   # GUI softwares
   - 1password

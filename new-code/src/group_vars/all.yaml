@@ -24,6 +24,7 @@ default_roles:
   # Devops tools
   - docker
   - terraform
+  - go
 
   # GUI softwares
   - 1password
@@ -33,3 +34,8 @@ default_roles:
   - telegram
   - spotify
   - funny-apps
+
+go:
+  packages:
+    - package: github.com/spf13/cobra-cli@latest
+      cmd: cobra-cli

@@ -1,5 +1,5 @@
 ---
-- name: "Terminator | {{ ansible_distribution }} | Install tmux"
+- name: "Terminator | {{ ansible_distribution }} | Install terminator"
   ansible.builtin.apt:
     name: terminator
     state: present

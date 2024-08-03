@@ -1,0 +1,6 @@
+---
+- name: "Zoxide | {{ ansible_distribution }} | Install zoxide"
+  ansible.builtin.apt:
+    name: zoxide
+    state: present
+  become: true

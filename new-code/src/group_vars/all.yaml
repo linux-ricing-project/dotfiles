@@ -30,6 +30,7 @@ default_roles:
   # Kubernetes tools
   - kubectl
   - kind
+  - helm
 
   # GUI softwares
   - 1password

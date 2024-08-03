@@ -13,8 +13,9 @@ default_roles:
 
   # Terminal
   - fonts
-  - zsh
+  - zsh           # TODO: remover o Powerlevel10k daqui, e cria ruma nova role para "spaceship"
   - tmux
+  - terminator      # TODO: substitui depois por 'kitty'
 
   # utilities to connect Logitech devices
   - solaar

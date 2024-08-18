@@ -2,11 +2,11 @@
 ---
 - Rule:
   - Key: [Screen Capture/Print Screen, pressed]
-  - Execute: flameshot
+  - Execute: [flameshot, gui]
 - Rule:
   - Key: [Calculator, pressed]
   - Execute: kcalc
 - Rule:
-  - Key: [Mission Control/Task View, pressed]
+  - Key: [App Contextual Menu/Right Click, pressed]
   - Execute: terminator
 ...

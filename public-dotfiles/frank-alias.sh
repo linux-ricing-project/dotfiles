@@ -18,6 +18,8 @@ json(){
   fi
 }
 
+alias matrix="cmatrix -b -s -u 6"
+
 # Clipboard
 # use: "echo mensagem | copiar"
 # OBS: 'xclip' não vem instalado por padrão no SO.

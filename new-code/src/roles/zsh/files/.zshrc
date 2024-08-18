@@ -113,19 +113,25 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-if [ -d ${HOME}/.public-dotfiles/ ]; then
-   for public_files in ${HOME}/.public-dotfiles/*; do
+if [ -d ${HOME}/.config/dotfiles ]; then
+   for public_files in ${HOME}/.config/dotfiles/*; do
       source $public_files
    done
 fi
 
-if [ -d ${HOME}/.private-dotfiles/ ]; then
-   for private_files in ${HOME}/.private-dotfiles/*; do
-      source $private_files
-   done
-else
-   test -f "$HOME/Dropbox/check_dotfiles.sh" && bash "$HOME/Dropbox/check_dotfiles.sh" || return 0
-fi
+# if [ -d ${HOME}/.public-dotfiles/ ]; then
+#    for public_files in ${HOME}/.public-dotfiles/*; do
+#       source $public_files
+#    done
+# fi
+
+# if [ -d ${HOME}/.private-dotfiles/ ]; then
+#    for private_files in ${HOME}/.private-dotfiles/*; do
+#       source $private_files
+#    done
+# else
+#    test -f "$HOME/Dropbox/check_dotfiles.sh" && bash "$HOME/Dropbox/check_dotfiles.sh" || return 0
+# fi
 
 if which zoxide > /dev/null 2>&1 ;then
   eval "$(zoxide init zsh)"

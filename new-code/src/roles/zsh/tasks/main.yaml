@@ -8,6 +8,12 @@
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
   when: system_distribution_config.stat.exists
 
+- name: "ZSH | Ensure {{ ansible_user_dir }}/config/dotfiles directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.config/dotfiles"
+    state: directory
+    mode: '0755'
+
 # Linking Config file
 - name: "ZSH | Ensure clean .zshrc file"
   ansible.builtin.file:
@@ -23,6 +29,9 @@
   loop:
     - { src: "{{ role_path }}/files/.zshrc", dest: "{{ ansible_user_dir }}/.zshrc" }
     - { src: "{{ role_path }}/files/.p10k.zsh", dest: "{{ ansible_user_dir }}/.p10k.zsh" }
+    - { src: "{{ role_path }}/files/colors.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/colors.sh" }
+    - { src: "{{ role_path }}/files/env.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/env.sh" }
+    - { src: "{{ role_path }}/files/path.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/path.sh" }
 
 - name: "ZSH | Change to zsh"
   become: yes

@@ -32,6 +32,18 @@
     - { src: "{{ role_path }}/files/colors.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/colors.sh" }
     - { src: "{{ role_path }}/files/env.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/env.sh" }
     - { src: "{{ role_path }}/files/path.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/path.sh" }
+    - { src: "{{ role_path }}/files/alias.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/alias.sh" }
+
+- name: "ZSH | Ensure ~/.bin/scripts directory structure exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.bin/scripts"
+    mode: "0755"
+    state: directory
+
+- name: "ZSH | Create symbolic links for scripts"
+  ansible.builtin.shell:
+    cmd: "stow -t {{ ansible_user_dir }}/.bin/scripts ."
+    chdir: "{{ role_path }}/files/scripts"
 
 - name: "ZSH | Change to zsh"
   become: yes

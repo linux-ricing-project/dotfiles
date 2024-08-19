@@ -54,7 +54,6 @@ git_rename_tags(){
         echo "ERROR: This folder is not a git repository"
         return 1
     fi
-
 }
 
   # Função pra encurtar URLs do github

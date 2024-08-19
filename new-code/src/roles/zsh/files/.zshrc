@@ -133,6 +133,13 @@ fi
 #    test -f "$HOME/Dropbox/check_dotfiles.sh" && bash "$HOME/Dropbox/check_dotfiles.sh" || return 0
 # fi
 
+if [ -f "${HOME}/.atuin/bin/env" ];then
+  source "${HOME}/.atuin/bin/env"
+fi
+if which atuin > /dev/null 2>&1 ;then
+  eval "$(atuin init zsh --disable-up-arrow)"
+fi
+
 if which zoxide > /dev/null 2>&1 ;then
   eval "$(zoxide init zsh)"
 fi

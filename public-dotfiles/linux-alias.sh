@@ -3,7 +3,7 @@
 #setxkbmap -layout br
 
 # Seta o layout do teclado para usar o "Logitech Mx Keys"
-setxkbmap -model logitech_base -layout us -variant intl -option "compose:ralt"
+# setxkbmap -model logitech_base -layout us -variant intl -option "compose:ralt"
 
 if [ -f "${HOME}/.atuin/bin/env" ];then
   source "${HOME}/.atuin/bin/env"
@@ -244,7 +244,7 @@ zshToBash(){
 # Função pra deletar os lock do apt-get.
 # Usado principalmente, quando ele trava do nada.
 # Além de reconfigurar o dpkg e resolver os pacotes quebrados
-apt-get_fix(){
+apt_get_fix(){
   test -f /var/lib/apt/lists/lock && sudo rm -rf /var/lib/apt/lists/lock
   test -f /var/cache/apt/archives/lock && sudo rm -rf /var/cache/apt/archives/lock
   test -f /var/lib/dpkg/lock && sudo rm -rf /var/lib/dpkg/lock

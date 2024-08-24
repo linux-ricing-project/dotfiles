@@ -1,6 +1,7 @@
 FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV TERM="tmux-256color"
 
 # Instalação de dependências necessárias
 RUN apt update && apt upgrade -y && apt install -y \

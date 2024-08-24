@@ -1,7 +1,6 @@
 # exibindo data e hora no comando 'history'
 export HISTTIMEFORMAT="%d/%m/%y %T "
 
-source "${FZF_BASE}/key-bindings.zsh"
 export FZF_DEFAULT_COMMAND='fdfind --type f --color=never'
 
 # Show fzf in fullscreen

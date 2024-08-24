@@ -21,58 +21,6 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -101,17 +49,6 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 if [ -d ${HOME}/.config/dotfiles ]; then
    for public_files in ${HOME}/.config/dotfiles/*; do
@@ -133,6 +70,49 @@ fi
 #    test -f "$HOME/Dropbox/check_dotfiles.sh" && bash "$HOME/Dropbox/check_dotfiles.sh" || return 0
 # fi
 
+
+# ~~~~~~~~~~~~~~~ Environment Variables ~~~~~~~~~~~~~~~~~~~~~~~~
+
+# exibindo data e hora no comando 'history'
+export HISTTIMEFORMAT="%d/%m/%y %T "
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
+
+setopt HIST_IGNORE_SPACE  # Don't save when prefixed with space
+setopt HIST_IGNORE_DUPS   # Don't save duplicate lines
+setopt SHARE_HISTORY      # Share history between sessions
+
+source "${FZF_BASE}/key-bindings.zsh"
+export FZF_DEFAULT_COMMAND='fdfind --type f --color=never'
+
+# Show fzf in fullscreen
+export FZF_DEFAULT_OPTS="--height=100% --border=rounded --reverse"
+
+# CTRL + T: call the fzf in current folder
+# with a preview by bat
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range :50 {}'"
+
+# ALT + C: call the fzf in current folder
+# with a tree preview
+export FZF_ALT_C_COMMAND="fdfind --type d . --color=never"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -n 50'"
+
+# set default editor to vim
+export EDITOR=vim
+
+export TERM="tmux-256color"
+
+# variáveis para colorir manpages
+export LESS_TERMCAP_mb=${bold_green}
+export LESS_TERMCAP_md=${bold_green}
+export LESS_TERMCAP_me=${text_reset}
+export LESS_TERMCAP_se=${text_reset}
+export LESS_TERMCAP_so=${bold_yellow}
+export LESS_TERMCAP_ue=${text_reset}
+export LESS_TERMCAP_us=${bold_red}
+
 if [ -f "${HOME}/.atuin/bin/env" ];then
   source "${HOME}/.atuin/bin/env"
 fi
@@ -143,3 +123,18 @@ fi
 if which zoxide > /dev/null 2>&1 ;then
   eval "$(zoxide init zsh)"
 fi
+
+# ~~~~~~~~~~~~~~~ Paths ~~~~~~~~~~~~~~~~~~~~~~~~
+path=(
+    $path               # Keep existing PATH entries
+    $HOME/.bin
+    $HOME/.bin/scripts
+    $HOME/.local/bin
+    $HOME/.krew/bin
+)
+
+# Remove duplicate entries and non-existent directories
+typeset -U path
+
+# TODO: Precisa mesmo dessa linha?
+export PATH

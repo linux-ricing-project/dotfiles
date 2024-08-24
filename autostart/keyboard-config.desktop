@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=sleep 5 && /usr/bin/setxkbmap -model logitech_base -layout us -variant intl -option "compose:ralt"
+Hidden=false
+NoDisplay=false
+X-KDE-Autostart-enabled=true
+Name[en_US]=Keyboard Layout Fix
+Name=Keyboard Layout Fix
+Comment=Applies the correct keyboard layout at startup

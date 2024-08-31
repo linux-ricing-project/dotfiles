@@ -5,6 +5,15 @@ function print_info(){
     gum style --bold --foreground="$vm_color" "$message"
 }
 
+function print_spin(){
+    local message="$1"
+
+    gum spin --title="$message" \
+        --spinner.foreground="$vm_color" \
+        --timeout "${init_timeout}s" -- \
+        sleep "$init_timeout"
+}
+
 ############################################################
 # MAIN
 ############################################################
@@ -26,17 +35,24 @@ fi
 
 vm_search=$(incus list "$vm_name" -f json | jq -r '.[].name')
 if [[ -n "$vm_search" ]];then
-    print_info "Restoring Snapshot"
+    vm_status=$(incus list "$vm_name" -f json | jq -r '.[].status')
+
+    if [ "$vm_status" == "Running" ];then
+        print_info "Stopping VM..."
+        incus stop "$vm_name"
+    fi
 
     incus snapshot restore "$vm_name" snap-init
+    print_spin "Restoring initial Snapshot..."
 
-    gum spin --title="Restoring initial Snapshot..." \
-            --spinner.foreground="$vm_color" \
-            --timeout "${init_timeout}s" -- \
-            sleep "$init_timeout"
+    incus start "$vm_name"
+    print_spin "Starting VM..."
+
+    print_info "Updating Code inside VM"
+    vm_ip=$(incus list "$vm_name" -f json | jq -r '.[].state.network.enp5s0.addresses[0].address')
+    rsync --delete -avz . "ubuntu@${vm_ip}:dotfiles/"
 
     print_info "Initializing VM"
-
     incus console "$vm_name" --type=vga
 else
     print_info "VM $vm_name: not found"

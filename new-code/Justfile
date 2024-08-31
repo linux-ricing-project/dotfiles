@@ -2,6 +2,9 @@
 start-vm:
 	@bash dev/start-vm.sh
 
+update-code-vm:
+	@bash dev/update-code-on-vm.sh
+
 reset-vm:
 	@bash dev/reset-vm.sh
 

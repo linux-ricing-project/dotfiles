@@ -54,17 +54,32 @@
         regexp: '^(XKBLAYOUT|XKBMODEL|XKBVARIANT|XKBOPTIONS|BACKSPACE)=".*"$'
         line: |
           XKBLAYOUT="us"
-          XKBMODEL="pc105"
+          XKBMODEL="logitech_base"
           XKBVARIANT="intl"
           XKBOPTIONS="compose:ralt"
           BACKSPACE="guess"
         state: present
       register: keyboard_config_status
 
-    - name: "{{ ansible_distribution }} | Update keyboard configs"
+    - name: "{{ ansible_distribution }} | Check if the system is using X11 or Wayland"
+      ansible.builtin.command: echo $XDG_SESSION_TYPE
+      register: session_type
+      changed_when: false
+
+    - name: "{{ ansible_distribution }} | Update keyboard configs for X11"
       become: true
-      ansible.builtin.shell: localectl set-x11-keymap us pc105 intl "compose:ralt"
-      when: keyboard_file_status.changed or keyboard_config_status.changed
+      ansible.builtin.shell: localectl set-x11-keymap us logitech_base intl "compose:ralt"
+      when:
+        - session_type.stdout == 'x11'
+        - keyboard_file_status.changed or keyboard_config_status.changed
+
+    - name: "{{ ansible_distribution }} | Update keyboard configs for Wayland"
+      ansible.builtin.shell: |
+        gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us+intl')]"
+        gsettings set org.gnome.desktop.input-sources xkb-options "['compose:ralt']"
+      when:
+        - session_type.stdout == 'wayland'
+        - keyboard_file_status.changed or keyboard_config_status.changed
 
     - name: "{{ ansible_distribution }} | Restart keyboard service"
       become: true

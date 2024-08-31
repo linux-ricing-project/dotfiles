@@ -55,10 +55,9 @@ function check_dependencies(){
     gum_version="0.14.4"
     gum_filename="gum_${gum_version}_amd64.deb"
 
-    wget -P /tmp "https://github.com/charmbracelet/gum/releases/download/v${gum_version}/${gum_filename}"
-    sudo dpkg -i /tmp/${gum_filename} && rm -rf /tmp/${gum_filename}
-
-    gum --version
+    echo "Installing dependencies: gum"
+    wget -q -P /tmp "https://github.com/charmbracelet/gum/releases/download/v${gum_version}/${gum_filename}"
+    sudo dpkg -i /tmp/${gum_filename} > /dev/null && rm -rf /tmp/${gum_filename}
 fi
 }
 
@@ -172,7 +171,7 @@ pushd "$DOTFILES_DIR" 2>&1 > /dev/null
 update_ansible_galaxy
 
 print_message "Running playbook"
-cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "$DOTFILES_DIR/main.yml" --tags "$tag_name"
+cd "${DOTFILES_DIR}/src" > /dev/null && ansible-playbook "main.yml" --tags "$tag_name"
 
 # shellcheck disable=SC2069
 popd 2>&1 > /dev/null

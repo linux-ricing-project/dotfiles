@@ -64,13 +64,20 @@ else
     incus exec "$vm_name" -- apt update
     incus exec "$vm_name" -- apt upgrade -y
     incus exec "$vm_name" -- apt install openssh-server rsync -y
+    incus exec "$vm_name" -- systemctl enable ssh
+    incus exec "$vm_name" -- systemctl start ssh
+    incus exec "$vm_name" -- mkdir ~/home/ubuntu/dotfiles
+    incus exec "$vm_name" -- chown -R ubuntu:ubuntu ~/home/ubuntu/dotfiles
     incus exec "$vm_name" -- passwd ubuntu
 
     vm_ip=$(incus list "$vm_name" -f json | jq -r '.[].state.network.enp5s0.addresses[0].address')
-    rsync -avz . "ubuntu@${vm_ip}:Documents/"
+    rsync -avz . "ubuntu@${vm_ip}:dotfiles/"
+    
+    incus exec "$vm_name" -- shutdown -r now
+    print_spin "Reinitializing the VM..."
 
     incus snapshot create "$vm_name" snap-init
 
-    print_info "Initializing the VM..."
+    # print_info "Initializing the VM..."
     incus console "$vm_name" --type=vga
 fi

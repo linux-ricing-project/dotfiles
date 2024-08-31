@@ -7,7 +7,8 @@ ENV TERM="tmux-256color"
 RUN apt update && apt upgrade -y && apt install -y \
     sudo \
     tzdata \
-    locales
+    locales \
+    wget
 
 # This block represent the initial installation of init script (./dotfiles).
 # uncomment this block if you want simulate - inside container - that's packages already been installeds
@@ -42,7 +43,8 @@ RUN echo "ALL ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN echo "ubuntu:ubuntu" | chpasswd
 
 # Definir o usuário para "ubuntu"
-WORKDIR /home/ubuntu
+RUN mkdir -p /home/ubuntu/dotfiles
+WORKDIR /home/ubuntu/dotfiles
 
 COPY . .
 

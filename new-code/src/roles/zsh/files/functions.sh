@@ -66,9 +66,13 @@ list_my_functions(){
 }
 
 trash_clean(){
-    print_info "Limpando lixeira...."
-    rm -rfv  ~/.local/share/Trash/*
-    print_info "Lixeira vazia!"
+    echo "Limpando lixeira...."
+    if [ -d "${HOME}/.local/share/Trash" ];then
+      rm -rfv  ~/.local/share/Trash/*
+    else
+      echo "This folder ${HOME}/.local/share/Trash doens't exists"
+    fi
+    echo "Lixeira vazia!"
 }
 
  # alias pra recarregar o shell

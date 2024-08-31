@@ -64,6 +64,7 @@ else
     incus exec "$vm_name" -- apt update
     incus exec "$vm_name" -- apt upgrade -y
     incus exec "$vm_name" -- apt install openssh-server rsync -y
+    incus exec "$vm_name" -- apt remove --autoremove gnome-initial-setup -y
     incus exec "$vm_name" -- systemctl enable ssh
     incus exec "$vm_name" -- systemctl start ssh
     incus exec "$vm_name" -- mkdir ~/home/ubuntu/dotfiles
@@ -72,7 +73,7 @@ else
 
     vm_ip=$(incus list "$vm_name" -f json | jq -r '.[].state.network.enp5s0.addresses[0].address')
     rsync -avz . "ubuntu@${vm_ip}:dotfiles/"
-    
+
     incus exec "$vm_name" -- shutdown -r now
     print_spin "Reinitializing the VM..."
 

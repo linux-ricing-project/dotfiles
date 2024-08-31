@@ -26,11 +26,11 @@
 
 - name: BAT | Install BAT
   block:
-    - name: BAT | DEBIAN | Set URL to download bins
+    - name: BAT | Set URL to download bins
       ansible.builtin.set_fact:
         debian_url: "https://github.com/sharkdp/bat/releases/download/v{{ bat_latest_release }}/bat-musl_{{ bat_latest_release }}_amd64.deb"
 
-    - name: BAT | DEBIAN | Install deb from github
+    - name: BAT | Install deb from github
       become: true
       ansible.builtin.apt:
         deb: "{{ debian_url }}"

@@ -28,23 +28,21 @@
     state: link
   loop:
     - { src: "{{ role_path }}/files/.zshrc", dest: "{{ ansible_user_dir }}/.zshrc" }
-    - { src: "{{ role_path }}/files/.p10k.zsh", dest: "{{ ansible_user_dir }}/.p10k.zsh" }
-    - { src: "{{ role_path }}/files/colors.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/colors.sh" }
-    - { src: "{{ role_path }}/files/env.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/env.sh" }
     - { src: "{{ role_path }}/files/path.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/path.sh" }
     - { src: "{{ role_path }}/files/alias.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/alias.sh" }
+    - { src: "{{ role_path }}/files/functions.sh", dest: "{{ ansible_user_dir }}/.config/dotfiles/functions.sh" }
 
-- name: "ZSH | Ensure ~/.bin/scripts directory structure exists"
+- name: "ZSH | Ensure ~/.bin directory structure exists"
   ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/.bin/scripts"
+    path: "{{ ansible_user_dir }}/.bin"
     mode: "0755"
     state: directory
 
 - name: "ZSH | Create symbolic links for scripts"
   ansible.builtin.shell:
-    cmd: "stow -t {{ ansible_user_dir }}/.bin/scripts ."
+    cmd: "stow -t {{ ansible_user_dir }}/.bin ."
     chdir: "{{ role_path }}/files/scripts"
 
 - name: "ZSH | Change to zsh"
   become: yes
-  ansible.builtin.shell: chsh -s $(which zsh)
+  ansible.builtin.shell: "chsh -s $(which zsh) {{ host_user }}"

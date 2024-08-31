@@ -4,17 +4,18 @@ default_roles:
   - vim           # TODO: substituir depois por 'neovim'
 
   # CLI Tools
-  # - fzf
-  # - atuin
+  - fzf
+  - atuin
+  - bat
+  - zoxide
+  - lsd
   # - btop
-  # - bat
-  # - zoxide
-  # - lsd
   # - neofetch
   # - lazygit
 
   # Terminal
-  # - fonts
+  - fonts
+  - kitty
   - zsh           # TODO: remover o Powerlevel10k daqui, e cria ruma nova role para "spaceship"
   # - tmux
   # - terminator      # TODO: substitui depois por 'kitty'

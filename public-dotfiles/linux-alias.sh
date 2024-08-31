@@ -170,9 +170,9 @@ winToLinux(){
 
 # limpa a lixeira
 limpar_lixeira(){
-    print_info "Limpando lixeira...."
+    echo "Limpando lixeira...."
     rm -rfv  ~/.local/share/Trash/*
-    print_info "Lixeira vazia!"
+    echo "Lixeira vazia!"
 }
 
 # cria rapidamente um script novo
@@ -258,17 +258,17 @@ apt_get_fix(){
 # atualiza o computador e limpa os pacotes .deb
 # lá de '/var/cache/apt/archives/'
 upgrade(){
-  print_info "Update..."
+  echo "Update..."
   sudo apt update
 
-  print_info "Upgrade..."
+  echo "Upgrade..."
   sudo apt upgrade -y
   sudo apt dist-upgrade -y
 
-  print_info "Resolvendo pacotes quebrados..."
+  echo "Resolvendo pacotes quebrados..."
   sudo apt -f -y install
 
-  print_info "limpando o repositório local..."
+  echo "limpando o repositório local..."
   sudo apt autoremove -y
   sudo apt autoclean -y
   sudo apt clean -y

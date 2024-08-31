@@ -58,10 +58,10 @@ disk_analyser(){
   if type baobab > /dev/null 2>&1;then
     pkexec baobab $1 2> /dev/null
   else
-    print_info "Instalando Disk Analyzer ('baobab' package)"
+    echo "Instalando Disk Analyzer ('baobab' package)"
     sudo apt install -y baobab
     clear
-    print_info "Abrindo..."
+    echo "Abrindo..."
     pkexec baobab $1 2> /dev/null
   fi
 }

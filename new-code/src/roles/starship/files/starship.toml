@@ -37,7 +37,7 @@ truncate_to_repo = false
 'Pictures' = ' '
 
 [character]
-success_symbol = "[☯ 🕉 ▶](green)"
+success_symbol = "[☯ 🕉 ](white)"
 error_symbol = "[✖](red)"
 vicmd_symbol = "[❮](purple)"
 

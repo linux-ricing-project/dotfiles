@@ -2,14 +2,14 @@
 
 function print_info(){
     local message="$1"
-    gum style --bold --foreground="$vm_color" "$message"
+    gum style --bold --foreground="$os_color" "$message"
 }
 
 function print_spin(){
     local message="$1"
 
     gum spin --title="$message" \
-        --spinner.foreground="$vm_color" \
+        --spinner.foreground="$os_color" \
         --timeout "${init_timeout}s" -- \
         sleep "$init_timeout"
 }
@@ -18,35 +18,52 @@ function print_spin(){
 # MAIN
 ############################################################
 
+os_name=$(grep "^NAME=" /etc/os-release | cut -d '=' -f2 | sed 's/"//g')
+
+case $os_name in
+  Ubuntu) os_color="#E95420" ;;
+  Arch) os_color="#1793D1" ;;
+  *)
+    print_message "Unsupported OS"
+    exit 1
+    ;;
+esac
+
 vm=$(gum choose \
-		--cursor.foreground="#E95420" \
-		--selected.foreground="#E95420" \
+        --header "What the OS?" \
+        --header.foreground="#FFFFFF" \
+		--cursor.foreground="$os_color" \
+		--selected.foreground="$os_color" \
 		--no-show-help \
 		"ubuntu" "arch")
 
-if [ "$vm" == "ubuntu" ];then
-    vm_name="ubuntu-dotfiles-vm"
-    vm_color=#E95420
-    init_timeout=20
-else
-    echo "$vm not supported yet"
+if [ -z "$vm" ];then
     exit 0
 fi
 
+case "$vm" in
+    ubuntu)
+        vm_name="ubuntu-dotfiles-vm"
+        init_timeout=20
+    ;;
+
+    arch)
+        echo "$vm not supported yet"
+        exit 0
+    ;;
+
+    *)
+        echo "$vm not supported"
+        exit 0
+    ;;
+esac
+
+
 vm_search=$(incus list "$vm_name" -f json | jq -r '.[].name')
 if [[ -n "$vm_search" ]];then
-    vm_status=$(incus list "$vm_name" -f json | jq -r '.[].status')
-
-    if [ "$vm_status" == "Running" ];then
-        print_info "Stopping VM..."
-        incus stop "$vm_name"
-    fi
 
     incus snapshot restore "$vm_name" snap-init
     print_spin "Restoring initial Snapshot..."
-
-    incus start "$vm_name"
-    print_spin "Starting VM..."
 
     print_info "Updating Code inside VM"
     vm_ip=$(incus list "$vm_name" -f json | jq -r '.[].state.network.enp5s0.addresses[0].address')

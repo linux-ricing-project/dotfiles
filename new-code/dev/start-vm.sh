@@ -2,14 +2,14 @@
 
 function print_info(){
     local message="$1"
-    gum style --bold --foreground="$vm_color" "$message"
+    gum style --bold --foreground="$os_color" "$message"
 }
 
 function print_spin(){
     local message="$1"
 
     gum spin --title="$message" \
-        --spinner.foreground="$vm_color" \
+        --spinner.foreground="$os_color" \
         --timeout "${init_timeout}s" -- \
         sleep "$init_timeout"
 }
@@ -18,28 +18,54 @@ function print_spin(){
 # MAIN
 ############################################################
 
-vm=$(gum choose \
-		--cursor.foreground="#E95420" \
-		--selected.foreground="#E95420" \
-		--no-show-help \
-		"ubuntu" "arch")
-
+# VM Variables
 vm_disk_size="30GiB"
 vm_cpu=2
 vm_memory="4GiB"
 
-
+# UBuntu Variables
 ubuntu_version=24.04
 
-if [ "$vm" == "ubuntu" ];then
-    vm_name="ubuntu-dotfiles-vm"
-    vm_image=ubuntu/${ubuntu_version}/desktop
-    vm_color=#E95420
-    init_timeout=30
-else
-    echo "$vm not supported yet"
+os_name=$(grep "^NAME=" /etc/os-release | cut -d '=' -f2 | sed 's/"//g')
+
+case $os_name in
+  Ubuntu) os_color="#E95420" ;;
+  Arch) os_color="#1793D1" ;;
+  *)
+    print_message "Unsupported OS"
+    exit 1
+    ;;
+esac
+
+vm=$(gum choose \
+        --header "What the OS?" \
+        --header.foreground="#FFFFFF" \
+		--cursor.foreground="$os_color" \
+		--selected.foreground="$os_color" \
+		--no-show-help \
+		"ubuntu" "arch")
+
+if [ -z "$vm" ];then
     exit 0
 fi
+
+case "$vm" in
+    ubuntu)
+        vm_name="ubuntu-dotfiles-vm"
+        vm_image=ubuntu/${ubuntu_version}/desktop
+        init_timeout=30
+    ;;
+
+    arch)
+        echo "$vm not supported yet"
+        exit 0
+    ;;
+
+    *)
+        echo "$vm not supported"
+        exit 0
+    ;;
+esac
 
 vm_search=$(incus list "$vm_name" -f json | jq -r '.[].name')
 if [[ -n "$vm_search" ]];then

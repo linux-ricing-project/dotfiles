@@ -1,18 +1,4 @@
 ---
-- name: "System | Checking for Distribution Config: {{ ansible_distribution }}"
-  ansible.builtin.stat:
-    path: "{{ role_path }}/tasks/{{ ansible_distribution }}.yaml"
-  register: system_distribution_config
-
-- name: "System | Run Tasks: {{ ansible_distribution }}"
-  ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
-  when: system_distribution_config.stat.exists
-
-# -------------------------------------------------------------
-
-- name: "KITTY | Install script"
-  ansible.builtin.shell: curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
-
 # Create symbolic links to add kitty and kitten to PATH
 - name: "KITTY | Create symlinks for kitty and kitten"
   ansible.builtin.file:

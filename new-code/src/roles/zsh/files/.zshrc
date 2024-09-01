@@ -87,6 +87,9 @@ if which zoxide > /dev/null 2>&1 ;then
   eval "$(zoxide init zsh)"
 fi
 
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+eval "$(starship init zsh)"
+
 # ~~~~~~~~~~~~~~~ Paths ~~~~~~~~~~~~~~~~~~~~~~~~
 path=(
     $path               # Keep existing PATH entries

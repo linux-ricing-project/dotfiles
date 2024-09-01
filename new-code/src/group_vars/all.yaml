@@ -15,6 +15,7 @@ default_roles:
 
   # Terminal
   - fonts
+  - starship
   - kitty
   - zsh           # TODO: remover o Powerlevel10k daqui, e cria ruma nova role para "spaceship"
   # - tmux

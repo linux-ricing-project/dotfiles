@@ -51,3 +51,18 @@
     content: "kitty.desktop\n"
     dest: "{{ ansible_user_dir }}/.config/xdg-terminals.list"
     mode: '0644'
+
+# Link the Config File
+- name: "KITTY | Ensure kitty directory structure exists"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{ ansible_user_dir }}/.config"
+    - "{{ ansible_user_dir }}/.config/kitty"
+
+- name: "KITTY | Copy config file"
+  ansible.builtin.shell:
+    cmd: "stow -t {{ ansible_user_dir }}/.config/kitty ."
+    chdir: "{{ role_path }}/files"

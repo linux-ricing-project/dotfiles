@@ -1,9 +1,4 @@
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(
     zsh-syntax-highlighting
     zsh-completions
@@ -16,21 +11,6 @@ if [ -d ${HOME}/.config/dotfiles ]; then
       source $public_files
    done
 fi
-
-# if [ -d ${HOME}/.public-dotfiles/ ]; then
-#    for public_files in ${HOME}/.public-dotfiles/*; do
-#       source $public_files
-#    done
-# fi
-
-# if [ -d ${HOME}/.private-dotfiles/ ]; then
-#    for private_files in ${HOME}/.private-dotfiles/*; do
-#       source $private_files
-#    done
-# else
-#    test -f "$HOME/Dropbox/check_dotfiles.sh" && bash "$HOME/Dropbox/check_dotfiles.sh" || return 0
-# fi
-
 
 # ~~~~~~~~~~~~~~~ Environment Variables ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -96,6 +76,7 @@ path=(
     $HOME/.bin/
     $HOME/.local/bin
     $HOME/.krew/bin
+    /usr/local/go/bin
 )
 
 # Remove duplicate entries and non-existent directories

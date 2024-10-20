@@ -31,20 +31,22 @@ truncation_length = 4
 truncate_to_repo = false
 
 [directory.substitutions]
+'~' = "'"
 'Documents' = '󰈙'
 'Downloads' = ' '
 'Music' = ' '
 'Pictures' = ' '
+"~/.config" = " "
 
 [character]
-success_symbol = "[☯ 🕉 ](white)"
+success_symbol = "[☯ ](white)"
 error_symbol = "[✖](red)"
 vicmd_symbol = "[❮](purple)"
 
 [git_branch]
 symbol = " "
 format = "[$symbol$branch]($style) "
-style = "bright-black"
+style = "bright-white"
 
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style) )'

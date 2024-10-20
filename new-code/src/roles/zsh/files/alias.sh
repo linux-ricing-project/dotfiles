@@ -41,6 +41,16 @@ alias fd='fdfind'
 # alias de navegação
 alias ..="cd .."
 alias cd..="cd .."
+
+alias ...="cd ../.."
+alias .2="cd ../.."
+
+alias ....="cd ../../.."
+alias .3="cd ../.."
+
+alias .....="cd ../../../.."
+alias .4="cd ../.."
+
 alias back="cd -"
 
 # alias pro 'free'

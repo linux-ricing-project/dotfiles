@@ -1127,7 +1127,7 @@ class CallbackModule(CallbackBase, FileSystemEventHandler):
             else:
                 item_name = u'JSON: "{0}"'.format(
                     stringtruncate(
-                        json.dumps(item_name, separators=(",", ":")), width=36
+                        json.dumps(item_name, separators=(",", ":")), width=0
                     )
                 )
         task_host = self._get_host_string(result, "@")

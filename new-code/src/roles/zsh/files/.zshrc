@@ -1,11 +1,21 @@
 
-plugins=(
-    zsh-syntax-highlighting
-    zsh-completions
-    # zsh-autosuggestions
-    )
+# ~~~~~~~~~~~~~~~ Paths ~~~~~~~~~~~~~~~~~~~~~~~~
+path=(
+    $path               # Keep existing PATH entries
+    $HOME/.bin/
+    $HOME/.local/bin
+    $HOME/.krew/bin
+    /usr/local/go/bin
+)
+
+# Remove duplicate entries and non-existent directories
+typeset -U path
+
+# TODO: Precisa mesmo dessa linha?
+export PATH
 
 
+# Load all others dotfiles
 if [ -d ${HOME}/.config/dotfiles ]; then
    for public_files in ${HOME}/.config/dotfiles/*; do
       source $public_files
@@ -67,20 +77,20 @@ if which zoxide > /dev/null 2>&1 ;then
   eval "$(zoxide init zsh)"
 fi
 
+
+################ OH-MY-ZSH Configurations
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME=""
+
+DISABLE_AUTO_TITLE="true"
+
+plugins=(
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+   )
+
+source $ZSH/oh-my-zsh.sh
+
+
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 eval "$(starship init zsh)"
-
-# ~~~~~~~~~~~~~~~ Paths ~~~~~~~~~~~~~~~~~~~~~~~~
-path=(
-    $path               # Keep existing PATH entries
-    $HOME/.bin/
-    $HOME/.local/bin
-    $HOME/.krew/bin
-    /usr/local/go/bin
-)
-
-# Remove duplicate entries and non-existent directories
-typeset -U path
-
-# TODO: Precisa mesmo dessa linha?
-export PATH

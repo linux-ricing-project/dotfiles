@@ -73,12 +73,13 @@ if [[ -n "$vm_search" ]];then
 
     if [ "$vm_status" == "Running" ];then
         print_info "Starting VM"
-        incus console "$vm_name" --type=vga
     else
-        incus start "$vm_name"
         print_spin "Initializing the VM..."
-        incus console "$vm_name" --type=vga
+        incus start "$vm_name"
     fi
+
+    incus console "$vm_name" --type=vga
+    
 else
     incus launch "images:${vm_image}" "$vm_name" --vm \
     --device root,size=$vm_disk_size \

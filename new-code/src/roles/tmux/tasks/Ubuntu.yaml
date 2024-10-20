@@ -1,6 +1,9 @@
 ---
 - name: "Tmux | {{ ansible_distribution }} | Install tmux"
-  ansible.builtin.apt:
-    name: tmux
-    state: present
   become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - tmux
+    - tmuxinator

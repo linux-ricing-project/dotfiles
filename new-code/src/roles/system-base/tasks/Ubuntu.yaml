@@ -90,5 +90,7 @@
         state: restarted
         enabled: yes
       when: keyboard_file_status.changed or keyboard_config_status.changed
-
   when: ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+
+- name: "{{ ansible_distribution }} | Enable Dark Mode on Ubuntu"
+  ansible.builtin.shell: "gsettings set org.gnome.desktop.interface color-scheme prefer-dark"

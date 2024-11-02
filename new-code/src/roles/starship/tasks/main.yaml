@@ -18,7 +18,7 @@
 
 - name: "STARSHIP | Run the install script"
   ansible.builtin.shell:
-    cmd: /tmp/starship-install.sh --bin-dir "{{ ansible_user_dir }}/.local/bin" --yes
+    cmd: /tmp/starship-install.sh --bin-dir "{{ primary_installation_path }}" --yes
   args:
     chdir: /tmp
 

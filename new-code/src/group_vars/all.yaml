@@ -1,4 +1,9 @@
 ---
+
+# Default local Installations paths
+primary_installation_path: "{{ ansible_user_dir }}/.local/bin"
+scripts_installation_path: "{{ ansible_user_dir }}/.bin"
+
 default_roles:
   - system-base
   - vim           # TODO: substituir depois por 'neovim'
@@ -12,6 +17,7 @@ default_roles:
   # - btop
   # - fastfetch
   # - lazygit
+  - just
 
   # Terminal
   - fonts

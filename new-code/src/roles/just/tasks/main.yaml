@@ -8,11 +8,7 @@
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
   when: system_distribution_config.stat.exists
 
-- name: "System | Creating {{ scripts_installation_path }} folder"
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    mode: '0755'
-  loop:
-    - "{{ primary_installation_path }}"
-    - "{{ scripts_installation_path }}"
+  # Install
+##############################################################################
+- name: "Just | Install"
+  ansible.builtin.shell: "sh -c \"$(curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to {{ primary_installation_path }})\""

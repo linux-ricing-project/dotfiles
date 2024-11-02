@@ -3,7 +3,7 @@
 - name: "KITTY | Create symlinks for kitty and kitten"
   ansible.builtin.file:
     src: "{{ item.src }}"
-    dest: "{{ ansible_user_dir }}/.local/bin/{{ item.dest }}"
+    dest: "{{ primary_installation_path }}/{{ item.dest }}"
     state: link
     force: yes
   loop:

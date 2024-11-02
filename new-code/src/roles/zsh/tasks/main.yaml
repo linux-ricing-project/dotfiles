@@ -56,10 +56,10 @@
     mode: "0755"
     state: directory
 
-- name: "ZSH | Create symbolic links for scripts"
+- name: "ZSH | Create symbolic links for commands"
   ansible.builtin.shell:
     cmd: "stow -t {{ scripts_installation_path }} ."
-    chdir: "{{ role_path }}/files/scripts"
+    chdir: "{{ role_path }}/files/commands"
 
 - name: "ZSH | Change to zsh"
   become: yes

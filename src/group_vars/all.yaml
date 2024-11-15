@@ -14,9 +14,9 @@ default_roles:
   - bat
   - zoxide
   - lsd
-  # - btop
+  - btop
   - fetchs
-  # - lazygit
+  - lazygit
   - just
 
   # Terminal
@@ -27,31 +27,31 @@ default_roles:
   - tmux
   - tmuxinator
 
-  # # utilities to connect Logitech devices
-  # - solaar
+  # utilities to connect Logitech devices
+  - solaar
 
-  # # Devops tools
-  # - docker
-  # - terraform
-  # - go
+  # Devops tools
+  - docker
+  - terraform
+  - go
 
-  # # Kubernetes tools
-  # - kubectl
-  # - kind
-  # - helm
-  # - kubecolor
-  # - k9s
+  # Kubernetes tools
+  - kubectl
+  - kind
+  - helm
+  - kubecolor
+  - k9s
 
-  # # GUI softwares
-  # - 1password
-  # - dropbox
-  # - insync
-  # - vscode
-  # - google-chrome
-  # - telegram
-  # - spotify
+  # GUI softwares
+  - 1password
+  - dropbox
+  - insync
+  - vscode
+  - google-chrome
+  - telegram
+  - spotify
 
-  # - funny-apps
+  - funny-apps
 
 go:
   packages:

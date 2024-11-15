@@ -15,7 +15,7 @@ default_roles:
   - zoxide
   - lsd
   # - btop
-  # - fastfetch
+  - fetchs
   # - lazygit
   - just
 
@@ -25,6 +25,7 @@ default_roles:
   - terminal
   - zsh           # TODO: remover o Powerlevel10k daqui, e cria ruma nova role para "spaceship"
   - tmux
+  - tmuxinator
 
   # # utilities to connect Logitech devices
   # - solaar

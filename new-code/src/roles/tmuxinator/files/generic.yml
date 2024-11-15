@@ -1,0 +1,5 @@
+name: generic
+root: ~/
+
+windows:
+  - code: sleep 1 && code .

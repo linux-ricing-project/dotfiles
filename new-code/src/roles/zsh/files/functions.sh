@@ -95,11 +95,12 @@ tstart(){
     tmux start && tmux a -t "$(tmux ls -F "#{session_name}" | fzf --height 40% --prompt="Select a tmux session: ")"
 }
 
-xstart(){
-  projects=$(tmuxinator list | tail -n +2 | tr ' ' '\n' | sed '/^\s*$/d')
+projects(){
+  project_list=($(tmuxinator list | sed -n '2p' | sed 's/ \+/ /g'))
 
-  # Usa o fzf para selecionar um projeto
-  selected_project=$(echo "$projects" | fzf --height 40% --border --prompt="Select a tmuxinator project: ")
+  selected_project=$(printf "%s\n" "${project_list[@]}" | grep -v "generic" |
+      fzf --header-first --header="Projects" --height=30%
+  )
 
   # Verifica se um projeto foi selecionado
   if [ -n "$selected_project" ]; then
@@ -107,6 +108,7 @@ xstart(){
     tmuxinator start "$selected_project"
   else
     echo "Nenhum projeto selecionado."
+    return 0
   fi
 }
 

@@ -1,7 +1,0 @@
-[Desktop Entry]
-Exec=sleep 5; /usr/bin/setxkbmap -model logitech_base -layout us -variant intl -option "compose:ralt"
-Icon=dialog-scripts
-Name=keyboard-config
-Path=
-Type=Application
-X-KDE-AutostartScript=true

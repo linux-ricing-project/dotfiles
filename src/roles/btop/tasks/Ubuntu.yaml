@@ -1,0 +1,6 @@
+---
+- name: "BTOP | Install"
+  become: yes
+  ansible.builtin.apt:
+    name: "btop"
+    state: present

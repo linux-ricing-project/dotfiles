@@ -1,0 +1,20 @@
+---
+- name: "Terminator | {{ ansible_distribution }} | Install terminator"
+  ansible.builtin.apt:
+    name: terminator
+    state: present
+  become: true
+
+- name: "Terminator | Ensure terminator directory structure exists"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{ ansible_user_dir }}/.config"
+    - "{{ ansible_user_dir }}/.config/terminator"
+
+- name: "Terminator | Create symbolic links for configuration files"
+  ansible.builtin.shell:
+    cmd: "stow -t {{ ansible_user_dir }}/.config/terminator ."
+    chdir: "{{ role_path }}/files"

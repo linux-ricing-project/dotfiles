@@ -1,0 +1,26 @@
+---
+# See More: https://code.visualstudio.com/docs/setup/linux
+- name: "VSCode | Download the latest Visual Studio Code .deb package"
+  ansible.builtin.get_url:
+    url: "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"
+    dest: /tmp/code-latest.deb
+
+- name: "VSCode | Install the Visual Studio Code .deb package"
+  become: yes
+  ansible.builtin.command:
+    cmd: "dpkg -i /tmp/code-latest.deb"
+  ignore_errors: yes
+
+- name: "VSCode | Fix missing dependencies if any"
+  become: yes
+  ansible.builtin.shell: apt install -f -y
+  ignore_errors: yes
+
+- name: "VSCode | Fix broken dependencies"
+  become: yes
+  ansible.builtin.shell: apt --fix-broken install -y
+
+- name: "VSCode | Re-install the Visual Studio Code .deb package to fix broken dependencies"
+  become: yes
+  ansible.builtin.command:
+    cmd: "dpkg -i /tmp/code-latest.deb"

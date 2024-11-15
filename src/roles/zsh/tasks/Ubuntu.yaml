@@ -1,0 +1,14 @@
+---
+# Ubuntu Installation
+########################################################################################
+- name: "ZSH | Update APT package index"
+  become: yes
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: ZSH | Install Zsh
+  become: yes
+  ansible.builtin.apt:
+    name: zsh
+    state: present
+    install_recommends: yes

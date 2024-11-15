@@ -1,0 +1,39 @@
+---
+- name: BAT | Get current version of bat
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/sharkdp/bat/releases/latest
+  register: bat_latest_version_json
+  changed_when: false
+
+- name: "BAT | Registering BAT Latest Release"
+  ansible.builtin.set_fact:
+    bat_latest_release: "{{ bat_latest_version_json.json.tag_name | replace('v', '') }}"
+
+
+- name: BAT | Getting local version information
+  ansible.builtin.command: "bat --version"
+  register: current_bat_version
+  changed_when: false
+  failed_when: false
+
+- name: "BAT | Show current_bat_version debug"
+  ansible.builtin.debug:
+    var: current_bat_version.stdout|default('')
+
+- name: "BAT | Show bat_latest_release debug"
+  ansible.builtin.debug:
+    var: bat_latest_release|default('')
+
+- name: BAT | Install BAT
+  block:
+    - name: BAT | Set URL to download bins
+      ansible.builtin.set_fact:
+        debian_url: "https://github.com/sharkdp/bat/releases/download/v{{ bat_latest_release }}/bat-musl_{{ bat_latest_release }}_amd64.deb"
+
+    - name: BAT | Install deb from github
+      become: true
+      ansible.builtin.apt:
+        deb: "{{ debian_url }}"
+        allow_downgrade: true
+  when:
+    - bat_latest_release not in current_bat_version.stdout|default('')

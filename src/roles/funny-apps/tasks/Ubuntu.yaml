@@ -1,0 +1,6 @@
+---
+- name: "Funny Apps | Install Cmatrix"
+  become: yes
+  ansible.builtin.apt:
+    name: "cmatrix"
+    state: present

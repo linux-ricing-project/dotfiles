@@ -1,0 +1,45 @@
+---
+- name: "FZF | Download Latest Version JSON"
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/junegunn/fzf/releases/latest
+  register: fzf_latest_version_json
+  changed_when: false
+
+- name: "FZF | Registering FZF Latest Release"
+  ansible.builtin.set_fact:
+    fzf_latest_release: "{{ fzf_latest_version_json.json.tag_name | replace('v', '') }}"
+
+- name: "FZF | Download .deb package"
+  ansible.builtin.get_url:
+    url: "https://github.com/junegunn/fzf/releases/download/v{{ fzf_latest_release }}/fzf-{{ fzf_latest_release }}-linux_amd64.tar.gz"
+    dest: /tmp/fzf.tar.gz
+
+- name: "FZF | Ensure {{ primary_installation_path }} directory exists"
+  ansible.builtin.file:
+    path: "{{ primary_installation_path }}"
+    state: directory
+    mode: '0755'
+
+- name: "FZF | Extract fzf tarball"
+  become: yes
+  ansible.builtin.unarchive:
+    src: /tmp/fzf.tar.gz
+    dest: "{{ primary_installation_path }}"
+
+
+- name: "FZF | Download key-bindings.zsh from GitHub"
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh"
+    dest: "{{ primary_installation_path }}/key-bindings.zsh"
+
+# Comment this lines in the file. To disable "CTRL + R" command (because this shortcut already used by 'atuin')
+- name: "FZF | Comment specific lines in key-bindings.zsh"
+  ansible.builtin.replace:
+    dest: "{{ primary_installation_path }}/key-bindings.zsh"
+    regexp: "{{ item.regex }}"
+    replace: "{{ item.replace }}"
+  loop:
+    - { regex: '^zle     -N            fzf-history-widget', replace: '# zle     -N            fzf-history-widget' }
+    - { regex: '^bindkey -M emacs .* fzf-history-widget', replace: '# bindkey -M emacs .* fzf-history-widget' }
+    - { regex: '^bindkey -M vicmd .* fzf-history-widget', replace: '# bindkey -M vicmd .* fzf-history-widget' }
+    - { regex: '^bindkey -M viins .* fzf-history-widget', replace: '# bindkey -M viins .* fzf-history-widget' }

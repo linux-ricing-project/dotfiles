@@ -1,0 +1,8 @@
+---
+- name: Get the current user using whoami
+  ansible.builtin.shell: whoami
+  register: whoami_result
+
+- name: Set the current user fact
+  ansible.builtin.set_fact:
+    host_user: "{{ whoami_result.stdout }}"

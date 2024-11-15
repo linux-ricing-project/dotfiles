@@ -1,0 +1,40 @@
+---
+- name: "Lazygit | et the latest LazyGit version"
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/jesseduffield/lazygit/releases/latest
+    return_content: yes
+  register: lazygit_release_info
+
+- name: "Lazygit | Extract LazyGit version from API response"
+  ansible.builtin.set_fact:
+    lazygit_version: "{{ lazygit_release_info.json.tag_name | regex_replace('^v', '') }}"
+
+- name: "Lazygit | Download LazyGit binary"
+  ansible.builtin.get_url:
+    url: "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz"
+    dest: /tmp/lazygit.tar.gz
+
+- name: "Lazygit | Extract LazyGit binary"
+  ansible.builtin.unarchive:
+    src: /tmp/lazygit.tar.gz
+    dest: /tmp
+    creates: /tmp/lazygit
+
+- name: "Lazygit | Install LazyGit binary"
+  become: true
+  ansible.builtin.copy:
+    src: /tmp/lazygit
+    dest: /usr/local/bin/lazygit
+    mode: '0755'
+    owner: "{{ host_user }}"
+    group: "{{ host_user }}"
+    force: true
+
+- name: "Lazygit | Cleanup lazygit downloaded tar"
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/tmp/lazygit.tar.gz"
+    - /tmp/lazygit

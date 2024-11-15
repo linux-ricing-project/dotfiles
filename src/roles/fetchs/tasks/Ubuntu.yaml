@@ -1,0 +1,17 @@
+---
+- name: "ONEFETCH | Add PPA repository"
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "ppa:o2sh/onefetch"
+    state: present
+
+- name: "ONEFETCH | Update packages"
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: "ONEFETCH | install"
+  become: true
+  ansible.builtin.apt:
+    name: onefetch
+    state: present

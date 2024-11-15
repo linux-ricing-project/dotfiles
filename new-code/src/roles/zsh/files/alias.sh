@@ -62,6 +62,8 @@ alias free="free -mth"
 # get and print folder size for all folders, recursively
 alias sizer='du -h -c'
 
+alias k="kubecolor"
+
 ################################################################################
 #  ALIAS AND FUNCTIONS ALIASES
 ################################################################################

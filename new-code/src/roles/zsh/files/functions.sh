@@ -258,3 +258,84 @@ git_rename_tags(){
         return 1
     fi
 }
+
+################################################################################
+#  APT-GET ALIASES
+################################################################################
+
+# Função pra deletar os lock do apt-get.
+# Usado principalmente, quando ele trava do nada.
+# Além de reconfigurar o dpkg e resolver os pacotes quebrados
+apt_get_fix(){
+  test -f /var/lib/apt/lists/lock && sudo rm -rf /var/lib/apt/lists/lock
+  test -f /var/cache/apt/archives/lock && sudo rm -rf /var/cache/apt/archives/lock
+  test -f /var/lib/dpkg/lock && sudo rm -rf /var/lib/dpkg/lock
+  test -f /var/lib/dpkg/lock-frontend && sudo rm -rf /var/lib/dpkg/lock-frontend
+
+  sudo apt --fix-broken install
+  sudo dpkg --configure -a
+  echo "OK"
+}
+
+#################################################################
+# Python Functions
+#################################################################
+
+# alias rápido que habilita um venv padrão no python
+python_enable_venv(){
+  if ! dpkg -s python3-venv > /dev/null 2>&1;then
+    echo "instale primeiro o pacote:"
+    echo "sudo apt install python3-venv"
+  fi
+  python3 -m venv venv
+  source venv/bin/activate
+}
+
+# alias rápido que desabilita um venv no python
+python_disable_venv(){
+  deactivate
+}
+
+#################################################################
+# Kubernetes Functions
+#################################################################
+
+k8s-reset-all-pods(){
+    k delete pods --all --all-namespaces
+}
+
+k8s-list-all-resources(){
+    k get all --all-namespaces
+}
+
+# Exploration functions
+k8s-get-deployment(){
+    local deploy_name=$1
+
+    test -z $deploy_name && echo "Type deployment name by parameter" && return 1
+
+    echo "Searching: $deploy_name"
+    echo
+    echo "------------------------------------"
+    echo "Deployments"
+    echo "------------------------------------"
+    k get deploy -l app=${deploy_name}
+
+    echo
+    echo "------------------------------------"
+    echo "ReplicaSets"
+    echo "------------------------------------"
+    k get rs -l app=${deploy_name}
+
+    echo
+    echo "------------------------------------"
+    echo "Pods"
+    echo "------------------------------------"
+    k get po -l app=${deploy_name}
+
+    echo
+    echo "------------------------------------"
+    echo "Rollout history"
+    echo "------------------------------------"
+    k rollout history deployment/${deploy_name}
+}
